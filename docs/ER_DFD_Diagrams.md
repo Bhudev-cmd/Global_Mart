@@ -1,173 +1,78 @@
 # ER and DFD Diagrams
 
-## 1. ER Diagram (Entity Relationship)
+This file documents the current design represented by the Mermaid files inside docs/diagrams.
 
-```mermaid
-erDiagram
-    USER {
-        int id PK
-        string username
-        string email
-        string password
-    }
+## Current Diagram Files
 
-    PRODUCT {
-        int id PK
-        string name
-        string description
-        decimal price
-        int stock
-        string image_url
-    }
+- docs/diagrams/ER_Diagram.mmd
+- docs/diagrams/DFD_Level_0.mmd
+- docs/diagrams/DFD_Level_1.mmd
 
-    PRODUCT_IMAGE {
-        int id PK
-        int product_id FK
-        string image_url
-        boolean is_primary
-        int display_order
-    }
+Exported assets for report usage are also available as SVG and HD PNG in the same folder.
 
-    CART {
-        int id PK
-        int user_id FK
-        datetime created_at
-    }
+## 1) ER Diagram Summary
 
-    CART_ITEM {
-        int id PK
-        int cart_id FK
-        int product_id FK
-        int quantity
-    }
+The ER model reflects the current Django store app.
 
-    ORDERS {
-        int id PK
-        int user_id FK
-        datetime created_at
-        decimal total_price
-        string status
-    }
+### Entities
 
-    ORDER_ITEM {
-        int id PK
-        int order_id FK
-        int product_id FK
-        decimal price
-        int quantity
-    }
+- USER (Django auth user)
+- PRODUCT
+- PRODUCT_IMAGE
+- CART
+- CART_ITEM
+- ORDER
+- ORDER_ITEM
+- USER_ADDRESS
+- WISHLIST
+- WISHLIST_ITEM
 
-    USER_ADDRESS {
-        int id PK
-        int user_id FK
-        string full_name
-        string phone
-        string street_address
-        string landmark
-        string city
-        string state
-        string pin_code
-        string country
-    }
+### Relationship Highlights
 
-    WISHLIST {
-        int id PK
-        int user_id FK
-        datetime created_at
-    }
+- USER 1:1 CART
+- USER 1:1 USER_ADDRESS
+- USER 1:1 WISHLIST
+- USER 1:N ORDER
+- PRODUCT 1:N PRODUCT_IMAGE
+- CART 1:N CART_ITEM
+- ORDER 1:N ORDER_ITEM
+- WISHLIST 1:N WISHLIST_ITEM
 
-    WISHLIST_ITEM {
-        int id PK
-        int wishlist_id FK
-        int product_id FK
-        datetime added_at
-    }
+## 2) DFD Level 0 (Context)
 
-    USER ||--|| CART : owns
-    CART ||--o{ CART_ITEM : contains
-    PRODUCT ||--o{ CART_ITEM : added_in
+External entities:
 
-    USER ||--o{ ORDERS : places
-    ORDERS ||--o{ ORDER_ITEM : contains
-    PRODUCT ||--o{ ORDER_ITEM : ordered_as
+- Customer/User
+- Admin
 
-    USER ||--|| USER_ADDRESS : has
+Main system process:
 
-    USER ||--|| WISHLIST : owns
-    WISHLIST ||--o{ WISHLIST_ITEM : contains
-    PRODUCT ||--o{ WISHLIST_ITEM : saved_as
+- Global Mart E-Commerce System
 
-    PRODUCT ||--o{ PRODUCT_IMAGE : has
-```
+Level 0 captures top-level data movement between these actors and the system.
 
-## 2. DFD Diagram (Level 1)
+## 3) DFD Level 1
 
-```mermaid
-flowchart LR
-    U[Customer/User]
-    A[Admin]
+Level 1 decomposes system flow into these functional processes:
 
-    P1((1.0 User Authentication))
-    P2((2.0 Product Browsing))
-    P3((3.0 Cart Management))
-    P4((4.0 Wishlist Management))
-    P5((5.0 Checkout and Order Processing))
-    P6((6.0 Profile and Address Management))
-    P7((7.0 Admin Product and Order Management))
+- User authentication
+- Product browsing
+- Cart management
+- Wishlist management
+- Checkout and order processing
+- Profile/address management
+- Admin operations (products, images, orders)
 
-    D1[(D1 Users)]
-    D2[(D2 Products)]
-    D3[(D3 Cart and Cart Items)]
-    D4[(D4 Wishlist and Wishlist Items)]
-    D5[(D5 Orders and Order Items)]
-    D6[(D6 User Addresses)]
+Data stores represented:
 
-    U -->|signup/login| P1
-    P1 <--> D1
+- Users
+- Products
+- Cart/Cart Items
+- Wishlist/Wishlist Items
+- Orders/Order Items
+- User Addresses
 
-    U -->|search/view products| P2
-    P2 <--> D2
+## Notes
 
-    U -->|add, remove, update qty| P3
-    P3 <--> D3
-    P3 -->|reads product info| D2
-
-    U -->|save/remove favorites| P4
-    P4 <--> D4
-    P4 -->|reads product info| D2
-
-    U -->|place order| P5
-    P5 -->|reads cart| D3
-    P5 -->|creates order| D5
-    P5 -->|validates address| D6
-    P5 -->|clears cart items| D3
-
-    U -->|edit profile/address| P6
-    P6 <--> D1
-    P6 <--> D6
-
-    A -->|manage products, images, orders| P7
-    P7 <--> D2
-    P7 <--> D5
-```
-
-## 3. DFD Diagram (Context / Level 0)
-
-```mermaid
-flowchart LR
-    U[Customer/User]
-    A[Admin]
-    S((Global Mart E-Commerce System))
-
-    U -->|signup/login, browse, cart, wishlist, checkout| S
-    S -->|product info, cart status, order status| U
-
-    A -->|manage products and orders| S
-    S -->|admin data views and updates| A
-```
-
-## Notes for Report Submission
-
-- ER diagram is based on your implemented Django models in the store app.
-- DFD Level 1 shows major processes and data stores used by your system.
-- You can export these Mermaid diagrams to PNG/SVG using VS Code Mermaid preview or online Mermaid tools.
+- Diagram content matches the current codebase after latest model and deployment updates.
+- For report submission, use the pre-exported images in docs/diagrams or re-export from .mmd.

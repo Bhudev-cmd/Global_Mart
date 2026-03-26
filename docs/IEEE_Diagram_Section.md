@@ -4,52 +4,56 @@
 
 ### A. Entity Relationship (ER) Diagram
 
-The ER diagram of the proposed e-commerce system is shown in Fig. 1. The design consists of ten core entities: Product, ProductImage, Cart, CartItem, Orders, OrderItem, UserAddress, Wishlist, WishlistItem, and User (from the authentication module). One-to-many relationships are used for itemized collections such as cart items, order items, wishlist items, and product images, while one-to-one relationships are used for per-user structures such as Cart, UserAddress, and Wishlist.
+Figure 1 presents the ER design of Global Mart. The model includes ten entities: User (Django authentication), Product, ProductImage, Cart, CartItem, Order, OrderItem, UserAddress, Wishlist, and WishlistItem. One-to-one relations are used for per-user containers (Cart, UserAddress, Wishlist), while one-to-many relations are used for line-item entities (CartItem, OrderItem, WishlistItem, ProductImage).
 
-Figure caption for report:
+Figure caption:
 
 Fig. 1. Entity Relationship diagram of the Global Mart e-commerce system.
 
-Source file:
+Source:
 
 - docs/diagrams/ER_Diagram.mmd
 
 ### B. Data Flow Diagram (Context Level / Level 0)
 
-The context-level DFD is shown in Fig. 2. It models the Global Mart E-Commerce System as a single process interacting with two external entities: Customer/User and Admin. The user sends requests for authentication, product browsing, cart operations, wishlist operations, and checkout, while the admin performs product and order management activities.
+Figure 2 models the complete system as a single process interacting with two external entities: Customer/User and Admin. Customer interactions include authentication, browsing, cart actions, wishlist actions, and checkout. Admin interactions include product, image, and order management.
 
-Figure caption for report:
+Figure caption:
 
 Fig. 2. Context-level (Level 0) Data Flow Diagram of the proposed system.
 
-Source file:
+Source:
 
 - docs/diagrams/DFD_Level_0.mmd
 
 ### C. Data Flow Diagram (Level 1)
 
-The Level 1 DFD is shown in Fig. 3 and decomposes the main system into seven functional processes: user authentication, product browsing, cart management, wishlist management, checkout and order processing, profile/address management, and admin management operations. Data stores include Users, Products, Cart and Cart Items, Wishlist and Wishlist Items, Orders and Order Items, and User Addresses.
+Figure 3 decomposes the system into the following processes: user authentication, product browsing, cart management, wishlist management, checkout and order processing, profile/address management, and admin operations. Data stores include Users, Products, Carts/Cart Items, Wishlists/Wishlist Items, Orders/Order Items, and User Addresses.
 
-Figure caption for report:
+Figure caption:
 
 Fig. 3. Level 1 Data Flow Diagram showing process decomposition and data stores.
 
-Source file:
+Source:
 
 - docs/diagrams/DFD_Level_1.mmd
+
+## Deployment Consistency Note
+
+For production reliability, the current deployment flow runs migrations at runtime before starting Gunicorn. This ensures the database schema used by the running app matches the latest code and diagrams.
 
 ## How to Export as PNG/SVG
 
 1. Open any .mmd file in VS Code.
-2. Use a Mermaid preview extension or Mermaid live preview.
-3. Export each figure as PNG for direct report insertion.
-4. Suggested filenames for report submission:
-   - Fig1_ER_Diagram.png
-   - Fig2_DFD_Level0.png
-   - Fig3_DFD_Level1.png
+2. Use Mermaid preview/export support.
+3. Export figures as PNG or SVG for report insertion.
+4. Suggested report names:
+   - Fig1_ER_Diagram
+   - Fig2_DFD_Level0
+   - Fig3_DFD_Level1
 
 ## Suggested Placement in Report
 
 - Place Fig. 1 under Database Design.
 - Place Fig. 2 and Fig. 3 under System Design or Functional Architecture.
-- Keep figure labels centered and use consistent font size throughout the report.
+- Keep figure numbering and captions consistent with IEEE formatting.
