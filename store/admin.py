@@ -107,6 +107,8 @@ class OrderItemInline(admin.StackedInline):
     
     def item_subtotal(self, obj):
         """Display calculated subtotal"""
+        if not obj:
+            return '-'
         return format_html(
             '<strong style="color: #27ae60; font-size: 1.1em;">₹{}</strong>',
             obj.subtotal()
@@ -388,7 +390,7 @@ class WishlistAdmin(admin.ModelAdmin):
         """Display summary of wishlist contents"""
         items = obj.items.all()
         if not items:
-            return '<em style="color: #999;">No items in wishlist</em>'
+            return mark_safe('<em style="color: #999;">No items in wishlist</em>')
         
         summary = '<div style="background: #f9f9f9; padding: 15px; border-radius: 8px;">'
         for item in items:
@@ -402,7 +404,7 @@ class WishlistAdmin(admin.ModelAdmin):
                 item.added_at.strftime('%d %b %Y')
             )
         summary += '</div>'
-        return format_html(summary)
+        return mark_safe(summary)
     wishlists_summary.short_description = 'Wishlist Items'
     
     def has_add_permission(self, request):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -75,6 +76,9 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
 
     def subtotal(self):
+        # Guard against legacy/bad rows where price may be null.
+        if self.price is None:
+            return Decimal('0.00')
         return self.price * self.quantity
 
     def __str__(self):
