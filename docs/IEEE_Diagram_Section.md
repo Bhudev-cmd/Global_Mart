@@ -40,7 +40,7 @@ Source:
 
 ## Deployment Consistency Note
 
-For production reliability, the current deployment flow runs migrations at runtime before starting Gunicorn. This ensures the database schema used by the running app matches the latest code and diagrams.
+For production reliability, the current deployment flow runs migrations at runtime before starting Gunicorn (`python manage.py migrate && gunicorn myshop.wsgi:application`). This ensures the database schema used by the running app matches the latest code and diagrams.
 
 ## How to Export as PNG/SVG
 

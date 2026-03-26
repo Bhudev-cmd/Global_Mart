@@ -35,7 +35,7 @@ erDiagram
         int quantity
     }
 
-    ORDERS {
+    ORDER {
         int id PK
         int user_id FK
         datetime created_at
@@ -81,8 +81,8 @@ erDiagram
     CART ||--o{ CART_ITEM : contains
     PRODUCT ||--o{ CART_ITEM : added_in
 
-    USER ||--o{ ORDERS : places
-    ORDERS ||--o{ ORDER_ITEM : contains
+    USER ||--o{ ORDER : places
+    ORDER ||--o{ ORDER_ITEM : contains
     PRODUCT ||--o{ ORDER_ITEM : ordered_as
 
     USER ||--|| USER_ADDRESS : has
