@@ -265,54 +265,23 @@ class OrderItemAdmin(admin.ModelAdmin):
 # --- UserAddress Admin ---
 @admin.register(UserAddress)
 class UserAddressAdmin(admin.ModelAdmin):
-    list_display = ('full_name_link', 'phone', 'city_state', 'pin_code', 'status_badge')
-    search_fields = ('user__username', 'full_name', 'phone', 'city', 'pin_code')
-    list_filter = ('state', 'country', 'created_at')
-    readonly_fields = ('created_at', 'updated_at', 'user_display')
-    
-    fieldsets = (
-        ('Customer Information', {
-            'fields': ('user_display', 'full_name', 'phone'),
-            'description': 'User and contact information'
-        }),
-        ('Address Details', {
-            'fields': ('street_address', 'landmark', 'city', 'state', 'pin_code', 'country'),
-            'description': 'Complete address information'
-        }),
-        ('Timestamps', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
+    list_display = ('id', 'user', 'full_name', 'phone', 'city', 'state', 'pin_code', 'country', 'created_at')
+    search_fields = ('user__username', 'user__email', 'full_name', 'phone', 'city', 'state', 'pin_code', 'country')
+    list_filter = ('state', 'country')
+    readonly_fields = ('created_at', 'updated_at')
+    fields = (
+        'user',
+        'full_name',
+        'phone',
+        'street_address',
+        'landmark',
+        'city',
+        'state',
+        'pin_code',
+        'country',
+        'created_at',
+        'updated_at',
     )
-    
-    def user_display(self, obj):
-        """Display user information"""
-        return format_html(
-            '<strong>{}</strong> ({})',
-            obj.user.get_full_name() or obj.user.username,
-            obj.user.email
-        )
-    user_display.short_description = 'User'
-    
-    def full_name_link(self, obj):
-        """Display full name"""
-        return format_html(
-            '<strong>{}</strong>',
-            obj.full_name
-        )
-    full_name_link.short_description = 'Name'
-    
-    def city_state(self, obj):
-        """Display city and state together"""
-        return f"{obj.city}, {obj.state}"
-    city_state.short_description = 'City, State'
-    
-    def status_badge(self, obj):
-        """Display status badge"""
-        return format_html(
-            '<span style="color: white; background-color: #27ae60; padding: 5px 10px; border-radius: 15px; font-weight: bold;">✓ Active</span>'
-        )
-    status_badge.short_description = 'Status'
     
     def has_add_permission(self, request):
         # Users add address from profile, not admin
