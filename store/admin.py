@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html, mark_safe
+from django.urls import reverse
 from .models import Product, Order, OrderItem, UserAddress, Wishlist, WishlistItem, ProductImage
 
 # --- ProductImage Inline Admin with Better UI ---
@@ -192,8 +193,10 @@ class OrderAdmin(admin.ModelAdmin):
     
     def action_buttons(self, obj):
         """Display quick action links"""
+        details_url = reverse('admin:store_order_change', args=[obj.id])
         return format_html(
-            '<a class="button" href="#" onclick="return false;" style="background-color: #3498db; margin-right: 5px;">View Details</a>'
+            '<a class="button" href="{}" style="background-color: #3498db; margin-right: 5px;">View Details</a>',
+            details_url,
         )
     action_buttons.short_description = 'Actions'
     
