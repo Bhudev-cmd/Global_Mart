@@ -5,890 +5,667 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile | Global Mart</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --bg: #f4f2eb;
+            --surface: #ffffff;
+            --surface-soft: #f3f0e6;
+            --text: #1d2a24;
+            --muted: #627268;
+            --accent: #2f6b57;
+            --accent-dark: #1e4f3f;
+            --line: #d8d2c4;
+            --danger-soft: #f7e9e8;
+            --danger: #b64949;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            color: var(--text);
             min-height: 100vh;
+            background:
+                radial-gradient(circle at 8% 0%, #e4dfd2 0 20%, transparent 20%),
+                radial-gradient(circle at 100% 0%, #d8e6dc 0 15%, transparent 15%),
+                var(--bg);
             display: flex;
             flex-direction: column;
         }
-        
-        /* Navigation Header */
-        .header-nav { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 18px 40px; 
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            margin-bottom: 30px;
-        }
-        
-        .logo { 
-            font-weight: 700; 
-            font-size: 1.8em; 
-            color: #fff; 
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-        
-        .header-nav div { display: flex; align-items: center; gap: 12px; }
-        
-        .header-nav span { color: #e0e0e0; font-size: 0.95em; }
-        
-        /* Main Content */
-        .content-wrapper {
+
+        .page-shell {
+            width: min(1240px, 92vw);
+            margin: 24px auto 32px;
             flex: 1;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 0 20px;
         }
-        
-        /* Profile Header */
-        .profile-header { 
-            background: white; 
-            padding: 40px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            display: flex; 
-            align-items: center; 
-            gap: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+        .topbar {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(216, 210, 196, 0.7);
+            border-radius: 22px;
+            backdrop-filter: blur(8px);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
         }
-        
-        .avatar { 
-            width: 100px; 
-            height: 100px; 
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white; 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 2.5em; 
-            font-weight: bold;
+
+        .brand {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            font-weight: 800;
+        }
+
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .brand-mark svg { width: 18px; height: 18px; }
+
+        .auth-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .logout-btn {
+            border: 1px solid transparent;
+            background: var(--danger-soft);
+            color: var(--danger);
+            border-radius: 999px;
+            padding: 9px 14px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .logout-btn:hover { border-color: #e0c3c0; }
+
+        .tab-nav {
+            margin-top: 12px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        .tab-link {
+            text-decoration: none;
+            color: var(--muted);
+            border-radius: 11px;
+            padding: 10px 14px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s ease;
+        }
+
+        .tab-link svg { width: 16px; height: 16px; }
+        .tab-link.active { color: var(--accent); background: #e7efe9; }
+        .tab-link:hover { color: var(--accent); background: #f1f5f3; }
+
+        .profile-header {
+            margin-top: 20px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #fff;
+            background: var(--accent);
             flex-shrink: 0;
         }
-        
-        .profile-info h1 { 
-            margin: 0 0 10px 0;
-            color: #1e3c72;
-            font-size: 2em;
+
+        .profile-info h1 {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
         }
-        
-        .profile-info p { 
-            margin: 5px 0;
-            color: #666;
-            font-size: 0.95em;
+
+        .profile-info p {
+            color: var(--muted);
+            font-size: 0.88rem;
         }
-        
-        /* Orders Section */
-        .orders-section {
-            margin-bottom: 40px;
-        }
-        
-        .orders-section h2 { 
-            color: #1e3c72;
-            margin-bottom: 20px;
-            font-size: 1.8em;
-            border-bottom: 3px solid #27ae60;
-            padding-bottom: 10px;
-        }
-        
-        /* Order Card */
-        .order-card { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 12px; 
-            margin-bottom: 20px;
-            border-left: 5px solid #27ae60;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-        
-        .order-card:hover {
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-            transform: translateY(-3px);
-        }
-        
-        .order-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .order-id {
-            font-weight: 700;
-            color: #1e3c72;
-            font-size: 1.1em;
-        }
-        
-        .order-date {
-            color: #666;
-            font-size: 0.95em;
-        }
-        
-        .order-status {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 6px 15px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        
-        /* Order Items Table */
-        .order-items {
-            margin-top: 15px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-        
-        .order-items table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .order-items th {
-            background: #f9f9f9;
-            padding: 12px;
-            text-align: left;
-            color: #555;
-            font-weight: 600;
-            font-size: 0.9em;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .order-items td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-            color: #666;
-        }
-        
-        .order-total { 
-            text-align: right;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #eee;
-            font-weight: 700;
-            font-size: 1.2em;
-            color: #27ae60;
-        }
-        
-        /* Empty State */
-        .empty-state {
-            background: white;
-            padding: 60px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        
-        .empty-state p {
-            color: #666;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
-        
-        .btn-home {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        
-        .btn-home:hover {
-            background: linear-gradient(135deg, #152d54 0%, #1f3d7a 100%);
-        }
-        
-        /* Tabs */
-        .tabs {
+
+        .account-tabs {
+            margin-top: 16px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 7px;
             display: flex;
-            gap: 10px;
-            margin: 30px 0 20px 0;
-            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+            gap: 7px;
         }
-        
+
         .tab-button {
-            padding: 12px 25px;
-            background: #f9f9f9;
             border: none;
+            background: #f6f3ea;
+            color: var(--muted);
+            font-size: 0.82rem;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 10px 12px;
             cursor: pointer;
-            font-weight: 600;
-            color: #666;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            font-size: 0.95em;
+            transition: 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        
-        .tab-button:hover {
-            background: #e9e9e9;
-        }
-        
+
         .tab-button.active {
-            color: #1e3c72;
-            border-bottom-color: #2a5298;
-            background: white;
+            background: #e7efe9;
+            color: var(--accent);
         }
-        
-        .tab-content {
+
+        .tab-panel {
             display: none;
+            margin-top: 14px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            padding: 16px;
         }
-        
-        .tab-content.active {
-            display: block;
+
+        .tab-panel.active { display: block; }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
         }
-        
-        /* Address Card */
-        .address-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 5px solid #27ae60;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
+
+        .section-title h2 {
+            font-size: 1.05rem;
         }
-        
-        .address-info {
+
+        .btn {
+            border-radius: 10px;
+            padding: 9px 12px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+            display: inline-block;
+            border: 1px solid transparent;
+            transition: 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-dark); }
+
+        .btn-ghost {
+            background: #f8f6ef;
+            color: var(--text);
+            border-color: var(--line);
+        }
+
+        .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+        .btn-soft { background: #f7e7e7; color: #8d2c2c; }
+
+        .profile-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
         }
-        
+
+        .profile-item {
+            border: 1px solid #ece8de;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fbfaf6;
+        }
+
+        .profile-item label {
+            display: block;
+            font-size: 0.74rem;
+            color: var(--muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .profile-item p { font-size: 0.9rem; font-weight: 700; }
+
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
         .address-field {
-            margin-bottom: 15px;
+            border: 1px solid #ece8de;
+            border-radius: 10px;
+            padding: 10px;
+            background: #fbfaf6;
         }
-        
+
+        .address-field.full { grid-column: 1 / -1; }
+
         .address-field label {
             display: block;
-            color: #666;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.9em;
+            font-size: 0.74rem;
+            color: var(--muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
-        
-        .address-field value {
-            display: block;
-            color: #1e3c72;
-            font-weight: 600;
-            font-size: 1em;
+
+        .address-field value { display: block; font-size: 0.9rem; font-weight: 700; }
+
+        .order-card {
+            border: 1px solid #ece8de;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #fff;
         }
-        
-        .no-address {
-            background: #fff3cd;
-            border: 1px solid #ffecb5;
-            padding: 20px;
-            border-radius: 8px;
-            color: #856404;
-            text-align: center;
+
+        .order-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #ece8de;
         }
-        
-        .form-group {
-            margin-bottom: 18px;
+
+        .order-id { font-weight: 800; }
+        .order-date { color: var(--muted); font-size: 0.82rem; }
+
+        .order-status {
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #1f5f48;
+            background: #e8f2ed;
         }
-        
-        .form-group label {
-            display: block;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.95em;
-        }
-        
-        .form-group input,
-        .form-group textarea {
+
+        .order-table {
             width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 0.95em;
-            font-family: inherit;
+            border-collapse: collapse;
+            margin-top: 6px;
         }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #2a5298;
-            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+
+        .order-table th,
+        .order-table td {
+            text-align: left;
+            padding: 8px 4px;
+            border-bottom: 1px solid #f0ece1;
+            font-size: 0.82rem;
         }
-        
-        .form-row {
+
+        .order-table th { color: var(--muted); font-size: 0.74rem; }
+
+        .order-total {
+            margin-top: 8px;
+            text-align: right;
+            font-weight: 800;
+            color: var(--accent-dark);
+            font-size: 0.9rem;
+        }
+
+        .wishlist-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
         }
-        
-        .btn-edit {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: 0.3s;
-            margin-right: 10px;
+
+        .wishlist-item {
+            border: 1px solid #ece8de;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
         }
-        
-        .btn-edit:hover {
-            background: #2980b9;
+
+        .wishlist-item img {
+            width: 100%;
+            height: 130px;
+            object-fit: contain;
+            background: #f6f3ea;
+            padding: 8px;
         }
-        
-        .btn-save {
-            background: #27ae60;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
+
+        .wishlist-item-body {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
-        
-        .btn-save:hover {
-            background: #229954;
+
+        .wishlist-item h4 {
+            font-size: 0.86rem;
+            line-height: 1.35;
+            min-height: 2.4em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
-        
-        /* Footer */
-        footer {
-            background: #1a1a1a;
-            color: #bbb;
+
+        .wishlist-item p {
+            font-weight: 800;
+            color: var(--accent-dark);
+            font-size: 0.9rem;
+        }
+
+        .empty-state {
             text-align: center;
-            padding: 30px 20px;
-            margin-top: auto;
-            border-top: 1px solid #333;
-            font-size: 14px;
-        }
-        
-        footer p {
-            margin: 5px 0;
+            border: 1px dashed var(--line);
+            border-radius: 12px;
+            padding: 32px 16px;
+            color: var(--muted);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-nav {
-                padding: 12px 15px;
-                flex-direction: column;
-                gap: 10px;
-            }
+        .empty-state p { margin-bottom: 12px; }
 
-            .logo {
-                font-size: 1.3em;
-                width: 100%;
-                text-align: center;
-            }
-
-            .header-nav div {
-                justify-content: center;
-                gap: 8px;
-                width: 100%;
-            }
-
-            .content-wrapper {
-                padding: 0 15px;
-            }
-
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 25px;
-                gap: 20px;
-            }
-
-            .avatar {
-                width: 80px;
-                height: 80px;
-                font-size: 2em;
-            }
-
-            .profile-info h1 {
-                font-size: 1.5em;
-            }
-
-            .profile-info p {
-                font-size: 0.9em;
-            }
-
-            .orders-section h2 {
-                font-size: 1.4em;
-            }
-
-            .order-card {
-                padding: 15px;
-            }
-
-            .order-header {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .order-items table {
-                font-size: 0.9em;
-            }
-
-            .order-items th,
-            .order-items td {
-                padding: 8px;
-            }
-
-            .tabs {
-                gap: 5px;
-            }
-
-            .tab-button {
-                padding: 10px 15px;
-                font-size: 0.85em;
-            }
-
-            .address-info {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .btn-edit {
-                margin-right: 5px;
-                padding: 8px 15px;
-            }
-
-            footer {
-                padding: 20px 15px;
-                font-size: 12px;
-            }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #5f6a61;
+            font-size: 0.82rem;
+            padding: 12px;
         }
 
-        /* Mobile Responsive (max-width: 480px) */
-        @media (max-width: 480px) {
-            .header-nav {
-                padding: 10px;
+        .mobile-tabs { display: none; }
+
+        @media (max-width: 900px) {
+            .wishlist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 620px) {
+            body { padding-bottom: 78px; }
+            .page-shell { width: min(95vw, 520px); margin-top: 14px; }
+            .topbar { border-radius: 16px; flex-wrap: wrap; }
+            .tab-nav { display: none; }
+            .profile-header { padding: 14px; }
+            .profile-grid,
+            .address-grid,
+            .wishlist-grid { grid-template-columns: 1fr; }
+            .account-tabs { display: grid; grid-template-columns: repeat(2, 1fr); }
+
+            .mobile-tabs {
+                position: fixed;
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                background: rgba(255, 255, 255, 0.95);
+                border: 1px solid var(--line);
+                border-radius: 14px;
+                padding: 7px;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+                z-index: 50;
+                backdrop-filter: blur(8px);
+            }
+
+            .mobile-tab {
+                text-decoration: none;
+                color: var(--muted);
+                font-size: 0.68rem;
+                font-weight: 700;
+                display: flex;
                 flex-direction: column;
-                gap: 8px;
+                align-items: center;
+                gap: 2px;
+                padding: 4px 0;
+                border-radius: 10px;
             }
 
-            .logo {
-                font-size: 1em;
-                width: 100%;
-            }
-
-            .header-nav div {
-                width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 5px;
-            }
-
-            .content-wrapper {
-                padding: 0 10px;
-            }
-
-            .profile-header {
-                flex-direction: column;
-                text-align: center;
-                padding: 15px;
-                gap: 15px;
-            }
-
-            .avatar {
-                width: 70px;
-                height: 70px;
-                font-size: 1.8em;
-            }
-
-            .profile-info h1 {
-                font-size: 1.2em;
-                margin: 0 0 8px 0;
-            }
-
-            .profile-info p {
-                font-size: 0.85em;
-                margin: 3px 0;
-            }
-
-            .orders-section {
-                margin-bottom: 25px;
-            }
-
-            .orders-section h2 {
-                font-size: 1.2em;
-                padding-bottom: 8px;
-            }
-
-            .order-card {
-                padding: 12px;
-                margin-bottom: 12px;
-                border-radius: 8px;
-            }
-
-            .order-header {
-                flex-direction: column;
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-
-            .order-id {
-                font-size: 0.95em;
-            }
-
-            .order-date {
-                font-size: 0.85em;
-            }
-
-            .order-status {
-                padding: 4px 10px;
-                font-size: 0.75em;
-            }
-
-            .order-items {
-                margin-top: 10px;
-                padding-top: 10px;
-            }
-
-            .order-items table {
-                font-size: 0.8em;
-            }
-
-            .order-items th,
-            .order-items td {
-                padding: 6px 4px;
-            }
-
-            .order-total {
-                font-size: 1em;
-                margin-top: 10px;
-            }
-
-            .empty-state {
-                padding: 40px 15px;
-                border-radius: 8px;
-            }
-
-            .empty-state p {
-                font-size: 0.9em;
-                margin-bottom: 15px;
-            }
-
-            .btn-home {
-                padding: 10px 20px;
-                font-size: 0.9em;
-            }
-
-            .tabs {
-                gap: 3px;
-                margin: 20px 0 15px 0;
-            }
-
-            .tab-button {
-                padding: 8px 12px;
-                font-size: 0.8em;
-            }
-
-            .address-card {
-                padding: 12px;
-                margin-bottom: 12px;
-            }
-
-            .address-info {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .address-field {
-                margin-bottom: 8px;
-            }
-
-            .address-field label {
-                font-size: 0.8em;
-                margin-bottom: 3px;
-            }
-
-            .address-field value {
-                font-size: 0.9em;
-            }
-
-            .no-address {
-                padding: 15px;
-                border-radius: 6px;
-                font-size: 0.9em;
-            }
-
-            .form-group {
-                margin-bottom: 12px;
-            }
-
-            .form-group label {
-                font-size: 0.85em;
-                margin-bottom: 4px;
-            }
-
-            .form-group input,
-            .form-group textarea {
-                padding: 8px;
-                font-size: 14px;
-            }
-
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .btn-edit,
-            .btn-save {
-                padding: 8px 12px;
-                font-size: 0.85em;
-                margin-right: 5px;
-                width: auto;
-            }
-
-            footer {
-                padding: 15px 10px;
-                font-size: 11px;
-            }
-
-            footer p {
-                margin: 2px 0;
-            }
+            .mobile-tab svg { width: 18px; height: 18px; }
+            .mobile-tab.active { color: var(--accent); background: #e7efe9; }
         }
     </style>
 </head>
 <body>
+    <div class="page-shell">
+        <header class="topbar">
+            <a href="{% url 'product_list' %}" class="brand">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="20" r="1.6"></circle>
+                        <circle cx="18" cy="20" r="1.6"></circle>
+                        <path d="M2 4h3l2.1 10.2a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H6.2"></path>
+                    </svg>
+                </span>
+                <span>Global Mart</span>
+            </a>
 
-    <div class="header-nav">
-        <a href="/" class="logo">🛍️ Global Mart</a>
-        <div>
-            {% if user.is_authenticated %}
-                <a href="{% url 'cart_detail' %}" style="text-decoration: none; color: white; font-weight: 600; background-color: #f39c12; padding: 8px 16px; border-radius: 5px;">🛒 Cart</a>
-                <a href="{% url 'product_list' %}" style="text-decoration: none; color: white; font-weight: 600;">← Back to Shopping</a>
-                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+            <div class="auth-actions">
+                <form action="{% url 'logout' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" style="padding: 10px 16px; background: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">Logout</button>
+                    <button type="submit" class="logout-btn">Logout</button>
                 </form>
-            {% endif %}
-        </div>
-    </div>
+            </div>
+        </header>
 
-    <div class="content-wrapper">
-        <div class="profile-header">
+        <nav class="tab-nav" aria-label="Primary">
+            <a href="{% url 'product_list' %}" class="tab-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path></svg>
+                <span>Shop</span>
+            </a>
+            <a href="{% url 'view_wishlist' %}" class="tab-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-6.5-4.35-8.5-7.7A5.4 5.4 0 0 1 12 5.4a5.4 5.4 0 0 1 8.5 6.9C18.5 15.65 12 20 12 20z"></path></svg>
+                <span>Wishlist</span>
+            </a>
+            <a href="{% url 'cart_detail' %}" class="tab-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 4h3l2.1 10.2a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H6.2"></path></svg>
+                <span>Cart</span>
+            </a>
+            <a href="{% url 'profile' %}" class="tab-link active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.3"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0"></path></svg>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <section class="profile-header">
             <div class="avatar">{{ user.username|first|upper }}</div>
             <div class="profile-info">
                 <h1>{{ user.username }}</h1>
-                <p>📧 {{ user.email|default:"No email added" }}</p>
-                <p style="color: #27ae60; margin-top: 10px;">✓ Member since {{ user.date_joined|date:"M d, Y" }}</p>
+                <p>{{ user.email|default:"No email added" }}</p>
+                <p>Member since {{ user.date_joined|date:"M d, Y" }}</p>
             </div>
+        </section>
+
+        <div class="account-tabs">
+            <button class="tab-button active" onclick="switchTab('profile', this)">Profile</button>
+            <button class="tab-button" onclick="switchTab('address', this)">Address</button>
+            <button class="tab-button" onclick="switchTab('wishlist', this)">Wishlist</button>
+            <button class="tab-button" onclick="switchTab('orders', this)">Orders</button>
         </div>
 
-        <!-- Tabs Navigation -->
-        <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('profile', this)">👤 Profile Info</button>
-            <button class="tab-button" onclick="switchTab('address', this)">📍 Address</button>
-            <button class="tab-button" onclick="switchTab('wishlist', this)">❤️ Wishlist</button>
-            <button class="tab-button" onclick="switchTab('orders', this)">📦 Orders</button>
-        </div>
-
-        <!-- Profile Tab -->
-        <div id="profile" class="tab-content active">
-            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h2 style="color: #1e3c72; margin: 0;">Profile Information</h2>
-                    <a href="{% url 'edit_profile' %}" style="background: #3498db; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">✏️ Edit Profile</a>
-                </div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Username:</label>
-                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.username }}</p>
-                    </div>
-                    <div>
-                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Email:</label>
-                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.email|default:"Not provided" }}</p>
-                    </div>
-                    <div>
-                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">First Name:</label>
-                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.first_name|default:"Not provided" }}</p>
-                    </div>
-                    <div>
-                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Last Name:</label>
-                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.last_name|default:"Not provided" }}</p>
-                    </div>
-                    <div>
-                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Member Since:</label>
-                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.date_joined|date:"F d, Y" }}</p>
-                    </div>
-                    <div>
-                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Total Orders:</label>
-                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ orders|length }}</p>
-                    </div>
-                </div>
+        <section id="profile" class="tab-panel active">
+            <div class="section-title">
+                <h2>Profile Information</h2>
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Profile</a>
             </div>
-        </div>
+            <div class="profile-grid">
+                <div class="profile-item"><label>Username</label><p>{{ user.username }}</p></div>
+                <div class="profile-item"><label>Email</label><p>{{ user.email|default:"Not provided" }}</p></div>
+                <div class="profile-item"><label>First Name</label><p>{{ user.first_name|default:"Not provided" }}</p></div>
+                <div class="profile-item"><label>Last Name</label><p>{{ user.last_name|default:"Not provided" }}</p></div>
+                <div class="profile-item"><label>Member Since</label><p>{{ user.date_joined|date:"F d, Y" }}</p></div>
+                <div class="profile-item"><label>Total Orders</label><p>{{ orders|length }}</p></div>
+            </div>
+        </section>
 
-        <!-- Address Tab -->
-        <div id="address" class="tab-content">
+        <section id="address" class="tab-panel">
             {% if user.address %}
-                <div class="address-card">
-                    <h3 style="color: #1e3c72; margin-bottom: 20px;">Delivery Address</h3>
-                    <div class="address-info">
-                        <div class="address-field">
-                            <label>Full Name:</label>
-                            <value>{{ user.address.full_name }}</value>
-                        </div>
-                        <div class="address-field">
-                            <label>Phone:</label>
-                            <value>{{ user.address.phone }}</value>
-                        </div>
-                        <div class="address-field" style="grid-column: 1 / -1;">
-                            <label>Street Address:</label>
-                            <value>{{ user.address.street_address }}</value>
-                        </div>
-                        {% if user.address.landmark %}
-                        <div class="address-field" style="grid-column: 1 / -1;">
-                            <label>Landmark:</label>
-                            <value>{{ user.address.landmark }}</value>
-                        </div>
-                        {% endif %}
-                        <div class="address-field">
-                            <label>City:</label>
-                            <value>{{ user.address.city }}</value>
-                        </div>
-                        <div class="address-field">
-                            <label>State:</label>
-                            <value>{{ user.address.state }}</value>
-                        </div>
-                        <div class="address-field">
-                            <label>PIN Code:</label>
-                            <value>{{ user.address.pin_code }}</value>
-                        </div>
-                        <div class="address-field">
-                            <label>Country:</label>
-                            <value>{{ user.address.country }}</value>
-                        </div>
-                    </div>
-                    <a href="{% url 'update_address' %}" class="btn-edit" style="background: #f39c12; margin-bottom: 20px; display: inline-block; text-decoration: none;">✏️ Edit Address</a>
+                <div class="section-title">
+                    <h2>Delivery Address</h2>
+                    <a href="{% url 'update_address' %}" class="btn btn-primary">Edit Address</a>
+                </div>
+                <div class="address-grid">
+                    <div class="address-field"><label>Full Name</label><value>{{ user.address.full_name }}</value></div>
+                    <div class="address-field"><label>Phone</label><value>{{ user.address.phone }}</value></div>
+                    <div class="address-field full"><label>Street Address</label><value>{{ user.address.street_address }}</value></div>
+                    {% if user.address.landmark %}
+                        <div class="address-field full"><label>Landmark</label><value>{{ user.address.landmark }}</value></div>
+                    {% endif %}
+                    <div class="address-field"><label>City</label><value>{{ user.address.city }}</value></div>
+                    <div class="address-field"><label>State</label><value>{{ user.address.state }}</value></div>
+                    <div class="address-field"><label>PIN Code</label><value>{{ user.address.pin_code }}</value></div>
+                    <div class="address-field"><label>Country</label><value>{{ user.address.country }}</value></div>
                 </div>
             {% else %}
-                <div class="no-address">
-                    <p style="margin-bottom: 15px;">📍 You haven't added a delivery address yet.</p>
-                    <p style="font-size: 0.9em;">Add your address for faster checkout and easier delivery!</p>
-                    <a href="{% url 'add_address' %}" class="btn-home" style="display: inline-block; margin-top: 15px; background: #27ae60;">+ Add Address</a>
+                <div class="empty-state">
+                    <p>No delivery address added yet.</p>
+                    <a href="{% url 'add_address' %}" class="btn btn-primary">Add Address</a>
                 </div>
             {% endif %}
-        </div>
+        </section>
 
-        <!-- Orders Tab -->
-        <div id="orders" class="tab-content">
-            <div class="orders-section" style="margin-top: 0;">
-                <h2 style="margin-top: 0;">📦 Order History</h2>
-                {% if orders %}
-                    {% for order in orders %}
-                    <div class="order-card">
-                        <div class="order-header">
+        <section id="orders" class="tab-panel">
+            <div class="section-title">
+                <h2>Order History</h2>
+            </div>
+            {% if orders %}
+                {% for order in orders %}
+                    <article class="order-card">
+                        <div class="order-head">
                             <span class="order-id">Order #GM-{{ order.id }}</span>
                             <span class="order-date">{{ order.created_at|date:"F d, Y" }}</span>
                             <span class="order-status">{{ order.status }}</span>
                         </div>
-                        
-                        <div class="order-items">
-                            <table>
-                                <thead>
+
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Qty</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order.orderitem_set.all %}
                                     <tr>
-                                        <th>Product</th>
-                                        <th>Price</th>
-                                        <th>Quantity</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for item in order.orderitem_set.all %}
-                                    <tr>
-                                        <td><strong>{{ item.product.name }}</strong></td>
+                                        <td>{{ item.product.name }}</td>
                                         <td>₹{{ item.price }}</td>
                                         <td>{{ item.quantity }}</td>
                                         <td>₹{{ item.subtotal }}</td>
                                     </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="order-total">
-                            Total: ₹{{ order.total_price }}
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="empty-state">
-                        <p>🛒 No orders yet! Start shopping to see your orders here.</p>
-                        <a href="{% url 'product_list' %}" class="btn-home">Continue Shopping</a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
 
-        <!-- Wishlist Tab -->
-        <div id="wishlist" class="tab-content">
-            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-                <h2 style="color: #1e3c72; margin-bottom: 20px;">❤️ My Wishlist</h2>
-                {% if user.wishlist.items.all %}
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
-                        {% for item in user.wishlist.items.all %}
-                        <div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: all 0.3s;">
-                            <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" style="width: 100%; height: 150px; object-fit: contain; padding: 10px; background: #f9f9f9;">
-                            <div style="padding: 15px;">
-                                <h4 style="color: #1e3c72; margin-bottom: 8px; height: 2.2em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ item.product.name }}</h4>
-                                <p style="color: #27ae60; font-weight: 700; font-size: 1.2em; margin-bottom: 10px;">₹{{ item.product.price }}</p>
+                        <p class="order-total">Total: ₹{{ order.total_price }}</p>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>No orders yet.</p>
+                    <a href="{% url 'product_list' %}" class="btn btn-primary">Continue Shopping</a>
+                </div>
+            {% endif %}
+        </section>
+
+        <section id="wishlist" class="tab-panel">
+            <div class="section-title">
+                <h2>My Wishlist</h2>
+            </div>
+
+            {% if user.wishlist.items.all %}
+                <div class="wishlist-grid">
+                    {% for item in user.wishlist.items.all %}
+                        <article class="wishlist-item">
+                            <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
+                            <div class="wishlist-item-body">
+                                <h4>{{ item.product.name }}</h4>
+                                <p>₹{{ item.product.price }}</p>
                                 <div style="display: flex; gap: 8px;">
-                                    <a href="{% url 'add_to_cart' item.product.id %}" style="flex: 1; padding: 8px; background: #27ae60; color: white; text-align: center; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.85em;">🛒 Add</a>
-                                    <a href="{% url 'remove_from_wishlist' item.id %}" style="flex: 1; padding: 8px; background: #ffe0e0; color: #e74c3c; text-align: center; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.85em;">✕ Remove</a>
+                                    <a href="{% url 'add_to_cart' item.product.id %}" class="btn btn-primary" style="flex:1; text-align:center;">Add</a>
+                                    <a href="{% url 'remove_from_wishlist' item.id %}" class="btn btn-soft" style="flex:1; text-align:center;">Remove</a>
                                 </div>
                             </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    <div style="text-align: center; padding: 40px; color: #666;">
-                        <p style="font-size: 1.1em; margin-bottom: 15px;">❤️ Your wishlist is empty!</p>
-                        <p style="margin-bottom: 15px;">Add your favorite products to your wishlist for later.</p>
-                        <a href="{% url 'product_list' %}" class="btn-home">Browse Products</a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>Your wishlist is empty.</p>
+                    <a href="{% url 'product_list' %}" class="btn btn-primary">Browse Products</a>
+                </div>
+            {% endif %}
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Global Mart</p>
+        </footer>
     </div>
+
+    <nav class="mobile-tabs" aria-label="Mobile">
+        <a href="{% url 'product_list' %}" class="mobile-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path></svg>
+            <span>Shop</span>
+        </a>
+        <a href="{% url 'view_wishlist' %}" class="mobile-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-6.5-4.35-8.5-7.7A5.4 5.4 0 0 1 12 5.4a5.4 5.4 0 0 1 8.5 6.9C18.5 15.65 12 20 12 20z"></path></svg>
+            <span>Saved</span>
+        </a>
+        <a href="{% url 'cart_detail' %}" class="mobile-tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 4h3l2.1 10.2a1 1 0 0 0 1 .8h9.6a1 1 0 0 0 1-.8L21 7H6.2"></path></svg>
+            <span>Cart</span>
+        </a>
+        <a href="{% url 'profile' %}" class="mobile-tab active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.3"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0"></path></svg>
+            <span>Me</span>
+        </a>
+    </nav>
 
     <script>
         function switchTab(tabName, buttonElement) {
-            // Hide all tabs
-            const tabs = document.querySelectorAll('.tab-content');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Remove active class from all buttons
+            const tabs = document.querySelectorAll('.tab-panel');
+            tabs.forEach((tab) => tab.classList.remove('active'));
+
             const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            
-            // Show selected tab
+            buttons.forEach((btn) => btn.classList.remove('active'));
+
             document.getElementById(tabName).classList.add('active');
             buttonElement.classList.add('active');
         }
     </script>
-
-    <footer>
-        <p>&copy; 2026 Global Mart | <strong>Bhudeb's Project</strong></p>
-        <p style="font-size: 12px; color: #999; margin-top: 10px;">All rights reserved. Designed with ❤️ for exceptional shopping experience.</p>
-    </footer>
-
 </body>
 </html>
