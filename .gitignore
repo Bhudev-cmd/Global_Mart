@@ -2,6 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
 
 # Virtual environments
 env/
@@ -10,6 +16,7 @@ venv/
 
 # Local environment variables
 .env
+.env.*
 
 # Local database
 *.sqlite3
@@ -17,6 +24,11 @@ venv/
 # Static and media build artifacts
 staticfiles/
 media/
+
+# Python build artifacts
+build/
+dist/
+*.egg-info/
 
 # Editor/OS
 .vscode/
