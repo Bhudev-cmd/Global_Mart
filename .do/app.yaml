@@ -11,8 +11,8 @@ services:
     http_port: 8080
     instance_count: 1
     instance_size_slug: basic-xxs
-    build_command: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
-    run_command: gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+    build_command: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    run_command: python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
     envs:
       - key: SECRET_KEY
         scope: RUN_TIME
@@ -28,7 +28,7 @@ services:
         scope: RUN_TIME
         value: https://your-app.ondigitalocean.app,https://yourdomain.com,https://www.yourdomain.com
       - key: DATABASE_URL
-        scope: RUN_TIME
+        scope: RUN_AND_BUILD_TIME
         value: ${db.DATABASE_URL}
 databases:
   - name: db

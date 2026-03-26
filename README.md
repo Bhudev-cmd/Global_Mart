@@ -232,8 +232,8 @@ Before importing, update these placeholders in `.do/app.yaml`:
 
 The spec already defines:
 
-- Build command: `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
-- Run command: `gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT`
+- Build command: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
+- Run command: `python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT`
 - Managed PostgreSQL (`DATABASE_URL` linked from DigitalOcean DB)
 
 ### 4) Set secure runtime values
