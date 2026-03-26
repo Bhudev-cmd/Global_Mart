@@ -5,7 +5,7 @@ services:
     environment_slug: python
     source_dir: /
     github:
-      repo: Bhudev-cmd/ecommerce_project_Global_Mart
+      repo: Bhudev-cmd/Global_Mart
       branch: main
       deploy_on_push: true
     http_port: 8080
