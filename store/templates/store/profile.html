@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Global Mart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation Header */
+        .header-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 18px 40px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        
+        .logo { 
+            font-weight: 700; 
+            font-size: 1.8em; 
+            color: #fff; 
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .header-nav div { display: flex; align-items: center; gap: 12px; }
+        
+        .header-nav span { color: #e0e0e0; font-size: 0.95em; }
+        
+        /* Main Content */
+        .content-wrapper {
+            flex: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        /* Profile Header */
+        .profile-header { 
+            background: white; 
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex; 
+            align-items: center; 
+            gap: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .avatar { 
+            width: 100px; 
+            height: 100px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 2.5em; 
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .profile-info h1 { 
+            margin: 0 0 10px 0;
+            color: #1e3c72;
+            font-size: 2em;
+        }
+        
+        .profile-info p { 
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        /* Orders Section */
+        .orders-section {
+            margin-bottom: 40px;
+        }
+        
+        .orders-section h2 { 
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #27ae60;
+            padding-bottom: 10px;
+        }
+        
+        /* Order Card */
+        .order-card { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 12px; 
+            margin-bottom: 20px;
+            border-left: 5px solid #27ae60;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .order-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
+        }
+        
+        .order-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .order-id {
+            font-weight: 700;
+            color: #1e3c72;
+            font-size: 1.1em;
+        }
+        
+        .order-date {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .order-status {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        /* Order Items Table */
+        .order-items {
+            margin-top: 15px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        
+        .order-items table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .order-items th {
+            background: #f9f9f9;
+            padding: 12px;
+            text-align: left;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.9em;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .order-items td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+        
+        .order-total { 
+            text-align: right;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+            font-weight: 700;
+            font-size: 1.2em;
+            color: #27ae60;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            background: white;
+            padding: 60px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .empty-state p {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        
+        .btn-home {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-home:hover {
+            background: linear-gradient(135deg, #152d54 0%, #1f3d7a 100%);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0 20px 0;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab-button {
+            padding: 12px 25px;
+            background: #f9f9f9;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 0.95em;
+        }
+        
+        .tab-button:hover {
+            background: #e9e9e9;
+        }
+        
+        .tab-button.active {
+            color: #1e3c72;
+            border-bottom-color: #2a5298;
+            background: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Address Card */
+        .address-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #27ae60;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .address-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .address-field {
+            margin-bottom: 15px;
+        }
+        
+        .address-field label {
+            display: block;
+            color: #666;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .address-field value {
+            display: block;
+            color: #1e3c72;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        
+        .no-address {
+            background: #fff3cd;
+            border: 1px solid #ffecb5;
+            padding: 20px;
+            border-radius: 8px;
+            color: #856404;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn-edit {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            margin-right: 10px;
+        }
+        
+        .btn-edit:hover {
+            background: #2980b9;
+        }
+        
+        .btn-save {
+            background: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-save:hover {
+            background: #229954;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+            border-top: 1px solid #333;
+            font-size: 14px;
+        }
+        
+        footer p {
+            margin: 5px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.3em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-nav div {
+                justify-content: center;
+                gap: 8px;
+                width: 100%;
+            }
+
+            .content-wrapper {
+                padding: 0 15px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 25px;
+                gap: 20px;
+            }
+
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2em;
+            }
+
+            .profile-info h1 {
+                font-size: 1.5em;
+            }
+
+            .profile-info p {
+                font-size: 0.9em;
+            }
+
+            .orders-section h2 {
+                font-size: 1.4em;
+            }
+
+            .order-card {
+                padding: 15px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .order-items table {
+                font-size: 0.9em;
+            }
+
+            .order-items th,
+            .order-items td {
+                padding: 8px;
+            }
+
+            .tabs {
+                gap: 5px;
+            }
+
+            .tab-button {
+                padding: 10px 15px;
+                font-size: 0.85em;
+            }
+
+            .address-info {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-edit {
+                margin-right: 5px;
+                padding: 8px 15px;
+            }
+
+            footer {
+                padding: 20px 15px;
+                font-size: 12px;
+            }
+        }
+
+        /* Mobile Responsive (max-width: 480px) */
+        @media (max-width: 480px) {
+            .header-nav {
+                padding: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .content-wrapper {
+                padding: 0 10px;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8em;
+            }
+
+            .profile-info h1 {
+                font-size: 1.2em;
+                margin: 0 0 8px 0;
+            }
+
+            .profile-info p {
+                font-size: 0.85em;
+                margin: 3px 0;
+            }
+
+            .orders-section {
+                margin-bottom: 25px;
+            }
+
+            .orders-section h2 {
+                font-size: 1.2em;
+                padding-bottom: 8px;
+            }
+
+            .order-card {
+                padding: 12px;
+                margin-bottom: 12px;
+                border-radius: 8px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+
+            .order-id {
+                font-size: 0.95em;
+            }
+
+            .order-date {
+                font-size: 0.85em;
+            }
+
+            .order-status {
+                padding: 4px 10px;
+                font-size: 0.75em;
+            }
+
+            .order-items {
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            .order-items table {
+                font-size: 0.8em;
+            }
+
+            .order-items th,
+            .order-items td {
+                padding: 6px 4px;
+            }
+
+            .order-total {
+                font-size: 1em;
+                margin-top: 10px;
+            }
+
+            .empty-state {
+                padding: 40px 15px;
+                border-radius: 8px;
+            }
+
+            .empty-state p {
+                font-size: 0.9em;
+                margin-bottom: 15px;
+            }
+
+            .btn-home {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            .tabs {
+                gap: 3px;
+                margin: 20px 0 15px 0;
+            }
+
+            .tab-button {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+
+            .address-card {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .address-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .address-field {
+                margin-bottom: 8px;
+            }
+
+            .address-field label {
+                font-size: 0.8em;
+                margin-bottom: 3px;
+            }
+
+            .address-field value {
+                font-size: 0.9em;
+            }
+
+            .no-address {
+                padding: 15px;
+                border-radius: 6px;
+                font-size: 0.9em;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-group label {
+                font-size: 0.85em;
+                margin-bottom: 4px;
+            }
+
+            .form-group input,
+            .form-group textarea {
+                padding: 8px;
+                font-size: 14px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .btn-edit,
+            .btn-save {
+                padding: 8px 12px;
+                font-size: 0.85em;
+                margin-right: 5px;
+                width: auto;
+            }
+
+            footer {
+                padding: 15px 10px;
+                font-size: 11px;
+            }
+
+            footer p {
+                margin: 2px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="/" class="logo">🛍️ Global Mart</a>
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'cart_detail' %}" style="text-decoration: none; color: white; font-weight: 600; background-color: #f39c12; padding: 8px 16px; border-radius: 5px;">🛒 Cart</a>
+                <a href="{% url 'product_list' %}" style="text-decoration: none; color: white; font-weight: 600;">← Back to Shopping</a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="padding: 10px 16px; background: #e74c3c; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px;">Logout</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="profile-header">
+            <div class="avatar">{{ user.username|first|upper }}</div>
+            <div class="profile-info">
+                <h1>{{ user.username }}</h1>
+                <p>📧 {{ user.email|default:"No email added" }}</p>
+                <p style="color: #27ae60; margin-top: 10px;">✓ Member since {{ user.date_joined|date:"M d, Y" }}</p>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('profile', this)">👤 Profile Info</button>
+            <button class="tab-button" onclick="switchTab('address', this)">📍 Address</button>
+            <button class="tab-button" onclick="switchTab('wishlist', this)">❤️ Wishlist</button>
+            <button class="tab-button" onclick="switchTab('orders', this)">📦 Orders</button>
+        </div>
+
+        <!-- Profile Tab -->
+        <div id="profile" class="tab-content active">
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="color: #1e3c72; margin: 0;">Profile Information</h2>
+                    <a href="{% url 'edit_profile' %}" style="background: #3498db; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: 600;">✏️ Edit Profile</a>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Username:</label>
+                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.username }}</p>
+                    </div>
+                    <div>
+                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Email:</label>
+                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.email|default:"Not provided" }}</p>
+                    </div>
+                    <div>
+                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">First Name:</label>
+                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.first_name|default:"Not provided" }}</p>
+                    </div>
+                    <div>
+                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Last Name:</label>
+                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.last_name|default:"Not provided" }}</p>
+                    </div>
+                    <div>
+                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Member Since:</label>
+                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ user.date_joined|date:"F d, Y" }}</p>
+                    </div>
+                    <div>
+                        <label style="color: #666; font-weight: 600; margin-bottom: 5px;">Total Orders:</label>
+                        <p style="color: #1e3c72; font-weight: 600; font-size: 1.05em;">{{ orders|length }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Address Tab -->
+        <div id="address" class="tab-content">
+            {% if user.address %}
+                <div class="address-card">
+                    <h3 style="color: #1e3c72; margin-bottom: 20px;">Delivery Address</h3>
+                    <div class="address-info">
+                        <div class="address-field">
+                            <label>Full Name:</label>
+                            <value>{{ user.address.full_name }}</value>
+                        </div>
+                        <div class="address-field">
+                            <label>Phone:</label>
+                            <value>{{ user.address.phone }}</value>
+                        </div>
+                        <div class="address-field" style="grid-column: 1 / -1;">
+                            <label>Street Address:</label>
+                            <value>{{ user.address.street_address }}</value>
+                        </div>
+                        {% if user.address.landmark %}
+                        <div class="address-field" style="grid-column: 1 / -1;">
+                            <label>Landmark:</label>
+                            <value>{{ user.address.landmark }}</value>
+                        </div>
+                        {% endif %}
+                        <div class="address-field">
+                            <label>City:</label>
+                            <value>{{ user.address.city }}</value>
+                        </div>
+                        <div class="address-field">
+                            <label>State:</label>
+                            <value>{{ user.address.state }}</value>
+                        </div>
+                        <div class="address-field">
+                            <label>PIN Code:</label>
+                            <value>{{ user.address.pin_code }}</value>
+                        </div>
+                        <div class="address-field">
+                            <label>Country:</label>
+                            <value>{{ user.address.country }}</value>
+                        </div>
+                    </div>
+                    <a href="{% url 'update_address' %}" class="btn-edit" style="background: #f39c12; margin-bottom: 20px; display: inline-block; text-decoration: none;">✏️ Edit Address</a>
+                </div>
+            {% else %}
+                <div class="no-address">
+                    <p style="margin-bottom: 15px;">📍 You haven't added a delivery address yet.</p>
+                    <p style="font-size: 0.9em;">Add your address for faster checkout and easier delivery!</p>
+                    <a href="{% url 'add_address' %}" class="btn-home" style="display: inline-block; margin-top: 15px; background: #27ae60;">+ Add Address</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="orders" class="tab-content">
+            <div class="orders-section" style="margin-top: 0;">
+                <h2 style="margin-top: 0;">📦 Order History</h2>
+                {% if orders %}
+                    {% for order in orders %}
+                    <div class="order-card">
+                        <div class="order-header">
+                            <span class="order-id">Order #GM-{{ order.id }}</span>
+                            <span class="order-date">{{ order.created_at|date:"F d, Y" }}</span>
+                            <span class="order-status">{{ order.status }}</span>
+                        </div>
+                        
+                        <div class="order-items">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in order.orderitem_set.all %}
+                                    <tr>
+                                        <td><strong>{{ item.product.name }}</strong></td>
+                                        <td>₹{{ item.price }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>₹{{ item.subtotal }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="order-total">
+                            Total: ₹{{ order.total_price }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p>🛒 No orders yet! Start shopping to see your orders here.</p>
+                        <a href="{% url 'product_list' %}" class="btn-home">Continue Shopping</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Wishlist Tab -->
+        <div id="wishlist" class="tab-content">
+            <div style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <h2 style="color: #1e3c72; margin-bottom: 20px;">❤️ My Wishlist</h2>
+                {% if user.wishlist.items.all %}
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+                        {% for item in user.wishlist.items.all %}
+                        <div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; transition: all 0.3s;">
+                            <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" style="width: 100%; height: 150px; object-fit: contain; padding: 10px; background: #f9f9f9;">
+                            <div style="padding: 15px;">
+                                <h4 style="color: #1e3c72; margin-bottom: 8px; height: 2.2em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">{{ item.product.name }}</h4>
+                                <p style="color: #27ae60; font-weight: 700; font-size: 1.2em; margin-bottom: 10px;">₹{{ item.product.price }}</p>
+                                <div style="display: flex; gap: 8px;">
+                                    <a href="{% url 'add_to_cart' item.product.id %}" style="flex: 1; padding: 8px; background: #27ae60; color: white; text-align: center; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.85em;">🛒 Add</a>
+                                    <a href="{% url 'remove_from_wishlist' item.id %}" style="flex: 1; padding: 8px; background: #ffe0e0; color: #e74c3c; text-align: center; border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.85em;">✕ Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <p style="font-size: 1.1em; margin-bottom: 15px;">❤️ Your wishlist is empty!</p>
+                        <p style="margin-bottom: 15px;">Add your favorite products to your wishlist for later.</p>
+                        <a href="{% url 'product_list' %}" class="btn-home">Browse Products</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName, buttonElement) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            buttonElement.classList.add('active');
+        }
+    </script>
+
+    <footer>
+        <p>&copy; 2026 Global Mart | <strong>Bhudeb's Project</strong></p>
+        <p style="font-size: 12px; color: #999; margin-top: 10px;">All rights reserved. Designed with ❤️ for exceptional shopping experience.</p>
+    </footer>
+
+</body>
+</html>

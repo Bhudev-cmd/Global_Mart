@@ -1,0 +1,10 @@
+flowchart LR
+    U[Customer/User]
+    A[Admin]
+    S((Global Mart E-Commerce System))
+
+    U -->|signup, login, browse, cart, wishlist, checkout| S
+    S -->|product details, cart updates, order status| U
+
+    A -->|manage catalog and orders| S
+    S -->|admin records and status updates| A

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | Global Mart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation Header */
+        .header-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 18px 40px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        
+        .logo { 
+            font-weight: 700; 
+            font-size: 1.8em; 
+            color: #fff; 
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .header-nav div { display: flex; align-items: center; gap: 12px; }
+        
+        .header-nav span { color: #e0e0e0; font-size: 0.95em; }
+        
+        /* Main Content */
+        .content-wrapper {
+            flex: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .cart-container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .cart-container h2 {
+            color: #1e3c72;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 20px; 
+        }
+        
+        th { 
+            background: #f9f9f9;
+            padding: 15px; 
+            text-align: left; 
+            border-bottom: 2px solid #ddd;
+            color: #1e3c72;
+            font-weight: 600;
+        }
+        
+        td { 
+            padding: 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #eee;
+            color: #666;
+        }
+        
+        .product-name {
+            color: #1e3c72;
+            font-weight: 600;
+        }
+        
+        .total { 
+            text-align: right; 
+            font-size: 1.3em; 
+            font-weight: 700;
+            color: #27ae60;
+            padding: 20px 0;
+            border-top: 2px solid #eee;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn { 
+            padding: 12px 25px; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            color: white; 
+            display: inline-block;
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .btn-danger { 
+            background-color: #e74c3c;
+            padding: 8px 15px;
+            font-size: 13px;
+        }
+        
+        .btn-danger:hover { background-color: #c0392b; }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        }
+        
+        .btn-primary:hover { 
+            background: linear-gradient(135deg, #2980b9 0%, #1f618d 100%);
+        }
+        
+        .btn-success { 
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+        }
+        
+        .btn-success:hover { 
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+        }
+        
+        /* Quantity Controls */
+        .qty-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: nowrap;
+        }
+        
+        .qty-btn {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 8px rgba(42, 82, 152, 0.2);
+        }
+        
+        .qty-btn:hover {
+            background: linear-gradient(135deg, #1e3c72 0%, #152d54 100%);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(42, 82, 152, 0.4);
+        }
+        
+        .qty-input {
+            width: 50px;
+            text-align: center;
+            padding: 8px 12px;
+            border: 2px solid #2a5298;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #1e3c72;
+            background: #f9f9f9;
+            min-width: 50px;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #8e44ad 0%, #7d3c98 100%);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+            border-top: 1px solid #333;
+            font-size: 14px;
+        }
+
+        /* Tablet Responsive (max-width: 768px) */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1.3em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-nav div {
+                width: 100%;
+                gap: 5px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .content-wrapper {
+                padding: 0 15px;
+            }
+
+            .cart-container {
+                padding: 20px;
+            }
+
+            .cart-container h2 {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+
+            .total {
+                font-size: 1.1em;
+                padding: 15px 0;
+            }
+
+            .action-buttons {
+                gap: 8px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+
+            footer {
+                padding: 20px 15px;
+                font-size: 12px;
+            }
+        }
+
+        /* Mobile Responsive (max-width: 480px) */
+        @media (max-width: 480px) {
+            .header-nav {
+                padding: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .header-nav div {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 5px;
+                justify-content: center;
+            }
+
+            .header-nav a,
+            .header-nav button {
+                font-size: 0.75em;
+                padding: 6px 10px;
+            }
+
+            .content-wrapper {
+                padding: 0 10px;
+            }
+
+            .cart-container {
+                padding: 12px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+            }
+
+            .cart-container h2 {
+                font-size: 1.1em;
+                margin-bottom: 15px;
+            }
+
+            table {
+                font-size: 0.75em;
+                display: block;
+                border: none;
+            }
+
+            thead {
+                display: none;
+            }
+
+            th {
+                display: none;
+            }
+
+            tbody {
+                display: block;
+            }
+
+            tr {
+                display: block;
+                padding: 12px;
+                margin-bottom: 12px;
+                border: 1px solid #e0e0e0;
+                border-radius: 6px;
+                background: white;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+
+            td {
+                padding: 8px 0;
+                border: none;
+                display: grid;
+                grid-template-columns: 100px 1fr;
+                gap: 8px;
+                align-items: center;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #1e3c72;
+                font-size: 0.85em;
+            }
+
+            td:first-child::before {
+                content: "Product";
+            }
+
+            td:nth-child(2)::before {
+                content: "Price";
+            }
+
+            td:nth-child(3)::before {
+                content: "Quantity";
+            }
+
+            td:nth-child(4)::before {
+                content: "Subtotal";
+            }
+
+            td:nth-child(5)::before {
+                content: "Action";
+            }
+
+            .product-name {
+                font-weight: 600;
+                color: #1e3c72;
+                font-size: 0.9em;
+            }
+
+            .qty-control {
+                gap: 5px;
+                justify-content: flex-start;
+                display: flex;
+                align-items: center;
+            }
+
+            .qty-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 14px;
+            }
+
+            .qty-input {
+                width: 40px;
+                padding: 5px 6px;
+                font-size: 12px;
+            }
+
+            .total {
+                font-size: 1em;
+                padding: 12px 0;
+            }
+
+            .action-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.85em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .btn-danger {
+                padding: 8px 12px;
+                font-size: 0.75em;
+            }
+
+            .empty-state {
+                padding: 40px 15px;
+                text-align: center;
+            }
+
+            .empty-state p {
+                font-size: 0.95em;
+                margin-bottom: 15px;
+            }
+
+            footer {
+                padding: 15px 10px;
+                font-size: 11px;
+            }
+
+            footer p {
+                margin: 2px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="/" class="logo">🛍️ Global Mart</a>
+        <div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" style="color: white; text-decoration: none; font-weight: 600; padding: 8px 16px; background-color: #9b59b6; border-radius: 5px;">👤</a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background-color: #e74c3c; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: 600;">Logout</button>
+                </form>
+                <a href="/" style="color: white; text-decoration: none; font-weight: 600; margin-left: 10px;">← Back to Shopping</a>
+            {% else %}
+                <a href="{% url 'login' %}" style="color: white; text-decoration: none; font-weight: 600; margin-right: 10px;">Login</a>
+                <a href="{% url 'signup' %}" style="color: white; text-decoration: none; font-weight: 600; margin-right: 10px;">Sign Up</a>
+                <a href="/" style="color: white; text-decoration: none; font-weight: 600;">← Back to Shopping</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="cart-container">
+            <h2>🛒 Your Shopping Cart</h2>
+
+            {% if cart_items %}
+                <table>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td class="product-name">{{ item.product.name }}</td>
+                        <td>₹{{ item.product.price }}</td>
+                        <td>
+                            <div class="qty-control">
+                                <a href="{% url 'decrease_qty' item.id %}" class="qty-btn">−</a>
+                                <span class="qty-input">{{ item.quantity }}</span>
+                                <a href="{% url 'increase_qty' item.id %}" class="qty-btn">+</a>
+                            </div>
+                        </td>
+                        <td>₹{{ item.subtotal }}</td>
+                        <td><a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger">Remove</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <p class="total">Total: ₹{{ total_price }}</p>
+                
+                <div class="action-buttons">
+                    <a href="/" class="btn btn-primary">← Continue Shopping</a>
+                    <a href="{% url 'payment' %}" class="btn btn-success">Proceed to Payment →</a>
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>🛒 Your cart is empty!</p>
+                    <a href="/" class="btn btn-primary">Start Shopping</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Global Mart | <strong>Bhudeb's Project</strong></p>
+        <p style="font-size: 12px; color: #999; margin-top: 10px;">All rights reserved. Designed with ❤️ for exceptional shopping experience.</p>
+    </footer>
+
+</body>
+</html>

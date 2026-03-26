@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} | Global Mart</title>
+    <style>
+        /* Global Styles */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
+        
+        /* Navigation (Matches your Home Page) */
+        .header-nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .logo { font-weight: bold; font-size: 1.6em; color: #2c3e50; text-decoration: none; }
+        .btn-nav { padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .btn-cart-nav { background-color: #27ae60; color: white; }
+
+        /* Main Container */
+        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        
+        /* Breadcrumbs (Small detail that looks pro) */
+        .breadcrumbs { margin-bottom: 20px; color: #7f8c8d; font-size: 0.9em; }
+        .breadcrumbs a { color: #3498db; text-decoration: none; }
+
+        .product-card { background: white; border-radius: 15px; box-shadow: 0 4px 25px rgba(0,0,0,0.05); display: flex; overflow: hidden; min-height: 500px; }
+
+        /* Left: Image Section */
+        .image-gallery { flex: 1; background-color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 40px; border-right: 1px solid #f0f0f0; }
+        
+        .main-image-container { width: 100%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; flex: 1; }
+        .main-image-container img { max-width: 100%; max-height: 350px; object-fit: contain; transition: 0.5s; }
+        .main-image-container img:hover { transform: scale(1.05); }
+        
+        .thumbnails-container { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; width: 100%; }
+        .thumbnail { width: 70px; height: 70px; border: 2px solid #ddd; border-radius: 8px; cursor: pointer; overflow: hidden; transition: 0.3s; display: flex; align-items: center; justify-content: center; background-color: #f9f9f9; }
+        .thumbnail img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .thumbnail:hover { border-color: #3498db; }
+        .thumbnail.active { border-color: #3498db; box-shadow: 0 0 10px rgba(52, 152, 219, 0.5); }
+
+        /* Right: Product Info */
+        .product-details { flex: 1; padding: 50px; display: flex; flex-direction: column; }
+        .category-tag { color: #3498db; font-weight: bold; text-transform: uppercase; font-size: 0.8em; letter-spacing: 1px; margin-bottom: 10px; }
+        h1 { font-size: 2.8em; color: #2c3e50; margin: 0 0 15px 0; }
+        
+        .price-tag { font-size: 2.2em; color: #27ae60; font-weight: 700; margin-bottom: 25px; }
+        .price-tag span { font-size: 0.5em; color: #95a5a6; vertical-align: middle; margin-right: 5px; }
+
+        .description-section { border-top: 1px solid #eee; padding-top: 25px; margin-bottom: 30px; flex-grow: 1; }
+        h3 { color: #34495e; font-size: 1.1em; margin-bottom: 10px; }
+        p { color: #636e72; line-height: 1.8; font-size: 1.05em; margin: 0; }
+
+        /* Buttons */
+        .action-btns { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn { padding: 16px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1.1em; text-align: center; transition: 0.3s; border: none; cursor: pointer; }
+        
+        .btn-add { background-color: #2c3e50; color: white; flex: 2; box-shadow: 0 4px 15px rgba(44, 62, 80, 0.2); min-width: 180px; }
+        .btn-add:hover { background-color: #1a252f; transform: translateY(-2px); }
+        
+        .btn-wishlist { background-color: #ffe0e0; color: #e74c3c; flex: 1; min-width: 140px; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1); }
+        .btn-wishlist:hover { background-color: #ffd4d4; transform: translateY(-2px); }
+        
+        .btn-back { background-color: #f8f9fa; color: #7f8c8d; border: 1px solid #ddd; flex: 1; min-width: 140px; }
+        .btn-back:hover { background-color: #eee; }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .product-card { flex-direction: column; }
+            .image-gallery { border-right: none; border-bottom: 1px solid #eee; }
+        }
+
+        /* Tablet Responsive (max-width: 768px) */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 12px 15px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1.2em;
+            }
+
+            .btn-nav {
+                padding: 6px 12px;
+                font-size: 0.9em;
+            }
+
+            .main-container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            .product-card {
+                flex-direction: column;
+                min-height: auto;
+            }
+
+            .image-gallery {
+                padding: 20px;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .product-details {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .price-tag {
+                font-size: 1.6em;
+            }
+
+            .main-image-container img {
+                max-height: 250px;
+            }
+
+            .thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+
+            .action-btns {
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95em;
+            }
+
+            .btn-add {
+                flex: 1;
+                min-width: 100px;
+            }
+
+            .btn-wishlist {
+                flex: 1;
+                min-width: 100px;
+            }
+
+            .btn-back {
+                flex: 1;
+                min-width: 100px;
+            }
+        }
+
+        /* Mobile Responsive (max-width: 480px) */
+        @media (max-width: 480px) {
+            .header-nav {
+                padding: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .btn-nav {
+                padding: 6px 10px;
+                font-size: 0.8em;
+                flex: 1;
+                min-width: 50px;
+            }
+
+            .main-container {
+                margin: 15px auto;
+                padding: 0 10px;
+            }
+
+            .breadcrumbs {
+                font-size: 0.8em;
+                margin-bottom: 15px;
+            }
+
+            .product-card {
+                flex-direction: column;
+                min-height: auto;
+                border-radius: 10px;
+            }
+
+            .image-gallery {
+                padding: 15px;
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+
+            .main-image-container {
+                margin-bottom: 15px;
+            }
+
+            .main-image-container img {
+                max-height: 200px;
+            }
+
+            .thumbnails-container {
+                gap: 8px;
+            }
+
+            .thumbnail {
+                width: 50px;
+                height: 50px;
+            }
+
+            .product-details {
+                padding: 15px;
+            }
+
+            .category-tag {
+                font-size: 0.7em;
+                margin-bottom: 8px;
+            }
+
+            h1 {
+                font-size: 1.3em;
+                margin: 0 0 10px 0;
+            }
+
+            h3 {
+                font-size: 0.95em;
+                margin-bottom: 8px;
+            }
+
+            p {
+                font-size: 0.9em;
+                line-height: 1.6;
+            }
+
+            .price-tag {
+                font-size: 1.4em;
+                margin-bottom: 15px;
+            }
+
+            .price-tag span {
+                font-size: 0.5em;
+            }
+
+            .description-section {
+                border-top: 1px solid #eee;
+                padding-top: 15px;
+                margin-bottom: 20px;
+            }
+
+            .action-btns {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .btn {
+                padding: 12px 15px;
+                font-size: 0.9em;
+                width: 100%;
+                margin: 0;
+                flex: none;
+                min-width: auto;
+            }
+
+            .btn-add {
+                flex: none;
+                background-color: #2c3e50;
+            }
+
+            .btn-wishlist {
+                flex: none;
+            }
+
+            .btn-back {
+                flex: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="{% url 'product_list' %}" class="logo">🛍️ Global Mart</a>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            {% if user.is_authenticated %}
+                <a href="{% url 'profile' %}" style="background-color: #9b59b6; padding: 8px 16px; border-radius: 5px; text-decoration: none; color: white; font-weight: 600;">👤</a>
+                <a href="{% url 'cart_detail' %}" class="btn-nav btn-cart-nav">🛒 Cart</a>
+                <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-nav" style="background-color: #e74c3c; color: white; border: none; cursor: pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn-nav" style="background-color: #3498db; color: white;">Sign Up</a>
+                <a href="{% url 'login' %}" class="btn-nav" style="background-color: #2ecc71; color: white;">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="breadcrumbs">
+            <a href="{% url 'product_list' %}">Home</a> / Product Details
+        </div>
+
+        <div class="product-card">
+            <div class="image-gallery">
+                <div class="main-image-container">
+                    {% if product.images.exists %}
+                        <img id="mainImage" src="{{ product.images.first.image_url }}" alt="{{ product.name }}">
+                    {% else %}
+                        <img id="mainImage" src="{{ product.image_url|default:'https://via.placeholder.com/500x500?text=No+Image' }}" alt="{{ product.name }}">
+                    {% endif %}
+                </div>
+                
+                {% if product.images.exists %}
+                    <div class="thumbnails-container">
+                        {% if product.image_url %}
+                            <div class="thumbnail active" onclick="changeImage('{{ product.image_url }}')">
+                                <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                            </div>
+                        {% endif %}
+                        {% for image in product.images.all %}
+                            <div class="thumbnail" onclick="changeImage('{{ image.image_url }}')">
+                                <img src="{{ image.image_url }}" alt="{{ product.name }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="product-details">
+                <div class="category-tag">Verified Product</div>
+                <h1>{{ product.name }}</h1>
+                
+                <div class="price-tag">
+                    <span>INR</span>₹{{ product.price }}
+                </div>
+
+                <div class="description-section">
+                    <h3>Product Overview</h3>
+                    <p>{{ product.description }}</p>
+                </div>
+                
+                <div class="action-btns">
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn btn-add">Add to Shopping Cart</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-wishlist">❤️ Wishlist</a>
+                    {% endif %}
+                    <a href="{% url 'product_list' %}" class="btn btn-back">Return to Shop</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function changeImage(imageSrc) {
+            // Update main image
+            document.getElementById('mainImage').src = imageSrc;
+            
+            // Update active thumbnail
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            thumbnails.forEach(thumb => {
+                const thumbImg = thumb.querySelector('img');
+                if (thumbImg.src === imageSrc) {
+                    thumb.classList.add('active');
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | Global Mart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation Header */
+        .header-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 18px 40px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        
+        .logo { 
+            font-weight: 700; 
+            font-size: 1.8em; 
+            color: #fff; 
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .header-nav div { display: flex; align-items: center; gap: 12px; }
+        
+        /* Main Container */
+        .content-wrapper {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+        
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+            border-top: 1px solid #333;
+            font-size: 14px;
+        }
+
+        /* Tablet Responsive (max-width: 768px) */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.3em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.4em;
+            }
+
+            .form-group {
+                margin-bottom: 14px;
+            }
+
+            label {
+                font-size: 0.9em;
+            }
+
+            input[type="text"],
+            input[type="email"] {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .button-group {
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            footer {
+                padding: 20px 15px;
+                font-size: 12px;
+            }
+        }
+
+        /* Mobile Responsive (max-width: 480px) */
+        @media (max-width: 480px) {
+            .header-nav {
+                padding: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                padding: 0 10px;
+            }
+
+            .container {
+                padding: 12px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+            }
+
+            h1 {
+                font-size: 1.1em;
+            }
+
+            .subtitle {
+                font-size: 0.8em;
+                margin-bottom: 15px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            label {
+                font-size: 0.85em;
+                margin-bottom: 3px;
+            }
+
+            input[type="text"],
+            input[type="email"] {
+                width: 100%;
+                padding: 9px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+
+            .button-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+                width: 100%;
+            }
+
+            .btn-primary {
+                background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+                color: white;
+            }
+
+            .btn-secondary {
+                background: #e0e0e0;
+                color: #333;
+                display: block;
+                text-align: center;
+            }
+
+            footer {
+                padding: 15px 10px;
+                font-size: 11px;
+            }
+
+            footer p {
+                margin: 2px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="/" class="logo">🛍️ Global Mart</a>
+        <div>
+            <a href="{% url 'profile' %}" style="color: white; text-decoration: none; font-weight: 600;">← Back to Profile</a>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="container">
+            <h1>✏️ Edit Profile</h1>
+            <p class="subtitle">Update your personal information</p>
+            
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    {{ form.first_name }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    {{ form.last_name }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    {{ form.email }}
+                </div>
+                
+                <div class="button-group">
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Global Mart | <strong>Bhudeb's Project</strong></p>
+        <p style="font-size: 12px; color: #999; margin-top: 10px;">All rights reserved. Designed with ❤️ for exceptional shopping experience.</p>
+    </footer>
+
+</body>
+</html>

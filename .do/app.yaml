@@ -1,0 +1,37 @@
+name: global-mart
+region: blr1
+services:
+  - name: web
+    environment_slug: python
+    source_dir: /
+    github:
+      repo: YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+      branch: main
+      deploy_on_push: true
+    http_port: 8080
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    build_command: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    run_command: gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+    envs:
+      - key: SECRET_KEY
+        scope: RUN_TIME
+        type: SECRET
+        value: change-me-in-app-settings
+      - key: DEBUG
+        scope: RUN_TIME
+        value: "False"
+      - key: ALLOWED_HOSTS
+        scope: RUN_TIME
+        value: your-app.ondigitalocean.app,yourdomain.com,www.yourdomain.com
+      - key: CSRF_TRUSTED_ORIGINS
+        scope: RUN_TIME
+        value: https://your-app.ondigitalocean.app,https://yourdomain.com,https://www.yourdomain.com
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${db.DATABASE_URL}
+databases:
+  - name: db
+    engine: PG
+    version: "16"
+    production: false

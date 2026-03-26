@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Address | Global Mart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 18px 40px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        
+        .logo { 
+            font-weight: 700; 
+            font-size: 1.8em; 
+            color: #fff; 
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .header-nav div { display: flex; align-items: center; gap: 12px; }
+        
+        .content-wrapper {
+            flex: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .form-section h3 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+        
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+        }
+        
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+            border-top: 1px solid #333;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.3em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.4em;
+            }
+
+            .subtitle {
+                font-size: 0.9em;
+            }
+
+            .form-section {
+                margin-bottom: 20px;
+            }
+
+            .form-section h3 {
+                font-size: 1em;
+            }
+
+            .form-group {
+                margin-bottom: 14px;
+            }
+
+            label {
+                font-size: 0.9em;
+            }
+
+            input[type="text"],
+            textarea {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .form-row {
+                gap: 12px;
+            }
+
+            .button-group {
+                gap: 10px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            footer {
+                padding: 20px 15px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-nav {
+                padding: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                padding: 0 10px;
+            }
+
+            .container {
+                padding: 12px;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 1.1em;
+            }
+
+            .subtitle {
+                font-size: 0.8em;
+                margin-bottom: 15px;
+            }
+
+            .form-section {
+                margin-bottom: 15px;
+            }
+
+            .form-section h3 {
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            label {
+                font-size: 0.85em;
+                margin-bottom: 3px;
+            }
+
+            input[type="text"],
+            textarea {
+                width: 100%;
+                padding: 9px;
+                font-size: 14px;
+            }
+
+            textarea {
+                min-height: 70px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .button-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 15px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+                width: 100%;
+            }
+
+            footer {
+                padding: 15px 10px;
+                font-size: 11px;
+            }
+
+            footer p {
+                margin: 2px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="/" class="logo">🛍️ Global Mart</a>
+        <div>
+            <a href="{% url 'profile' %}" style="color: white; text-decoration: none; font-weight: 600;">← Back to Profile</a>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="container">
+            <h1>📍 {% if address %}Edit{% else %}Add{% endif %} Delivery Address</h1>
+            <p class="subtitle">Keep your address updated for smooth delivery</p>
+            
+            <form method="POST" action="">
+                {% csrf_token %}
+                
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <h3>👤 Personal Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="full_name">Full Name *</label>
+                        <input type="text" name="full_name" id="full_name" placeholder="Enter your full name" value="{{ address.full_name|default:'' }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="text" name="phone" id="phone" placeholder="Enter phone number" value="{{ address.phone|default:'' }}" required>
+                    </div>
+                </div>
+                
+                <!-- Address Information -->
+                <div class="form-section">
+                    <h3>🏠 Address Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="street_address">Street Address *</label>
+                        <textarea name="street_address" id="street_address" placeholder="House No., Building, Apartment, Road Name" required>{{ address.street_address|default:'' }}</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="landmark">Landmark (Optional)</label>
+                        <input type="text" name="landmark" id="landmark" placeholder="e.g., Near Central Mall, Next to School" value="{{ address.landmark|default:'' }}">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City *</label>
+                            <input type="text" name="city" id="city" placeholder="Enter city name" value="{{ address.city|default:'' }}" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pin_code">PIN Code *</label>
+                            <input type="text" name="pin_code" id="pin_code" placeholder="Enter PIN code" value="{{ address.pin_code|default:'' }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <input type="text" name="state" id="state" placeholder="Enter state name" value="{{ address.state|default:'' }}" required>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="button-group">
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary">{% if address %}Update{% else %}Save{% endif %} Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Global Mart | <strong>Bhudeb's Project</strong></p>
+        <p style="font-size: 12px; color: #999; margin-top: 10px;">All rights reserved. Designed with ❤️ for exceptional shopping experience.</p>
+    </footer>
+
+</body>
+</html>

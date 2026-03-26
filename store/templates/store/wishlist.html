@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist | Global Mart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Navigation Header */
+        .header-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 18px 40px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+        
+        .logo { 
+            font-weight: 700; 
+            font-size: 1.8em; 
+            color: #fff; 
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        
+        .header-nav div { display: flex; align-items: center; gap: 12px; }
+        
+        /* Main Content */
+        .content-wrapper {
+            flex: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+            margin-bottom: 30px;
+        }
+        
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1e3c72;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        
+        /* Wishlist Grid */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .wishlist-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .wishlist-card:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            padding: 15px;
+            background: #f9f9f9;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-name {
+            color: #1e3c72;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            height: 2.2em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .product-price {
+            color: #27ae60;
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            height: 2.5em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .card-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .btn-add-cart {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+        }
+        
+        .btn-add-cart:hover {
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+        }
+        
+        .btn-remove {
+            background: #ffe0e0;
+            color: #e74c3c;
+        }
+        
+        .btn-remove:hover {
+            background: #ffc8c8;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        
+        .empty-state p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        
+        .btn-continue {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        .btn-continue:hover {
+            background: linear-gradient(135deg, #152d54 0%, #1f3d7a 100%);
+        }
+        
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: auto;
+            border-top: 1px solid #333;
+            font-size: 14px;
+        }
+
+        /* Tablet Responsive (max-width: 768px) */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.3em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                padding: 0 15px;
+                margin-bottom: 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+
+            .product-image {
+                height: 150px;
+            }
+
+            .product-info {
+                padding: 12px;
+            }
+
+            .product-name {
+                font-size: 0.9em;
+                height: auto;
+            }
+
+            .product-price {
+                font-size: 1.1em;
+            }
+
+            .product-description {
+                font-size: 0.8em;
+            }
+
+            .btn {
+                padding: 8px;
+                font-size: 0.8em;
+            }
+
+            .empty-state {
+                padding: 40px 20px;
+            }
+
+            .empty-state p {
+                font-size: 1em;
+            }
+
+            .btn-continue {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+
+            footer {
+                padding: 20px 15px;
+                font-size: 12px;
+            }
+        }
+
+        /* Mobile Responsive (max-width: 480px) */
+        @media (max-width: 480px) {
+            .header-nav {
+                padding: 10px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .logo {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .header-nav div {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content-wrapper {
+                padding: 0 10px;
+                margin-bottom: 15px;
+            }
+
+            .container {
+                padding: 12px;
+                border-radius: 8px;
+            }
+
+            h1 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .wishlist-card {
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .product-image {
+                height: 120px;
+                padding: 10px;
+            }
+
+            .product-info {
+                padding: 10px;
+            }
+
+            .product-name {
+                font-size: 0.85em;
+                margin-bottom: 5px;
+                height: auto;
+            }
+
+            .product-price {
+                font-size: 0.95em;
+                margin-bottom: 8px;
+            }
+
+            .product-description {
+                font-size: 0.75em;
+                margin-bottom: 8px;
+                height: auto;
+            }
+
+            .card-buttons {
+                gap: 6px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .btn {
+                padding: 8px 10px;
+                font-size: 0.75em;
+                flex: 1;
+            }
+
+            .empty-state {
+                padding: 30px 15px;
+                text-align: center;
+            }
+
+            .empty-state p {
+                font-size: 0.85em;
+                margin-bottom: 12px;
+            }
+
+            .empty-state p:first-of-type {
+                font-size: 1em;
+            }
+
+            .btn-continue {
+                padding: 10px 20px;
+                font-size: 0.85em;
+                display: inline-block;
+            }
+
+            footer {
+                padding: 15px 10px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-nav">
+        <a href="/" class="logo">🛍️ Global Mart</a>
+        <div>
+            <a href="{% url 'product_list' %}" style="color: white; text-decoration: none; font-weight: 600;">Continue Shopping</a>
+        </div>
+    </div>
+
+    <div class="content-wrapper">
+        <div class="container">
+            <h1>❤️ My Wishlist</h1>
+            
+            {% if wishlist_items %}
+                <div class="wishlist-grid">
+                    {% for item in wishlist_items %}
+                    <div class="wishlist-card">
+                        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">{{ item.product.name }}</h3>
+                            <p class="product-price">₹{{ item.product.price }}</p>
+                            <p class="product-description">{{ item.product.description|truncatewords:10 }}</p>
+                            <div class="card-buttons">
+                                <a href="{% url 'add_to_cart' item.product.id %}" class="btn btn-add-cart">🛒 Add to Cart</a>
+                                <a href="{% url 'remove_from_wishlist' item.id %}" class="btn btn-remove">✕</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <p>❤️ Your wishlist is empty!</p>
+                    <p style="font-size: 0.95em; color: #999;">Add your favorite products to your wishlist for later.</p>
+                    <a href="{% url 'product_list' %}" class="btn-continue">Browse Products</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Global Mart | <strong>Bhudeb's Project</strong></p>
+        <p style="font-size: 12px; color: #999; margin-top: 10px;">All rights reserved. Designed with ❤️ for exceptional shopping experience.</p>
+    </footer>
+
+</body>
+</html>

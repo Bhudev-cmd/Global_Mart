@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Global Mart</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.5em;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto;
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            flex: 1;
+        }
+        
+        h2 { 
+            color: #1e3c72;
+            border-bottom: 3px solid #27ae60; 
+            padding-bottom: 15px; 
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        
+        .order-card { 
+            border: 1px solid #e0e0e0; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            padding: 20px; 
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+        
+        .order-card:hover { 
+            border-color: #27ae60;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .order-header { 
+            display: flex; 
+            justify-content: space-between; 
+            flex-wrap: wrap;
+            gap: 15px;
+            font-weight: 600; 
+            color: #1e3c72;
+            margin-bottom: 15px; 
+        }
+        
+        .order-status { 
+            color: #27ae60;
+            background: #e8f5e9;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700; 
+            text-transform: uppercase; 
+            font-size: 0.85em; 
+        }
+        
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 10px; 
+        }
+        
+        th, td { 
+            text-align: left; 
+            padding: 12px; 
+            border-bottom: 1px solid #ddd; 
+        }
+        
+        th { 
+            color: #1e3c72;
+            font-weight: 600;
+            background: white;
+            font-size: 0.95em;
+        }
+
+        td {
+            color: #666;
+        }
+        
+        .total-row { 
+            text-align: right; 
+            font-size: 1.2em; 
+            font-weight: bold; 
+            color: #27ae60;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #eee;
+        }
+        
+        .btn-home { 
+            display: inline-block; 
+            margin-top: 25px; 
+            padding: 12px 30px; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white; 
+            text-decoration: none; 
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            background: linear-gradient(135deg, #152d54 0%, #1f3d7a 100%);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #333;
+            font-size: 12px;
+        }
+
+        /* Tablet Responsive (max-width: 768px) */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+
+            .header-nav {
+                padding: 12px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 1.2em;
+                width: 100%;
+                text-align: center;
+            }
+
+            .back-link {
+                width: 100%;
+                text-align: center;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+
+            .order-card {
+                padding: 15px;
+            }
+
+            .order-header {
+                gap: 10px;
+            }
+
+            table {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+
+            .total-row {
+                font-size: 1.1em;
+            }
+
+            .btn-home {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+
+            footer {
+                font-size: 11px;
+            }
+        }
+
+        /* Mobile Responsive (max-width: 480px) */
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+
+            .header-nav {
+                padding: 10px;
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+
+            .logo {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .back-link {
+                font-size: 0.85em;
+                width: 100%;
+            }
+
+            .container {
+                padding: 12px;
+                border-radius: 8px;
+            }
+
+            h2 {
+                font-size: 1.2em;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+
+            .order-card {
+                padding: 12px;
+                margin-bottom: 15px;
+                border-radius: 6px;
+            }
+
+            .order-header {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .order-header span:first-child {
+                font-size: 0.95em;
+            }
+
+            .order-header span:nth-child(2) {
+                font-size: 0.85em;
+                color: #666;
+            }
+
+            .order-status {
+                padding: 5px 10px;
+                font-size: 0.75em;
+                align-self: flex-start;
+            }
+
+            table {
+                font-size: 0.75em;
+                display: block;
+            }
+
+            thead {
+                display: table;
+                width: 100%;
+            }
+
+            th {
+                padding: 8px 4px;
+                font-size: 0.8em;
+            }
+
+            tbody {
+                display: block;
+            }
+
+            tr {
+                display: flex;
+                flex-direction: column;
+                padding: 10px 0;
+                border-bottom: 1px solid #ddd;
+                gap: 5px;
+            }
+
+            td {
+                padding: 4px 0;
+                border: none;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #1e3c72;
+                min-width: 70px;
+            }
+
+            .total-row {
+                font-size: 1em;
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+
+            .btn-home {
+                padding: 10px 20px;
+                font-size: 0.9em;
+                margin-top: 15px;
+                width: 100%;
+                text-align: center;
+                display: block;
+            }
+
+            .empty-state {
+                padding: 30px 15px;
+            }
+
+            .empty-state p {
+                font-size: 0.9em;
+            }
+
+            footer {
+                font-size: 10px;
+                padding: 12px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📦 My Order History</h2>
+
+    {% if orders %}
+        {% for order in orders %}
+        <div class="order-card">
+            <div class="order-header">
+                <span>Order #{{ order.id }}</span>
+                <span>Date: {{ order.created_at|date:"M d, Y" }}</span>
+                <span class="order-status">Status: {{ order.status }}</span>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                </tr>
+                {% for item in order.orderitem_set.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>₹{{ item.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <div class="total-row">
+                Total Paid: ₹{{ order.total_price }}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="text-align: center; color: #666;">You haven't placed any orders yet.</p>
+    {% endif %}
+
+    <a href="{% url 'product_list' %}" class="btn-home">Back to Shop</a>
+</div>
+
+</body>
+</html>

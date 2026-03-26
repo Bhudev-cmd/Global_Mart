@@ -1,0 +1,94 @@
+erDiagram
+    USER {
+        int id PK
+        string username
+        string email
+    }
+
+    PRODUCT {
+        int id PK
+        string name
+        string description
+        decimal price
+        int stock
+        string image_url
+    }
+
+    PRODUCT_IMAGE {
+        int id PK
+        int product_id FK
+        string image_url
+        boolean is_primary
+        int display_order
+    }
+
+    CART {
+        int id PK
+        int user_id FK
+        datetime created_at
+    }
+
+    CART_ITEM {
+        int id PK
+        int cart_id FK
+        int product_id FK
+        int quantity
+    }
+
+    ORDERS {
+        int id PK
+        int user_id FK
+        datetime created_at
+        decimal total_price
+        string status
+    }
+
+    ORDER_ITEM {
+        int id PK
+        int order_id FK
+        int product_id FK
+        decimal price
+        int quantity
+    }
+
+    USER_ADDRESS {
+        int id PK
+        int user_id FK
+        string full_name
+        string phone
+        string street_address
+        string landmark
+        string city
+        string state
+        string pin_code
+        string country
+    }
+
+    WISHLIST {
+        int id PK
+        int user_id FK
+        datetime created_at
+    }
+
+    WISHLIST_ITEM {
+        int id PK
+        int wishlist_id FK
+        int product_id FK
+        datetime added_at
+    }
+
+    USER ||--|| CART : owns
+    CART ||--o{ CART_ITEM : contains
+    PRODUCT ||--o{ CART_ITEM : added_in
+
+    USER ||--o{ ORDERS : places
+    ORDERS ||--o{ ORDER_ITEM : contains
+    PRODUCT ||--o{ ORDER_ITEM : ordered_as
+
+    USER ||--|| USER_ADDRESS : has
+
+    USER ||--|| WISHLIST : owns
+    WISHLIST ||--o{ WISHLIST_ITEM : contains
+    PRODUCT ||--o{ WISHLIST_ITEM : saved_as
+
+    PRODUCT ||--o{ PRODUCT_IMAGE : has

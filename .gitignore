@@ -1,0 +1,24 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+.venv/
+venv/
+
+# Local environment variables
+.env
+
+# Local database
+*.sqlite3
+
+# Static and media build artifacts
+staticfiles/
+media/
+
+# Editor/OS
+.vscode/
+.DS_Store
+Thumbs.db
