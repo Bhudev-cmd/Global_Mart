@@ -1,29 +1,98 @@
 # Global Mart E-Commerce (Django)
 
-A Django-based e-commerce web application with product browsing, cart, wishlist, checkout, order history, user profile, and address management.
+Global Mart is a Django 6 based e-commerce web app with product browsing, cart, wishlist, address management, checkout, and order history.
+
+## Current Project Status
+
+- Active and deployable on DigitalOcean App Platform.
+- Local development works with SQLite.
+- Production-ready configuration supports PostgreSQL via DATABASE_URL.
+- Admin includes management for products, product images, orders, order items, addresses, wishlists, and wishlist items.
 
 ## Tech Stack
 
-- Python
+- Python 3
 - Django 6.0.3
-- SQLite (default, `db.sqlite3`)
+- SQLite for local development
+- PostgreSQL for production (via DATABASE_URL)
+- Gunicorn
+- WhiteNoise
+- dj-database-url
+- psycopg 3
 
-## Features
+## Core Features
 
-- User authentication (signup, login, logout)
-- Product listing with search
-- Product detail pages
-- Shopping cart management
+- User signup, login, logout
+- Product list with search
+- Product detail page with multiple product images support
+- Cart management:
   - Add to cart
-  - Increase/decrease quantity
+  - Increase and decrease quantity
   - Remove item
-- Wishlist management
-- Checkout flow with payment page (basic flow)
-- Order creation and order history
-- User profile and profile edit
-- User address management (India-focused fields)
-- Django Admin with enhanced product/order/address admin views
-- Multiple product image support via `ProductImage`
+- Wishlist management:
+  - Add to wishlist
+  - Remove from wishlist
+- Address management (India-focused fields)
+- Checkout flow:
+  - Requires saved address
+  - Creates order and order items
+  - Clears cart after successful checkout
+- Profile page with account information and order history
+- Django admin support for operational management
+
+## Data Model Overview
+
+### Product Catalog
+
+- Product: name, description, price, stock, image_url
+- ProductImage: product relation, image_url, is_primary, display_order
+
+### Shopping and Orders
+
+- Cart: one-to-one with user
+- CartItem: cart, product, quantity
+- Order: user, created_at, total_price, status
+- OrderItem: order, product, frozen price, quantity
+
+### Customer Data
+
+- UserAddress: one-to-one with user, full_name, phone, street_address, landmark, city, state, pin_code, country
+- Wishlist: one-to-one with user
+- WishlistItem: wishlist, product, added_at
+
+## URL Endpoints
+
+### Public and Authentication
+
+- / : Product listing
+- /signup/ : Signup page
+- /accounts/login/ : Login (Django auth)
+- /accounts/logout/ : Logout (Django auth)
+- /product/<int:product_id>/ : Product detail
+
+### Cart and Checkout
+
+- /cart/
+- /add-to-cart/<int:product_id>/
+- /remove-from-cart/<int:item_id>/
+- /increase-qty/<int:item_id>/
+- /decrease-qty/<int:item_id>/
+- /payment/
+- /order-success/
+
+### Profile, Address, Wishlist
+
+- /profile/
+- /profile/edit/
+- /profile/add-address/
+- /profile/update-address/
+- /wishlist/
+- /wishlist/add/<int:product_id>/
+- /wishlist/remove/<int:item_id>/
+
+### Admin
+
+- /admin/
 
 ## Project Structure
 
@@ -32,35 +101,27 @@ ecommerce_project/
   manage.py
   requirements.txt
   db.sqlite3
+  Procfile
+  .do/app.yaml
   myshop/
     settings.py
     urls.py
+    wsgi.py
   store/
+    admin.py
     models.py
     views.py
     urls.py
     templates/
 ```
 
-## Installation and Setup
-
-1. Clone or open the project folder.
-2. Create and activate a virtual environment.
-3. Install dependencies.
-4. Run migrations.
-5. Create an admin user.
-6. Start the development server.
-
-### Windows PowerShell Commands
+## Local Setup (Windows PowerShell)
 
 ```powershell
-cd c:\Users\iamre\Desktop\College Project\ecommerce_project
+cd c:\Users\iamre\Desktop\ecommerce_project
 
-# Activate existing venv (if already present)
+# Activate virtual environment
 .\env\Scripts\Activate.ps1
-
-# Alternative (if you stay in parent folder):
-# .\ecommerce_project\env\Scripts\Activate.ps1
 
 # Install dependencies
 pip install -r requirements.txt
@@ -68,61 +129,22 @@ pip install -r requirements.txt
 # Apply migrations
 python manage.py migrate
 
-# Create superuser
+# Create superuser (optional but recommended)
 python manage.py createsuperuser
 
-# Run server
+# Run development server
 python manage.py runserver
 ```
 
-Open:
+Open in browser:
 
 - App: http://127.0.0.1:8000/
 - Admin: http://127.0.0.1:8000/admin/
 
-## Main URL Endpoints
-
-### Public / Auth
-
-- `/` - Product list
-- `/signup/` - User signup
-- `/accounts/login/` - Login (provided by Django auth)
-- `/accounts/logout/` - Logout (provided by Django auth)
-- `/product/<id>/` - Product details
-
-### Cart and Checkout
-
-- `/cart/` - Cart detail
-- `/add-to-cart/<product_id>/`
-- `/remove-from-cart/<item_id>/`
-- `/increase-qty/<item_id>/`
-- `/decrease-qty/<item_id>/`
-- `/payment/` - Checkout/payment page
-- `/order-success/` - Order success page
-
-### Profile, Address, Wishlist
-
-- `/profile/` - User profile and order summary
-- `/profile/edit/`
-- `/profile/add-address/`
-- `/profile/update-address/`
-- `/wishlist/`
-- `/wishlist/add/<product_id>/`
-- `/wishlist/remove/<item_id>/`
-
-## Data Models (Store App)
-
-- `Product`
-- `ProductImage`
-- `Cart`, `CartItem`
-- `Order`, `OrderItem`
-- `UserAddress`
-- `Wishlist`, `WishlistItem`
-
-## Useful Development Commands
+## Useful Commands
 
 ```powershell
-# Create migrations after model changes
+# Create migrations
 python manage.py makemigrations
 
 # Apply migrations
@@ -131,133 +153,67 @@ python manage.py migrate
 # Run tests
 python manage.py test
 
-# Django system checks
+# System checks
 python manage.py check
+
+# Collect static files
+python manage.py collectstatic --noinput
 ```
 
-## Notes
+## Environment Variables
 
-- Default DB is SQLite (`db.sqlite3`).
-- This setup is suitable for development and learning; production deployment requires additional hardening.
-- In `myshop/settings.py`, `DEBUG=True` is enabled for local development.
+These are supported by current settings:
 
-## Deployment Guide (Student Pack Friendly)
+- SECRET_KEY
+- DEBUG
+- ALLOWED_HOSTS
+- CSRF_TRUSTED_ORIGINS
+- DATABASE_URL
 
-This project is now prepared for cloud deployment using:
+Defaults:
 
-- `gunicorn` as production server
-- `whitenoise` for static files
-- `DATABASE_URL` for managed PostgreSQL
+- If DATABASE_URL is not set, SQLite is used (db.sqlite3).
+- DEBUG defaults to True for local development.
 
-### 1) Push Project to GitHub
+## Deployment
 
-```powershell
-git add .
-git commit -m "Prepare Django app for production deployment"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git push -u origin main
-```
+### DigitalOcean App Platform (Current Recommended Path)
 
-### 2) Deploy to a Free Host (Render Example)
+Use the included app spec in .do/app.yaml.
 
-1. Sign in to Render and create a new **Web Service** from your GitHub repo.
-2. Set:
-  - Build command: `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
-  - Start command: `gunicorn myshop.wsgi:application`
-3. Add environment variables from `.env.example`:
-  - `SECRET_KEY`
-  - `DEBUG=False`
-  - `ALLOWED_HOSTS=your-render-service.onrender.com,yourdomain.com,www.yourdomain.com`
-  - `CSRF_TRUSTED_ORIGINS=https://your-render-service.onrender.com,https://yourdomain.com,https://www.yourdomain.com`
-4. Create a managed PostgreSQL database and set `DATABASE_URL` in your web service.
+Current commands in app spec:
 
-### 3) Connect Free Domain from Student Pack
+- Build command:
+  - pip install -r requirements.txt && python manage.py collectstatic --noinput
+- Run command:
+  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
 
-If your free domain is from Namecheap/Name.com:
+Why this matters:
 
-1. In Render web service settings, add custom domains:
-  - `yourdomain.com`
-  - `www.yourdomain.com`
-2. In your domain DNS panel:
-  - Add `CNAME` record: `www` -> `<your-render-service>.onrender.com`
-  - Add root/apex record as instructed by Render (ANAME/ALIAS/A)
-3. Wait for DNS propagation (usually a few minutes to 24 hours).
-4. Verify HTTPS certificate is issued (automatic on Render).
+- Migrations run at runtime against the live production database, reducing schema mismatch issues.
 
-### 4) Create Admin User on Production
+Important env setup in DigitalOcean:
 
-Use host shell/console:
+- Set SECRET_KEY to a secure random value.
+- Set DEBUG=False.
+- Set ALLOWED_HOSTS with your app domain(s).
+- Set CSRF_TRUSTED_ORIGINS with full https origins.
+- Set DATABASE_URL from managed PostgreSQL.
 
-```bash
-python manage.py createsuperuser
-```
+### Render (Alternative)
 
-### 5) Post-Deploy Checklist
+Suggested setup:
 
-- `DEBUG=False`
-- Secret key is not hardcoded in host settings
-- PostgreSQL is used in production
-- Static files load correctly
-- Login, cart, checkout, and order flows are tested
+- Build command:
+  - pip install -r requirements.txt && python manage.py collectstatic --noinput
+- Start command:
+  - python manage.py migrate && gunicorn myshop.wsgi:application
 
-## DigitalOcean Deployment (Recommended for Your Student Pack)
+## Troubleshooting Notes
 
-If you want to use DigitalOcean credits from GitHub Student Pack, use **App Platform**.
-
-### 1) Push this repository to GitHub
-
-```powershell
-git add .
-git commit -m "Add DigitalOcean deployment config"
-git push origin main
-```
-
-### 2) Use included App Spec
-
-This project includes a ready App Platform spec at `.do/app.yaml`.
-
-Before importing, update these placeholders in `.do/app.yaml`:
-
-- `YOUR_GITHUB_USERNAME/YOUR_REPO_NAME`
-- `your-app.ondigitalocean.app`
-- `yourdomain.com`
-
-### 3) Create app from spec (App Platform)
-
-1. Open DigitalOcean -> App Platform -> **Create App**.
-2. Choose **GitHub** and select this repository.
-3. Choose **Edit App Spec** and paste/import `.do/app.yaml`.
-4. Review plan and launch app.
-
-The spec already defines:
-
-- Build command: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
-- Run command: `python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT`
-- Managed PostgreSQL (`DATABASE_URL` linked from DigitalOcean DB)
-
-### 4) Set secure runtime values
-
-In App Settings -> Environment Variables, replace:
-
-- `SECRET_KEY` with a long random secret
-- host/domain values for `ALLOWED_HOSTS` and `CSRF_TRUSTED_ORIGINS`
-
-### 5) Attach your free domain
-
-1. In App Platform -> Settings -> Domains, add:
-  - `yourdomain.com`
-  - `www.yourdomain.com`
-2. In domain DNS panel (Namecheap/Name.com), add required records shown by DigitalOcean.
-3. Wait for propagation and confirm SSL becomes active.
-
-### 6) Initialize production admin
-
-Use the App Console:
-
-```bash
-python manage.py createsuperuser
-```
+- If admin pages return HTTP 500 in production, verify migrations were applied to the same database used by the running app.
+- Confirm DATABASE_URL points to the expected managed PostgreSQL instance.
+- Check runtime logs for Python traceback (access logs alone are not enough for root cause).
 
 ## Author
 
@@ -265,7 +221,7 @@ python manage.py createsuperuser
 
 ## License
 
-This project is submitted as a Final Year Project and is intended for academic evaluation and learning purposes.
+This project is submitted as a Final Year Project for academic evaluation and learning purposes.
 
 Copyright (c) 2026 Bhudeb Kumar Munda. All rights reserved.
 
