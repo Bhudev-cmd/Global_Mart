@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django import forms
 from django.contrib.auth.models import User
-from .models import Product, Cart, CartItem, Order, OrderItem, UserAddress, Wishlist, WishlistItem
+from .models import Category, Product, Cart, CartItem, Order, OrderItem, UserAddress, Wishlist, WishlistItem
 
 # ==========================================
 # FORMS
@@ -46,11 +46,27 @@ class UserProfileForm(forms.ModelForm):
 
 def product_list(request):
     query = request.GET.get('search')
+    category_id = request.GET.get('category')
+    
+    products = Product.objects.all()
+    categories = Category.objects.all()
+    selected_category = None
+    
+    # Filter by category if provided
+    if category_id:
+        selected_category = get_object_or_404(Category, id=category_id)
+        products = products.filter(category=selected_category)
+    
+    # Filter by search query if provided
     if query:
-        products = Product.objects.filter(name__icontains=query)
-    else:
-        products = Product.objects.all()
-    return render(request, 'store/product_list.html', {'products': products})
+        products = products.filter(name__icontains=query)
+    
+    return render(request, 'store/product_list.html', {
+        'products': products,
+        'categories': categories,
+        'selected_category': selected_category,
+        'search_query': query
+    })
 
 def signup(request):
     if request.method == 'POST':

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html, mark_safe
 from django.urls import reverse
-from .models import Product, Order, OrderItem, UserAddress, Wishlist, WishlistItem, ProductImage
+from .models import Category, Product, Order, OrderItem, UserAddress, Wishlist, WishlistItem, ProductImage
 
 # --- ProductImage Inline Admin with Better UI ---
 class ProductImageInline(admin.StackedInline):
@@ -36,15 +36,29 @@ class ProductImageInline(admin.StackedInline):
     help_text.short_description = 'Image Information'
 
 # --- Product Admin with Enhanced UI ---
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'product_count', 'created_at')
+    search_fields = ('name', 'description')
+    prepopulated_fields = {'slug': ('name',)}
+    
+    def product_count(self, obj):
+        count = obj.products.count()
+        return format_html(
+            '<span style="background: #e7f3ef; color: #2f6b57; padding: 4px 8px; border-radius: 4px; font-weight: bold;">{}</span>',
+            count
+        )
+    product_count.short_description = 'Products'
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price', 'stock', 'status_badge', 'image_count', 'primary_image_preview')
-    search_fields = ('name', 'description')
-    list_filter = ('price', 'stock')
+    list_display = ('id', 'name', 'category_badge', 'price', 'stock', 'status_badge', 'image_count', 'primary_image_preview')
+    search_fields = ('name', 'description', 'category__name')
+    list_filter = ('category', 'price', 'stock')
     inlines = [ProductImageInline]
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'description', 'price', 'stock'),
+            'fields': ('name', 'category', 'description', 'price', 'stock'),
             'description': 'Enter product details and pricing information'
         }),
         ('Main Image (Legacy)', {
@@ -53,6 +67,16 @@ class ProductAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+    
+    def category_badge(self, obj):
+        """Display category with styled badge"""
+        if obj.category:
+            return format_html(
+                '<span style="background: #e7f3ef; color: #2f6b57; padding: 4px 10px; border-radius: 4px; font-weight: 600;">{}</span>',
+                obj.category.name
+            )
+        return format_html('<span style="color: #999;">Uncategorized</span>')
+    category_badge.short_description = 'Category'
     
     def status_badge(self, obj):
         """Display stock status with color"""
