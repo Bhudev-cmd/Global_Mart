@@ -117,6 +117,28 @@ ecommerce_project/
 
 ## Local Setup (Windows PowerShell)
 
+Project path used in this guide:
+
+- c:\Users\iamre\Desktop\ecommerce_project
+
+Optional PATH setup (so python and pip work in any PowerShell window):
+
+```powershell
+# User-level PATH update for this machine account
+$pythonRoot = "C:\\Users\\iamre\\AppData\\Local\\Programs\\Python\\Python313"
+$pythonScripts = "$pythonRoot\\Scripts"
+
+[Environment]::SetEnvironmentVariable(
+  "Path",
+  "$([Environment]::GetEnvironmentVariable('Path','User'));$pythonRoot;$pythonScripts",
+  "User"
+)
+
+# Restart PowerShell after running this command.
+```
+
+If your Python is installed in another location, replace the values above with your actual Python and Scripts paths.
+
 ```powershell
 cd c:\Users\iamre\Desktop\ecommerce_project
 
@@ -177,37 +199,77 @@ Defaults:
 
 ## Deployment
 
-### DigitalOcean App Platform (Current Recommended Path)
+This project can be deployed on multiple platforms, not only DigitalOcean.
 
-Use the included app spec in .do/app.yaml.
-
-Current commands in app spec:
-
-- Build command:
-  - pip install -r requirements.txt && python manage.py collectstatic --noinput
-- Run command:
-  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
-
-Why this matters:
-
-- Migrations run at runtime against the live production database, reducing schema mismatch issues.
-
-Important env setup in DigitalOcean:
-
-- Set SECRET_KEY to a secure random value.
-- Set DEBUG=False.
-- Set ALLOWED_HOSTS with your app domain(s).
-- Set CSRF_TRUSTED_ORIGINS with full https origins.
-- Set DATABASE_URL from managed PostgreSQL.
-
-### Render (Alternative)
-
-Suggested setup:
+### Common Production Commands
 
 - Build command:
   - pip install -r requirements.txt && python manage.py collectstatic --noinput
 - Start command:
   - python manage.py migrate && gunicorn myshop.wsgi:application
+
+### Common Production Environment Variables
+
+- SECRET_KEY: secure random string
+- DEBUG: False
+- ALLOWED_HOSTS: comma-separated domains
+- CSRF_TRUSTED_ORIGINS: full https origins (comma-separated)
+- DATABASE_URL: managed PostgreSQL connection string
+
+### DigitalOcean App Platform
+
+- Use the included app spec in .do/app.yaml.
+- Keep run command as:
+  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+
+### Render
+
+- Build command:
+  - pip install -r requirements.txt && python manage.py collectstatic --noinput
+- Start command:
+  - python manage.py migrate && gunicorn myshop.wsgi:application
+
+### Railway
+
+- Build command:
+  - pip install -r requirements.txt && python manage.py collectstatic --noinput
+- Start command:
+  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+
+### Heroku
+
+- Procfile is already present and can be used.
+- Set required config vars:
+  - SECRET_KEY, DEBUG, ALLOWED_HOSTS, CSRF_TRUSTED_ORIGINS, DATABASE_URL
+
+### Fly.io
+
+- Use gunicorn as web process.
+- Ensure PORT binding is enabled in start command:
+  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+
+### AWS Elastic Beanstalk
+
+- Python platform supported.
+- Use environment variables from this README.
+- Configure startup command to run migrate before gunicorn.
+
+### Azure App Service
+
+- Linux Python App Service supported.
+- Startup command:
+  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+
+### Google Cloud Run
+
+- Containerize app with gunicorn entrypoint.
+- Ensure service listens on $PORT and migrations are run during deploy/release workflow.
+
+### VPS (Ubuntu + Nginx + Gunicorn)
+
+- Deploy with Gunicorn behind Nginx.
+- Run migrations and collectstatic during release.
+- Use PostgreSQL in production for reliability.
 
 ## Troubleshooting Notes
 
