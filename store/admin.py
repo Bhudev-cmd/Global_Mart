@@ -75,7 +75,7 @@ class ProductAdmin(admin.ModelAdmin):
                 '<span style="background: #e7f3ef; color: #2f6b57; padding: 4px 10px; border-radius: 4px; font-weight: 600;">{}</span>',
                 obj.category.name
             )
-        return format_html('<span style="color: #999;">Uncategorized</span>')
+        return mark_safe('<span style="color: #999;">Uncategorized</span>')
     category_badge.short_description = 'Category'
     
     def status_badge(self, obj):
