@@ -125,6 +125,34 @@ cd <your-project-folder>
 
 If you already have the project as a zip, extract it and open a terminal in that extracted folder (the folder containing `manage.py`).
 
+### 1A. Verify You Are in the Correct Folder (Important)
+
+Run this before any Django command:
+
+```powershell
+Get-Location
+Get-ChildItem
+Test-Path .\manage.py
+```
+
+Expected result:
+
+- `Test-Path .\manage.py` should return `True`.
+- If it returns `False`, you are in the wrong folder.
+
+Fix path quickly:
+
+```powershell
+cd ..
+Get-ChildItem
+```
+
+Repeat until you are inside the project root (the same folder that contains `manage.py` and `requirements.txt`).
+
+Tip:
+
+- In PowerShell, type part of a folder name and press `Tab` to auto-complete paths.
+
 ### 2. Ensure Python Is Installed and Available in PATH
 
 Check Python and pip:
@@ -183,6 +211,8 @@ python manage.py createsuperuser
 ```powershell
 python manage.py runserver
 ```
+
+If you see errors like `python: can't open file 'manage.py'` or `No such file or directory`, return to step 1A and confirm the terminal is in the project root.
 
 Open in browser:
 
