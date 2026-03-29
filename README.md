@@ -4,17 +4,17 @@ Global Mart is a Django 6 based e-commerce web app with product browsing, cart, 
 
 ## Current Project Status
 
-- Active and deployable on DigitalOcean App Platform.
+- Active and deployable in cloud and VPS environments.
 - Local development works with SQLite.
-- Production-ready configuration supports PostgreSQL via DATABASE_URL.
-- Admin includes management for products, product images, orders, order items, addresses, wishlists, and wishlist items.
+- Production configuration supports PostgreSQL via `DATABASE_URL`.
+- Admin supports management for products, product images, orders, order items, addresses, wishlists, and wishlist items.
 
 ## Tech Stack
 
 - Python 3
 - Django 6.0.3
-- SQLite for local development
-- PostgreSQL for production (via DATABASE_URL)
+- SQLite (local development)
+- PostgreSQL (production)
 - Gunicorn
 - WhiteNoise
 - dj-database-url
@@ -25,74 +25,74 @@ Global Mart is a Django 6 based e-commerce web app with product browsing, cart, 
 - User signup, login, logout
 - Product list with search
 - Product detail page with multiple product images support
-- Cart management:
-  - Add to cart
+- Cart management
+  - Add item
   - Increase and decrease quantity
   - Remove item
-- Wishlist management:
-  - Add to wishlist
-  - Remove from wishlist
-- Address management (India-focused fields)
-- Checkout flow:
+- Wishlist management
+  - Add item
+  - Remove item
+- Address management
+- Checkout flow
   - Requires saved address
   - Creates order and order items
   - Clears cart after successful checkout
-- Profile page with account information and order history
-- Django admin support for operational management
+- Profile page with account details and order history
+- Django admin support for operations
 
 ## Data Model Overview
 
 ### Product Catalog
 
-- Product: name, description, price, stock, image_url
-- ProductImage: product relation, image_url, is_primary, display_order
+- `Product`: name, description, price, stock, image_url
+- `ProductImage`: product relation, image_url, is_primary, display_order
 
 ### Shopping and Orders
 
-- Cart: one-to-one with user
-- CartItem: cart, product, quantity
-- Order: user, created_at, total_price, status
-- OrderItem: order, product, frozen price, quantity
+- `Cart`: one-to-one with user
+- `CartItem`: cart, product, quantity
+- `Order`: user, created_at, total_price, status
+- `OrderItem`: order, product, frozen price, quantity
 
 ### Customer Data
 
-- UserAddress: one-to-one with user, full_name, phone, street_address, landmark, city, state, pin_code, country
-- Wishlist: one-to-one with user
-- WishlistItem: wishlist, product, added_at
+- `UserAddress`: one-to-one with user, full_name, phone, street_address, landmark, city, state, pin_code, country
+- `Wishlist`: one-to-one with user
+- `WishlistItem`: wishlist, product, added_at
 
 ## URL Endpoints
 
 ### Public and Authentication
 
-- / : Product listing
-- /signup/ : Signup page
-- /accounts/login/ : Login (Django auth)
-- /accounts/logout/ : Logout (Django auth)
-- /product/<int:product_id>/ : Product detail
+- `/` : Product listing
+- `/signup/` : Signup page
+- `/accounts/login/` : Login (Django auth)
+- `/accounts/logout/` : Logout (Django auth)
+- `/product/<int:product_id>/` : Product detail
 
 ### Cart and Checkout
 
-- /cart/
-- /add-to-cart/<int:product_id>/
-- /remove-from-cart/<int:item_id>/
-- /increase-qty/<int:item_id>/
-- /decrease-qty/<int:item_id>/
-- /payment/
-- /order-success/
+- `/cart/`
+- `/add-to-cart/<int:product_id>/`
+- `/remove-from-cart/<int:item_id>/`
+- `/increase-qty/<int:item_id>/`
+- `/decrease-qty/<int:item_id>/`
+- `/payment/`
+- `/order-success/`
 
 ### Profile, Address, Wishlist
 
-- /profile/
-- /profile/edit/
-- /profile/add-address/
-- /profile/update-address/
-- /wishlist/
-- /wishlist/add/<int:product_id>/
-- /wishlist/remove/<int:item_id>/
+- `/profile/`
+- `/profile/edit/`
+- `/profile/add-address/`
+- `/profile/update-address/`
+- `/wishlist/`
+- `/wishlist/add/<int:product_id>/`
+- `/wishlist/remove/<int:item_id>/`
 
 ### Admin
 
-- /admin/
+- `/admin/`
 
 ## Project Structure
 
@@ -102,7 +102,6 @@ ecommerce_project/
   requirements.txt
   db.sqlite3
   Procfile
-  .do/app.yaml
   myshop/
     settings.py
     urls.py
@@ -115,46 +114,73 @@ ecommerce_project/
     templates/
 ```
 
-## Local Setup (Windows PowerShell)
+## Local Setup (Any Computer)
 
-Project path used in this guide:
-
-- c:\Users\iamre\Desktop\ecommerce_project
-
-Optional PATH setup (so python and pip work in any PowerShell window):
+### 1. Clone or Download the Project
 
 ```powershell
-# User-level PATH update for this machine account
-$pythonRoot = "C:\\Users\\iamre\\AppData\\Local\\Programs\\Python\\Python313"
-$pythonScripts = "$pythonRoot\\Scripts"
-
-[Environment]::SetEnvironmentVariable(
-  "Path",
-  "$([Environment]::GetEnvironmentVariable('Path','User'));$pythonRoot;$pythonScripts",
-  "User"
-)
-
-# Restart PowerShell after running this command.
+git clone <your-repo-url>
+cd <your-project-folder>
 ```
 
-If your Python is installed in another location, replace the values above with your actual Python and Scripts paths.
+If you already have the project as a zip, extract it and open a terminal in that extracted folder (the folder containing `manage.py`).
+
+### 2. Ensure Python Is Installed and Available in PATH
+
+Check Python and pip:
 
 ```powershell
-cd c:\Users\iamre\Desktop\ecommerce_project
+python --version
+pip --version
+```
 
-# Activate virtual environment
+If Python is not recognized:
+
+- Reinstall Python from python.org.
+- During installation, enable the checkbox: "Add python.exe to PATH".
+- Restart the terminal and run the version commands again.
+
+### 3. Create and Activate Virtual Environment
+
+Create environment:
+
+```powershell
+python -m venv env
+```
+
+Activate on Windows PowerShell:
+
+```powershell
 .\env\Scripts\Activate.ps1
+```
 
-# Install dependencies
+Activate on macOS/Linux:
+
+```bash
+source env/bin/activate
+```
+
+### 4. Install Dependencies
+
+```powershell
 pip install -r requirements.txt
+```
 
-# Apply migrations
+### 5. Apply Database Migrations
+
+```powershell
 python manage.py migrate
+```
 
-# Create superuser (optional but recommended)
+### 6. Create Admin User (Optional but Recommended)
+
+```powershell
 python manage.py createsuperuser
+```
 
-# Run development server
+### 7. Run Development Server
+
+```powershell
 python manage.py runserver
 ```
 
@@ -184,97 +210,99 @@ python manage.py collectstatic --noinput
 
 ## Environment Variables
 
-These are supported by current settings:
+Supported environment variables:
 
-- SECRET_KEY
-- DEBUG
-- ALLOWED_HOSTS
-- CSRF_TRUSTED_ORIGINS
-- DATABASE_URL
+- `SECRET_KEY`
+- `DEBUG`
+- `ALLOWED_HOSTS`
+- `CSRF_TRUSTED_ORIGINS`
+- `DATABASE_URL`
 
 Defaults:
 
-- If DATABASE_URL is not set, SQLite is used (db.sqlite3).
-- DEBUG defaults to True for local development.
+- If `DATABASE_URL` is not set, SQLite is used (`db.sqlite3`).
+- `DEBUG` defaults to `True` for local development.
 
 ## Deployment
 
-This project can be deployed on multiple platforms, not only DigitalOcean.
+This project can be hosted on multiple platforms, not only DigitalOcean.
 
-### Common Production Commands
+### Common Production Build and Start Commands
 
 - Build command:
-  - pip install -r requirements.txt && python manage.py collectstatic --noinput
+  - `pip install -r requirements.txt && python manage.py collectstatic --noinput`
 - Start command:
-  - python manage.py migrate && gunicorn myshop.wsgi:application
+  - `python manage.py migrate && gunicorn myshop.wsgi:application`
 
 ### Common Production Environment Variables
 
-- SECRET_KEY: secure random string
-- DEBUG: False
-- ALLOWED_HOSTS: comma-separated domains
-- CSRF_TRUSTED_ORIGINS: full https origins (comma-separated)
-- DATABASE_URL: managed PostgreSQL connection string
+- `SECRET_KEY`: secure random string
+- `DEBUG`: `False`
+- `ALLOWED_HOSTS`: comma-separated domains
+- `CSRF_TRUSTED_ORIGINS`: full `https` origins (comma-separated)
+- `DATABASE_URL`: managed PostgreSQL connection string
 
 ### DigitalOcean App Platform
 
-- Use the included app spec in .do/app.yaml.
-- Keep run command as:
-  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+- You can use app specs for build and run.
+- Recommended run command:
+  - `python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT`
 
 ### Render
 
 - Build command:
-  - pip install -r requirements.txt && python manage.py collectstatic --noinput
+  - `pip install -r requirements.txt && python manage.py collectstatic --noinput`
 - Start command:
-  - python manage.py migrate && gunicorn myshop.wsgi:application
+  - `python manage.py migrate && gunicorn myshop.wsgi:application`
 
 ### Railway
 
 - Build command:
-  - pip install -r requirements.txt && python manage.py collectstatic --noinput
+  - `pip install -r requirements.txt && python manage.py collectstatic --noinput`
 - Start command:
-  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+  - `python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT`
 
 ### Heroku
 
-- Procfile is already present and can be used.
+- `Procfile` is already present and can be used.
 - Set required config vars:
-  - SECRET_KEY, DEBUG, ALLOWED_HOSTS, CSRF_TRUSTED_ORIGINS, DATABASE_URL
+  - `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, `DATABASE_URL`
 
 ### Fly.io
 
-- Use gunicorn as web process.
-- Ensure PORT binding is enabled in start command:
-  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+- Use Gunicorn as the web process.
+- Ensure `$PORT` binding is present:
+  - `python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT`
 
 ### AWS Elastic Beanstalk
 
-- Python platform supported.
-- Use environment variables from this README.
-- Configure startup command to run migrate before gunicorn.
+- Use Python platform.
+- Configure environment variables.
+- Configure startup command to run migrate before Gunicorn.
 
 ### Azure App Service
 
-- Linux Python App Service supported.
+- Linux Python App Service works well for Django.
 - Startup command:
-  - python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT
+  - `python manage.py migrate && gunicorn myshop.wsgi:application --bind 0.0.0.0:$PORT`
 
 ### Google Cloud Run
 
-- Containerize app with gunicorn entrypoint.
-- Ensure service listens on $PORT and migrations are run during deploy/release workflow.
+- Containerize app with Gunicorn entrypoint.
+- Ensure service listens on `$PORT`.
+- Run migrations as part of deploy/release workflow.
 
 ### VPS (Ubuntu + Nginx + Gunicorn)
 
-- Deploy with Gunicorn behind Nginx.
-- Run migrations and collectstatic during release.
-- Use PostgreSQL in production for reliability.
+- Deploy Gunicorn behind Nginx.
+- Use a process manager (systemd or supervisor).
+- Run migrations and collectstatic on each release.
+- Use PostgreSQL in production.
 
 ## Troubleshooting Notes
 
 - If admin pages return HTTP 500 in production, verify migrations were applied to the same database used by the running app.
-- Confirm DATABASE_URL points to the expected managed PostgreSQL instance.
+- Confirm `DATABASE_URL` points to the expected production PostgreSQL instance.
 - Check runtime logs for Python traceback (access logs alone are not enough for root cause).
 
 ## Author
