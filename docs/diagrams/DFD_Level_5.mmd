@@ -1,0 +1,32 @@
+flowchart LR
+    U[Customer/User]
+
+    P11((1.1 Register User))
+    P12((1.2 Login User))
+    P13((1.3 Validate Session))
+    P14((1.4 Update Profile))
+    P15((1.5 Maintain Addresses))
+
+    D1[(D1 Users)]
+    D6[(D6 User Addresses)]
+
+    U -->|registration data| P11
+    P11 -->|create user account| D1
+    P11 -->|registration result| U
+
+    U -->|credentials| P12
+    P12 -->|verify credentials| D1
+    P12 -->|login result| U
+    P12 -->|session token| P13
+
+    P13 -->|validate user session| D1
+    P13 -->|authorized access| P14
+    P13 -->|authorized access| P15
+
+    U -->|profile changes| P14
+    P14 <--> D1
+    P14 -->|profile update result| U
+
+    U -->|add/edit/delete address| P15
+    P15 <--> D6
+    P15 -->|address update result| U

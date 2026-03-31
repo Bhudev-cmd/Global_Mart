@@ -1,0 +1,31 @@
+flowchart LR
+    U[Customer/User]
+
+    P31((3.1 View Cart))
+    P32((3.2 Add to Cart))
+    P33((3.3 Update Quantity))
+    P34((3.4 Remove from Cart))
+    P35((3.5 Recalculate Total))
+
+    D2[(D2 Products)]
+    D3[(D3 Cart and Cart Items)]
+
+    U -->|open cart| P31
+    P31 -->|read cart items| D3
+    P31 -->|cart and totals| U
+
+    U -->|product id and qty| P32
+    P32 -->|validate product| D2
+    P32 -->|insert or update line| D3
+    P32 -->|recompute request| P35
+
+    U -->|new qty| P33
+    P33 -->|update line qty| D3
+    P33 -->|recompute request| P35
+
+    U -->|remove line| P34
+    P34 -->|delete line| D3
+    P34 -->|recompute request| P35
+
+    P35 -->|read active cart lines| D3
+    P35 -->|updated totals| U

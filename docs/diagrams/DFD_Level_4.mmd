@@ -1,0 +1,27 @@
+flowchart LR
+    A[Admin]
+
+    P71((7.1 Manage Categories))
+    P72((7.2 Manage Products))
+    P73((7.3 Manage Product Images))
+    P74((7.4 Review Orders))
+    P75((7.5 Update Order Status))
+
+    D2[(D2 Products and Categories)]
+    D5[(D5 Orders and Order Items)]
+
+    A -->|create/update/delete category| P71
+    P71 <--> D2
+
+    A -->|create/update/delete product| P72
+    P72 <--> D2
+
+    A -->|upload/remove image| P73
+    P73 <--> D2
+
+    A -->|open order queue| P74
+    P74 <--> D5
+
+    A -->|change status| P75
+    P75 <--> D5
+    P75 -->|status change result| A

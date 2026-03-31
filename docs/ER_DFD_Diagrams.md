@@ -7,6 +7,10 @@ This file documents the current design represented by the Mermaid files inside d
 - docs/diagrams/ER_Diagram.mmd
 - docs/diagrams/DFD_Level_0.mmd
 - docs/diagrams/DFD_Level_1.mmd
+- docs/diagrams/DFD_Level_2.mmd
+- docs/diagrams/DFD_Level_3.mmd
+- docs/diagrams/DFD_Level_4.mmd
+- docs/diagrams/DFD_Level_5.mmd
 
 Exported assets for report usage are also available as SVG and HD PNG in the same folder.
 
@@ -72,7 +76,73 @@ Data stores represented:
 - Orders/Order Items
 - User Addresses
 
+## 4) DFD Level 2 (Checkout Decomposition)
+
+Level 2 decomposes checkout and order processing into:
+
+- Validate cart
+- Select and validate delivery address
+- Authorize payment through gateway
+- Create order and order items
+- Clear cart and send order confirmation
+
+Additional external entity:
+
+- Payment Gateway
+
+Primary data stores involved:
+
+- Cart/Cart Items
+- Orders/Order Items
+- User Addresses
+
+## 5) DFD Level 3 (Cart Management Decomposition)
+
+Level 3 details cart operations:
+
+- View cart
+- Add item
+- Update quantity
+- Remove item
+- Recalculate cart total
+
+Primary data stores involved:
+
+- Products
+- Cart/Cart Items
+
+## 6) DFD Level 4 (Admin Operations Decomposition)
+
+Level 4 details administrative operations:
+
+- Manage categories
+- Manage products
+- Manage product images
+- Review orders
+- Update order status
+
+Primary data stores involved:
+
+- Products/Categories
+- Orders/Order Items
+
+## 7) DFD Level 5 (Authentication and Profile Decomposition)
+
+Level 5 details authentication and user account flow:
+
+- Register user
+- Login user
+- Validate session
+- Update profile
+- Maintain address book
+
+Primary data stores involved:
+
+- Users
+- User Addresses
+
 ## Notes
 
 - Diagram content matches the current codebase after latest model and deployment updates.
 - For report submission, use the pre-exported images in docs/diagrams or re-export from .mmd.
+- Level 2 to Level 5 were added for deeper process decomposition and detailed analysis.
