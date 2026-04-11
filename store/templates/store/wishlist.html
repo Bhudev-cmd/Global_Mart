@@ -8,16 +8,16 @@
         @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
         :root {
-            --bg: #f4f2eb;
-            --surface: #ffffff;
-            --surface-soft: #f3f0e6;
-            --text: #1d2a24;
-            --muted: #627268;
-            --accent: #2f6b57;
-            --accent-dark: #1e4f3f;
-            --line: #d8d2c4;
-            --danger-soft: #f7e9e8;
-            --danger: #b64949;
+            --bg: #0f1720;
+            --surface: rgba(255, 255, 255, 0.12);
+            --surface-soft: rgba(255, 255, 255, 0.08);
+            --text: #f4f7fb;
+            --muted: #c2cfde;
+            --accent: #7dd3fc;
+            --accent-dark: #38bdf8;
+            --line: rgba(255, 255, 255, 0.16);
+            --danger-soft: rgba(248, 113, 113, 0.18);
+            --danger: #ffd2d2;
             --radius-lg: 18px;
             --radius-md: 12px;
         }
@@ -29,12 +29,28 @@
             color: var(--text);
             min-height: 100vh;
             background:
-                radial-gradient(circle at 8% 0%, #e4dfd2 0 20%, transparent 20%),
-                radial-gradient(circle at 100% 0%, #d8e6dc 0 15%, transparent 15%),
-                var(--bg);
+                radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.24) 0 12%, transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(125, 211, 252, 0.2) 0 10%, transparent 24%),
+                linear-gradient(145deg, #0f1720 0%, #12263c 48%, #0f1720 100%);
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            inset: auto;
+            border-radius: 999px;
+            pointer-events: none;
+            filter: blur(18px);
+            opacity: 0.55;
+        }
+
+        body::before { width: 280px; height: 280px; left: -80px; top: 18vh; background: rgba(56, 189, 248, 0.22); }
+        body::after { width: 340px; height: 340px; right: -120px; top: 4vh; background: rgba(125, 211, 252, 0.14); }
 
         .page-shell {
             width: min(1240px, 92vw);
@@ -43,10 +59,10 @@
         }
 
         .topbar {
-            background: rgba(255, 255, 255, 0.88);
-            border: 1px solid rgba(216, 210, 196, 0.7);
+            background: rgba(10, 17, 28, 0.52);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: 22px;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(18px) saturate(150%);
             padding: 14px 16px;
             display: flex;
             align-items: center;
@@ -69,8 +85,8 @@
             border-radius: 10px;
             display: grid;
             place-items: center;
-            background: var(--accent);
-            color: #fff;
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(34, 197, 94, 0.8));
+            color: #08111d;
         }
 
         .brand-mark svg { width: 18px; height: 18px; }
@@ -87,7 +103,7 @@
             text-decoration: none;
             color: var(--text);
             border: 1px solid var(--line);
-            background: var(--surface);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 999px;
             padding: 9px 14px;
             font-size: 0.86rem;
@@ -98,27 +114,16 @@
             transition: 0.2s ease;
         }
 
-        .chip-btn:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
+        .chip-btn:hover { border-color: rgba(125, 211, 252, 0.4); color: #e8f8ff; background: rgba(255, 255, 255, 0.14); }
 
-        .chip-btn.solid {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
+        .chip-btn.solid { background: rgba(125, 211, 252, 0.2); color: #fff; border-color: rgba(125, 211, 252, 0.32); }
 
-        .chip-btn.solid:hover {
-            background: var(--accent-dark);
-            border-color: var(--accent-dark);
-            color: #fff;
-        }
+        .chip-btn.solid:hover { background: rgba(125, 211, 252, 0.3); border-color: rgba(125, 211, 252, 0.48); color: #fff; }
 
         .logout-btn {
             border: 1px solid transparent;
-            background: #f7e9e8;
-            color: #b64949;
+            background: var(--danger-soft);
+            color: var(--danger);
             border-radius: 999px;
             padding: 9px 14px;
             font-size: 0.86rem;
@@ -131,14 +136,15 @@
 
         .tab-nav {
             margin-top: 12px;
-            background: var(--surface);
-            border: 1px solid var(--line);
+            background: rgba(10, 17, 28, 0.48);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: 16px;
             padding: 8px;
             display: flex;
             align-items: center;
             gap: 8px;
             overflow-x: auto;
+            backdrop-filter: blur(18px) saturate(150%);
         }
 
         .tab-link {
@@ -157,22 +163,18 @@
 
         .tab-link svg { width: 16px; height: 16px; }
 
-        .tab-link.active {
-            color: var(--accent);
-            background: #e7efe9;
-        }
+        .tab-link.active { color: #08111d; background: linear-gradient(135deg, rgba(125, 211, 252, 0.95), rgba(255, 255, 255, 0.7)); }
 
-        .tab-link:hover {
-            color: var(--accent);
-            background: #f1f5f3;
-        }
+        .tab-link:hover { color: #e8f8ff; background: rgba(255, 255, 255, 0.12); }
 
         .wishlist-shell {
             margin-top: 22px;
-            background: var(--surface);
-            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: var(--radius-lg);
             padding: 22px;
+            backdrop-filter: blur(18px) saturate(150%);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
         }
 
         .wishlist-shell h1 {
@@ -187,8 +189,8 @@
         }
 
         .wishlist-card {
-            background: #fff;
-            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: var(--radius-md);
             overflow: hidden;
             display: flex;
@@ -196,18 +198,15 @@
             transition: transform 0.18s ease, box-shadow 0.18s ease;
         }
 
-        .wishlist-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 22px rgba(20, 34, 28, 0.08);
-        }
+        .wishlist-card:hover { transform: translateY(-3px); box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22); }
 
         .product-image {
             width: 100%;
             height: 160px;
             object-fit: contain;
-            background: var(--surface-soft);
+            background: #fff;
             padding: 10px;
-            border-bottom: 1px solid #e7e1d3;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .product-info {
@@ -265,50 +264,23 @@
             transition: 0.2s ease;
         }
 
-        .btn-add-cart {
-            background: var(--accent);
-            color: #fff;
-        }
+        .btn-add-cart { background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9)); color: #08111d; }
 
-        .btn-add-cart:hover { background: var(--accent-dark); }
+        .btn-add-cart:hover { transform: translateY(-1px); }
 
-        .btn-remove {
-            background: var(--danger-soft);
-            color: var(--danger);
-        }
+        .btn-remove { background: var(--danger-soft); color: var(--danger); }
 
-        .btn-remove:hover { background: #f2dddb; }
+        .btn-remove:hover { background: rgba(248, 113, 113, 0.24); }
 
-        .empty-state {
-            text-align: center;
-            border: 1px dashed var(--line);
-            border-radius: var(--radius-md);
-            padding: 42px 18px;
-            color: var(--muted);
-        }
+        .empty-state { text-align: center; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: var(--radius-md); padding: 42px 18px; color: var(--muted); background: rgba(255, 255, 255, 0.08); }
 
         .empty-state p { margin-bottom: 14px; }
 
-        .btn-continue {
-            display: inline-block;
-            text-decoration: none;
-            border-radius: 10px;
-            padding: 10px 16px;
-            font-size: 0.84rem;
-            font-weight: 700;
-            background: var(--accent);
-            color: #fff;
-        }
+        .btn-continue { display: inline-block; text-decoration: none; border-radius: 10px; padding: 10px 16px; font-size: 0.84rem; font-weight: 700; background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9)); color: #08111d; }
 
-        .btn-continue:hover { background: var(--accent-dark); }
+        .btn-continue:hover { transform: translateY(-1px); }
 
-        footer {
-            margin-top: 20px;
-            text-align: center;
-            color: #5f6a61;
-            font-size: 0.82rem;
-            padding: 12px;
-        }
+        footer { margin-top: 20px; text-align: center; color: rgba(244, 247, 251, 0.72); font-size: 0.82rem; padding: 12px; }
 
         .mobile-tabs { display: none; }
 
@@ -334,20 +306,20 @@
                 left: 10px;
                 right: 10px;
                 bottom: 10px;
-                background: rgba(255, 255, 255, 0.95);
-                border: 1px solid var(--line);
+                background: rgba(10, 17, 28, 0.72);
+                border: 1px solid rgba(255, 255, 255, 0.14);
                 border-radius: 14px;
                 padding: 7px;
                 display: grid;
                 grid-template-columns: repeat(4, 1fr);
                 gap: 6px;
                 z-index: 50;
-                backdrop-filter: blur(8px);
+                backdrop-filter: blur(18px) saturate(150%);
             }
 
             .mobile-tab {
                 text-decoration: none;
-                color: var(--muted);
+                color: #c2cfde;
                 font-size: 0.68rem;
                 font-weight: 700;
                 display: flex;
@@ -359,7 +331,7 @@
             }
 
             .mobile-tab svg { width: 18px; height: 18px; }
-            .mobile-tab.active { color: var(--accent); background: #e7efe9; }
+            .mobile-tab.active { color: #08111d; background: linear-gradient(135deg, rgba(125, 211, 252, 0.95), rgba(255, 255, 255, 0.72)); }
         }
     </style>
 </head>

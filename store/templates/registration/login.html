@@ -3,13 +3,36 @@
 <head>
     <title>Login | Global Mart</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 320px; text-align: center; }
-        .login-box h2 { color: #2c3e50; margin-bottom: 20px; }
-        .login-box input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
-        .btn { width: 100%; background-color: #2c3e50; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 10px; }
-        .btn:hover { background-color: #34495e; }
-        .errorlist { color: #e74c3c; list-style: none; padding: 0; font-size: 14px; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background:
+                radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.24) 0 12%, transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(125, 211, 252, 0.2) 0 10%, transparent 24%),
+                linear-gradient(145deg, #0f1720 0%, #12263c 48%, #0f1720 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+            width: 320px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(18px) saturate(150%);
+        }
+
+        .login-box h2 { color: #f4f7fb; margin-bottom: 20px; }
+        .login-box input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 5px; box-sizing: border-box; background: rgba(255,255,255,0.08); color: #f4f7fb; }
+        .btn { width: 100%; background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9)); color: #08111d; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        .btn:hover { transform: translateY(-1px); }
+        .errorlist { color: #ffd2d2; list-style: none; padding: 0; font-size: 14px; }
     </style>
 </head>
 <body>

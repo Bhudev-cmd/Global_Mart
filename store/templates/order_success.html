@@ -9,7 +9,10 @@
         
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background:
+                radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.24) 0 12%, transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(125, 211, 252, 0.2) 0 10%, transparent 24%),
+                linear-gradient(145deg, #0f1720 0%, #12263c 48%, #0f1720 100%);
             display: flex; 
             align-items: center; 
             justify-content: center; 
@@ -18,13 +21,15 @@
         }
         
         .success-card { 
-            background: white; 
+            background: rgba(255, 255, 255, 0.12); 
             padding: 40px; 
             border-radius: 12px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15); 
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2); 
             text-align: center;
             max-width: 450px; 
             width: 100%;
+            backdrop-filter: blur(18px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.14);
         }
         
         /* Added a small pulse animation for the checkmark */
@@ -50,13 +55,13 @@
         }
 
         h1 { 
-            color: #1e3c72; 
+            color: #f4f7fb; 
             margin-bottom: 15px;
             font-size: 2em;
         }
         
         p { 
-            color: #666; 
+            color: #c2cfde; 
             line-height: 1.6; 
             margin-bottom: 30px;
             font-size: 0.95em;
@@ -81,25 +86,24 @@
         }
         
         .btn-home { 
-            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
-            color: white;
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9));
+            color: #08111d;
             box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2);
         }
         
         .btn-home:hover {
-            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
         }
         
         .btn-orders { 
-            background: white;
-            color: #1e3c72; 
-            border: 2px solid #1e3c72;
+            background: rgba(255, 255, 255, 0.08);
+            color: #f4f7fb; 
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
         
         .btn-orders:hover {
-            background: #f0f0f0;
+            background: rgba(255, 255, 255, 0.14);
             transform: translateY(-2px);
         }
 

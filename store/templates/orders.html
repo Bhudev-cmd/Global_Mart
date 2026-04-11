@@ -9,7 +9,10 @@
         
         body { 
             font-family: 'Segoe UI', sans-serif; 
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background:
+                radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.24) 0 12%, transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(125, 211, 252, 0.2) 0 10%, transparent 24%),
+                linear-gradient(145deg, #0f1720 0%, #12263c 48%, #0f1720 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -21,10 +24,12 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: rgba(10, 17, 28, 0.52);
             border-radius: 8px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(18px) saturate(150%);
         }
 
         .logo {
@@ -43,15 +48,17 @@
         .container { 
             max-width: 900px; 
             margin: 0 auto;
-            background: white; 
+            background: rgba(255, 255, 255, 0.12); 
             padding: 30px; 
             border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            box-shadow: 0 24px 48px rgba(0,0,0,0.2); 
             flex: 1;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(18px) saturate(150%);
         }
         
         h2 { 
-            color: #1e3c72;
+            color: #f4f7fb;
             border-bottom: 3px solid #27ae60; 
             padding-bottom: 15px; 
             margin-bottom: 25px;
@@ -59,17 +66,17 @@
         }
         
         .order-card { 
-            border: 1px solid #e0e0e0; 
+            border: 1px solid rgba(255, 255, 255, 0.14); 
             border-radius: 8px; 
             margin-bottom: 20px; 
             padding: 20px; 
             transition: all 0.3s;
-            background: #f9f9f9;
+            background: rgba(255, 255, 255, 0.08);
         }
         
         .order-card:hover { 
-            border-color: #27ae60;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: rgba(125, 211, 252, 0.5);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.18);
         }
         
         .order-header { 
@@ -83,8 +90,8 @@
         }
         
         .order-status { 
-            color: #27ae60;
-            background: #e8f5e9;
+            color: #08111d;
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.95), rgba(255, 255, 255, 0.72));
             padding: 6px 12px;
             border-radius: 20px;
             font-weight: 700; 
@@ -105,32 +112,32 @@
         }
         
         th { 
-            color: #1e3c72;
+            color: #f4f7fb;
             font-weight: 600;
-            background: white;
+            background: rgba(255, 255, 255, 0.08);
             font-size: 0.95em;
         }
 
         td {
-            color: #666;
+            color: #c2cfde;
         }
         
         .total-row { 
             text-align: right; 
             font-size: 1.2em; 
             font-weight: bold; 
-            color: #27ae60;
+            color: #e8f8ff;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 2px solid #eee;
+            border-top: 2px solid rgba(255, 255, 255, 0.12);
         }
         
         .btn-home { 
             display: inline-block; 
             margin-top: 25px; 
             padding: 12px 30px; 
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white; 
+            background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9));
+            color: #08111d; 
             text-decoration: none; 
             border-radius: 6px;
             font-weight: 600;
@@ -138,22 +145,22 @@
         }
 
         .btn-home:hover {
-            background: linear-gradient(135deg, #152d54 0%, #1f3d7a 100%);
+            transform: translateY(-2px);
         }
 
         .empty-state {
             text-align: center;
             padding: 40px;
-            color: #666;
+            color: #c2cfde;
         }
 
         footer {
-            background: #1a1a1a;
-            color: #bbb;
+            background: rgba(10, 17, 28, 0.72);
+            color: #c2cfde;
             text-align: center;
             padding: 20px;
             margin-top: 20px;
-            border-top: 1px solid #333;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
             font-size: 12px;
         }
 
