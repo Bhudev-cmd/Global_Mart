@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.db.models import Q
+from django.core.paginator import Paginator
 from django import forms
 from django.contrib.auth.models import User
 from decimal import Decimal
@@ -59,6 +60,7 @@ class UserProfileForm(forms.ModelForm):
 def product_list(request):
     query = request.GET.get('search')
     category_id = request.GET.get('category')
+    page_number = request.GET.get('page', 1)
     
     products = Product.objects.all()
     categories = Category.objects.all()
@@ -77,9 +79,13 @@ def product_list(request):
             Q(tags__icontains=query) |
             Q(category__name__icontains=query)
         ).distinct()
+
+    paginator = Paginator(products, 12)
+    page_obj = paginator.get_page(page_number)
     
     return render(request, 'store/product_list.html', {
-        'products': products,
+        'products': page_obj.object_list,
+        'page_obj': page_obj,
         'categories': categories,
         'selected_category': selected_category,
         'search_query': query

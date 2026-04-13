@@ -190,6 +190,74 @@
             background: rgba(22, 101, 52, 0.08);
         }
 
+        .wishlist-shell {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(22, 101, 52, 0.12);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            backdrop-filter: blur(18px) saturate(150%);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+        }
+
+        .wishlist-shell h1 {
+            font-size: 1.35rem;
+            margin-bottom: 14px;
+            color: #14532d;
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .wishlist-card {
+            border: 1px solid rgba(22, 101, 52, 0.12);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: rgba(249, 250, 251, 0.94);
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .wishlist-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 170px;
+            object-fit: contain;
+            background: #ffffff;
+            padding: 12px;
+            border-bottom: 1px solid rgba(22, 101, 52, 0.08);
+        }
+
+        .product-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 0.92rem;
+            line-height: 1.35;
+            color: #14532d;
+            min-height: 2.5em;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #14532d;
+        }
+
         .product-description {
             color: var(--muted);
             font-size: 0.78rem;
@@ -227,7 +295,7 @@
 
         .btn-remove:hover { background: rgba(248, 113, 113, 0.24); }
 
-        .empty-state { text-align: center; border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: var(--radius-md); padding: 42px 18px; color: var(--muted); background: rgba(249, 250, 251, 0.94); }
+        .empty-state { text-align: center; border: 1px dashed rgba(22, 101, 52, 0.16); border-radius: var(--radius-md); padding: 42px 18px; color: var(--muted); background: rgba(249, 250, 251, 0.94); }
 
         .empty-state p { margin-bottom: 14px; }
 
