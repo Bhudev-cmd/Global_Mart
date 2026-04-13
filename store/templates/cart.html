@@ -473,7 +473,7 @@
                             {% for item in cart_items %}
                                 <tr>
                                     <td class="product-name">{{ item.product.name }}</td>
-                                    <td>Rs. {{ item.product.price }}</td>
+                                    <td>Rs. {{ item.product.price|floatformat:2 }}</td>
                                     <td>
                                         <div class="qty-control">
                                             <a href="{% url 'decrease_qty' item.id %}" class="qty-btn">-</a>
@@ -492,7 +492,7 @@
                 </div>
 
                 <div class="summary">
-                    <p class="total">Total: Rs. {{ total_price }}</p>
+                    <p class="total">Total: Rs. {{ total_price|floatformat:2 }}</p>
                     <div class="action-buttons">
                         <a href="{% url 'product_list' %}" class="btn btn-ghost">Continue Shopping</a>
                         <a href="{% url 'payment' %}" class="btn btn-primary">Proceed to Payment</a>
@@ -506,7 +506,7 @@
             {% endif %}
         </main>
 
-        <footer class="site-footer">Global Mart</footer>
+        <footer class="site-footer"><span style="font-weight: 600;">&copy; 2026</span>, <span style="font-weight: 600;">Global Mart</span>, <span style="font-weight: 600;">Bhudeb's Project</span></footer>
     </div>
 
     <nav class="mobile-tabs" aria-label="Mobile">

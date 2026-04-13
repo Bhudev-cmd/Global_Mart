@@ -401,14 +401,14 @@
                 {% for item in order.orderitem_set.all %}
                 <tr>
                     <td>{{ item.product.name }}</td>
-                    <td>Rs. {{ item.price }}</td>
+                    <td>Rs. {{ item.price|floatformat:2 }}</td>
                     <td>{{ item.quantity }}</td>
                 </tr>
                 {% endfor %}
             </table>
 
             <div class="total-row">
-                Total Paid: Rs. {{ order.total_price }}
+                Total Paid: Rs. {{ order.total_price|floatformat:2 }}
             </div>
             <div class="payment-note">
                 Payment: <span class="payment-chip">{{ order.payment_method|default:"Card Payment" }}</span>
@@ -420,7 +420,7 @@
     {% endif %}
 
     <a href="{% url 'product_list' %}" class="btn-home">Back to Shop</a>
-    <footer class="site-footer">Global Mart</footer>
+    <footer class="site-footer"><span style="font-weight: 600;">&copy; 2026</span>, <span style="font-weight: 600;">Global Mart</span>, <span style="font-weight: 600;">Bhudeb's Project</span></footer>
 </div>
 
 </body>

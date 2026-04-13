@@ -550,7 +550,7 @@
                                 {% for item in order.orderitem_set.all %}
                                     <tr>
                                         <td>{{ item.product.name }}</td>
-                                        <td>Rs. {{ item.price }}</td>
+                                        <td>Rs. {{ item.price|floatformat:2 }}</td>
                                         <td>{{ item.quantity }}</td>
                                         <td>Rs. {{ item.subtotal }}</td>
                                     </tr>
@@ -558,7 +558,7 @@
                             </tbody>
                         </table>
 
-                        <p class="order-total">Total: Rs. {{ order.total_price }}</p>
+                        <p class="order-total">Total: Rs. {{ order.total_price|floatformat:2 }}</p>
                         <p class="payment-note">Payment: <span class="payment-chip">{{ order.payment_method|default:"Card Payment" }}</span></p>
                     </article>
                 {% endfor %}
@@ -582,7 +582,7 @@
                             <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}">
                             <div class="wishlist-item-body">
                                 <h4>{{ item.product.name }}</h4>
-                                <p>Rs. {{ item.product.price }}</p>
+                                <p>Rs. {{ item.product.price|floatformat:2 }}</p>
                                 <div style="display: flex; gap: 8px;">
                                     <a href="{% url 'add_to_cart' item.product.id %}" class="btn btn-primary" style="flex:1; text-align:center;">Add</a>
                                     <a href="{% url 'remove_from_wishlist' item.id %}" class="btn btn-soft" style="flex:1; text-align:center;">Remove</a>
@@ -599,9 +599,7 @@
             {% endif %}
         </section>
 
-        <footer>
-            <p>&copy; 2026 Global Mart | <strong>Bhudeb's Project</strong></p>
-        <footer class="site-footer">Global Mart</footer>
+        <footer class="site-footer"><span style="font-weight: 600;">&copy; 2026</span>, <span style="font-weight: 600;">Global Mart</span>, <span style="font-weight: 600;">Bhudeb's Project</span></footer>
     <nav class="mobile-tabs" aria-label="Mobile">
         <a href="{% url 'product_list' %}" class="mobile-tab">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-8 9 8"></path><path d="M5 10v10h14V10"></path></svg>

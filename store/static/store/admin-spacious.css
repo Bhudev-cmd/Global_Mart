@@ -1,0 +1,75 @@
+/* Spacing tweaks for Django admin to reduce visual congestion. */
+
+#content {
+    padding-top: 18px;
+}
+
+.change-list .results table thead th,
+.change-list .results table tbody td,
+.change-list .results table tbody th {
+    padding: 14px 12px;
+    vertical-align: middle;
+}
+
+.change-list .results {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.change-list .results table {
+    table-layout: auto;
+}
+
+th.column-category_badge,
+td.field-category_badge {
+    min-width: 180px;
+}
+
+td.field-category_badge span {
+    display: inline-block;
+    max-width: 170px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.module,
+.inline-group,
+.submit-row {
+    margin-bottom: 18px;
+}
+
+.form-row {
+    padding: 14px 0;
+}
+
+.aligned label {
+    padding-right: 14px;
+}
+
+fieldset.module {
+    padding: 14px 16px;
+}
+
+.inline-group .tabular tbody td,
+.inline-group .tabular tbody th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.inline-group h2 {
+    margin-bottom: 10px;
+}
+
+.object-tools {
+    margin-bottom: 14px;
+}
+
+@media (max-width: 1024px) {
+    .change-list .results table thead th,
+    .change-list .results table tbody td,
+    .change-list .results table tbody th {
+        padding: 10px 8px;
+    }
+}

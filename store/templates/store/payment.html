@@ -290,7 +290,7 @@
             <h1>Secure Checkout</h1>
             <div class="total-box">
                 <p>Amount to Pay</p>
-                <h2>Rs. {{ total_price }}</h2>
+                <h2>Rs. {{ total_price|floatformat:2 }}</h2>
             </div>
             {% if payment_error %}
                 <p class="payment-error">{{ payment_error }}</p>
@@ -310,7 +310,7 @@
         </div>
     </main>
 
-    <footer class="site-footer">Global Mart</footer>
+    <footer class="site-footer"><span style="font-weight: 600;">&copy; 2026</span>, <span style="font-weight: 600;">Global Mart</span>, <span style="font-weight: 600;">Bhudeb's Project</span></footer>
 
     <div class="mock-overlay" id="mock-overlay" aria-hidden="true">
         <div class="mock-modal" role="dialog" aria-modal="true" aria-labelledby="mock-title">
@@ -319,7 +319,7 @@
                 <div class="mock-sub">Project demo mode interface</div>
             </div>
             <div class="mock-body">
-                <div class="mock-amount" id="mock-amount">Rs. {{ total_price }}</div>
+                <div class="mock-amount" id="mock-amount">Rs. {{ total_price|floatformat:2 }}</div>
                 <div class="mock-methods">
                     <button type="button" class="mock-method active" data-method="UPI">UPI</button>
                     <button type="button" class="mock-method" data-method="Card">Card</button>

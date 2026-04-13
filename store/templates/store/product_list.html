@@ -758,10 +758,10 @@
             <h1>Welcome to Global Mart</h1>
             <p>Premium products at unbeatable prices. Shop now and enjoy fast delivery!</p>
 
-            <form method="GET" action="" class="search-bar" role="search">
+            <form method="GET" action="" class="search-bar" role="search" id="live-search-form">
                 <label class="search-input-wrap">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-                    <input type="text" name="search" placeholder="Search products" class="search-input" value="{{ request.GET.search }}">
+                    <input type="text" name="search" placeholder="Search products" class="search-input" id="live-search-input" value="{{ request.GET.search }}" autocomplete="off">
                 </label>
                 <button type="submit" class="search-btn">Search</button>
             </form>
@@ -785,7 +785,7 @@
             </div>
             {% endif %}
 
-            <div class="product-grid">
+            <div class="product-grid" id="product-grid">
                 {% for product in products %}
                     <article class="product-card">
                         <div class="image-frame">
@@ -800,7 +800,7 @@
 
                         <a href="{% url 'product_detail' product.id %}" class="product-title">{{ product.name }}</a>
                         <p class="product-desc">{{ product.description|truncatewords:10 }}</p>
-                        <p class="price">Rs. {{ product.price }}</p>
+                        <p class="price">Rs. {{ product.price|floatformat:2 }}</p>
 
                         <div class="card-actions">
                             <a href="{% url 'product_detail' product.id %}" class="btn btn-ghost">View Details</a>
@@ -819,7 +819,7 @@
             </div>
         </main>
 
-        <footer class="site-footer">Global Mart</footer>
+        <footer class="site-footer"><span style="font-weight: 600;">&copy; 2026</span>, <span style="font-weight: 600;">Global Mart</span>, <span style="font-weight: 600;">Bhudeb's Project</span></footer>
     </div>
 
     <nav class="mobile-tabs" aria-label="Mobile">
@@ -855,5 +855,72 @@
             </a>
         {% endif %}
     </nav>
+
+    <script>
+        const liveSearchInput = document.getElementById('live-search-input');
+        const liveSearchForm = document.getElementById('live-search-form');
+        const productGrid = document.getElementById('product-grid');
+
+        let searchDebounceTimer = null;
+        let activeRequestId = 0;
+
+        async function fetchLiveResults() {
+            const requestId = ++activeRequestId;
+            const url = new URL(window.location.href);
+            const trimmed = liveSearchInput.value.trim();
+
+            if (trimmed) {
+                url.searchParams.set('search', trimmed);
+            } else {
+                url.searchParams.delete('search');
+            }
+
+            productGrid.style.opacity = '0.55';
+
+            try {
+                const response = await fetch(url.toString(), {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const html = await response.text();
+                if (requestId !== activeRequestId) {
+                    return;
+                }
+
+                const parsed = new DOMParser().parseFromString(html, 'text/html');
+                const nextGrid = parsed.getElementById('product-grid');
+                if (!nextGrid) {
+                    return;
+                }
+
+                productGrid.innerHTML = nextGrid.innerHTML;
+                const nextUrl = `${window.location.pathname}${url.search}`;
+                window.history.replaceState({}, '', nextUrl);
+            } catch (error) {
+                console.error('Live search failed:', error);
+            } finally {
+                productGrid.style.opacity = '1';
+            }
+        }
+
+        liveSearchInput.addEventListener('input', () => {
+            if (searchDebounceTimer) {
+                window.clearTimeout(searchDebounceTimer);
+            }
+
+            searchDebounceTimer = window.setTimeout(fetchLiveResults, 250);
+        });
+
+        liveSearchForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            fetchLiveResults();
+        });
+    </script>
 </body>
 </html>

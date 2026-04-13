@@ -52,13 +52,14 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'category_badge', 'price', 'stock', 'status_badge', 'image_count', 'primary_image_preview')
-    search_fields = ('name', 'description', 'category__name')
+    list_display = ('id', 'name', 'category_badge', 'price', 'stock', 'status_badge')
+    search_fields = ('name', 'description', 'tags', 'category__name')
     list_filter = ('category', 'price', 'stock')
     inlines = [ProductImageInline]
+    list_per_page = 25
     fieldsets = (
         ('Basic Information', {
-            'fields': ('name', 'category', 'description', 'price', 'stock'),
+            'fields': ('name', 'category', 'description', 'tags', 'price', 'stock'),
             'description': 'Enter product details and pricing information'
         }),
         ('Main Image (Legacy)', {

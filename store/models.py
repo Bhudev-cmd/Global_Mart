@@ -19,6 +19,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
+    tags = models.CharField(max_length=300, blank=True, help_text="Comma-separated keywords, e.g., mobile, smartphone, android")
     price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=0)
     image_url = models.URLField(max_length=500, blank=True, help_text="Paste an image link here")

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
+from django.db.models import Q
 from django import forms
 from django.contrib.auth.models import User
 from decimal import Decimal
@@ -70,7 +71,12 @@ def product_list(request):
     
     # Filter by search query if provided
     if query:
-        products = products.filter(name__icontains=query)
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(tags__icontains=query) |
+            Q(category__name__icontains=query)
+        ).distinct()
     
     return render(request, 'store/product_list.html', {
         'products': products,

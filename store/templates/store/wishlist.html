@@ -359,7 +359,7 @@
                             <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="product-image">
                             <div class="product-info">
                                 <h3 class="product-name">{{ item.product.name }}</h3>
-                                <p class="product-price">Rs. {{ item.product.price }}</p>
+                                <p class="product-price">Rs. {{ item.product.price|floatformat:2 }}</p>
                                 <p class="product-description">{{ item.product.description|truncatewords:10 }}</p>
                                 <div class="card-buttons">
                                     <a href="{% url 'add_to_cart' item.product.id %}" class="btn btn-add-cart">Add to Cart</a>
@@ -377,7 +377,7 @@
             {% endif %}
         </main>
 
-        <footer class="site-footer">Global Mart</footer>
+        <footer class="site-footer"><span style="font-weight: 600;">&copy; 2026</span>, <span style="font-weight: 600;">Global Mart</span>, <span style="font-weight: 600;">Bhudeb's Project</span></footer>
     </div>
 
     <nav class="mobile-tabs" aria-label="Mobile">
