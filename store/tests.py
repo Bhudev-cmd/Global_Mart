@@ -74,7 +74,10 @@ class StoreFlowTests(TestCase):
 			country='India',
 		)
 
-		response = self.client.post(reverse('payment'))
+		response = self.client.post(reverse('payment'), {
+			'gateway': 'razorpay',
+			'payment_ref': 'pay_test_12345',
+		})
 
 		self.assertEqual(response.status_code, 302)
 		self.assertEqual(response.url, reverse('order_success'))

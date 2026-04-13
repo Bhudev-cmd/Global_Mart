@@ -8,26 +8,33 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Outfit', sans-serif;
             background:
-                radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.24) 0 12%, transparent 28%),
-                radial-gradient(circle at 82% 14%, rgba(125, 211, 252, 0.2) 0 10%, transparent 24%),
-                linear-gradient(145deg, #0f1720 0%, #12263c 48%, #0f1720 100%);
+                radial-gradient(circle at 14% 12%, rgba(214, 180, 108, 0.22) 0 12%, transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(245, 214, 164, 0.26) 0 10%, transparent 24%),
+                linear-gradient(180deg, #fffaf2 0%, #f4eadb 100%);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .center-shell {
+            flex: 1;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
         
         .signup-container {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.96);
             border-radius: 12px;
             box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 450px;
             padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(22, 101, 52, 0.12);
             backdrop-filter: blur(18px) saturate(150%);
         }
         
@@ -38,12 +45,12 @@
         
         .header h1 {
             font-size: 2em;
-            color: #f4f7fb;
+            color: #14532d;
             margin-bottom: 5px;
         }
         
         .header p {
-            color: #c2cfde;
+            color: #475569;
             font-size: 0.95em;
         }
         
@@ -54,8 +61,8 @@
         label {
             display: block;
             margin-bottom: 6px;
-            color: #f4f7fb;
-            font-weight: 600;
+            color: #14532d;
+            font-weight: 500;
             font-size: 0.95em;
         }
         
@@ -70,8 +77,8 @@
             font-size: 0.95em;
             transition: all 0.3s;
             font-family: inherit;
-            background: rgba(255, 255, 255, 0.08);
-            color: #f4f7fb;
+            background: rgba(249, 250, 251, 0.94);
+            color: #14532d;
         }
         
         input[type="text"]:focus,
@@ -79,22 +86,22 @@
         input[type="password"]:focus,
         input[type="tel"]:focus {
             outline: none;
-            border-color: rgba(125, 211, 252, 0.5);
-            box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.12);
+            border-color: rgba(22, 101, 52, 0.24);
+            box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12);
         }
         
         .password-requirements {
-            background: rgba(255, 255, 255, 0.08);
-            border-left: 4px solid rgba(125, 211, 252, 0.7);
+            background: rgba(249, 250, 251, 0.94);
+            border-left: 4px solid rgba(22, 101, 52, 0.28);
             padding: 12px;
             border-radius: 4px;
             margin-top: 10px;
             font-size: 0.85em;
-            color: #c2cfde;
+            color: #475569;
         }
         
         .password-requirements h4 {
-            color: #e8f8ff;
+            color: #14532d;
             margin-bottom: 5px;
             font-size: 0.9em;
         }
@@ -109,7 +116,7 @@
         }
         
         .password-requirements li:before {
-            content: "✓ ";
+            content: "OK ";
             color: #27ae60;
             font-weight: bold;
         }
@@ -117,7 +124,7 @@
         .errorlist {
             background: rgba(248, 113, 113, 0.16);
             border: 1px solid rgba(248, 113, 113, 0.4);
-            color: #ffd2d2;
+            color: #991b1b;
             padding: 12px;
             border-radius: 6px;
             margin-bottom: 20px;
@@ -131,12 +138,12 @@
         .btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9));
-            color: #08111d;
+            background: linear-gradient(135deg, rgba(22, 101, 52, 0.92), rgba(34, 197, 94, 0.92));
+            color: #ffffff;
             border: none;
             border-radius: 6px;
             font-size: 1em;
-            font-weight: 600;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 20px;
@@ -150,23 +157,37 @@
         .footer {
             text-align: center;
             margin-top: 20px;
-            color: #c2cfde;
+            color: #475569;
             font-size: 0.95em;
         }
         
         .footer a {
-            color: #7dd3fc;
+            color: #166534;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
         }
         
         .footer a:hover {
             text-decoration: underline;
         }
+
+        footer.site-footer {
+            margin-top: auto;
+            background: transparent;
+            color: #6b7280;
+            text-align: center;
+            padding: 12px 16px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0;
+            border-top: none;
+            box-shadow: none;
+            
+        }
         
         .divider {
             text-align: center;
-            color: #c2cfde;
+            color: #475569;
             margin: 20px 0;
             font-size: 0.9em;
         }
@@ -327,7 +348,7 @@
             }
 
             .footer a {
-                font-weight: 600;
+                font-weight: 500;
             }
 
             h3 {
@@ -339,14 +360,15 @@
     </style>
 </head>
 <body>
-    <div class="signup-container">
-        <div class="header">
-            <h1>🛍️ Global Mart</h1>
-            <p>Create your account to start shopping</p>
-        </div>
+    <main class="center-shell">
+        <div class="signup-container">
+            <div class="header">
+                <h1>Global Mart</h1>
+                <p>Create your account to start shopping</p>
+            </div>
         
         <div class="info-box">
-            ✓ Complete your address during signup for faster checkout
+            Complete your address during signup for faster checkout
         </div>
         
         <form method="post">
@@ -396,7 +418,7 @@
             </div>
             
             <div class="divider">
-                📝 Additional Information
+                Additional Information
             </div>
             
             <p style="color: #666; font-size: 0.9em; margin-bottom: 15px; text-align: center;">
@@ -407,9 +429,13 @@
             <button type="submit" class="btn">Create Account</button>
         </form>
         
-        <div class="footer">
-            Already have an account? <a href="{% url 'login' %}">Log In here</a>
+            <div class="footer">
+                Already have an account? <a href="{% url 'login' %}">Log In here</a>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <footer class="site-footer">Global Mart</footer>
 </body>
 </html>
+

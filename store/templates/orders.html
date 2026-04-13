@@ -8,11 +8,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            font-family: 'Segoe UI', sans-serif; 
+            font-family: 'Outfit', sans-serif; 
             background:
-                radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.24) 0 12%, transparent 28%),
-                radial-gradient(circle at 82% 14%, rgba(125, 211, 252, 0.2) 0 10%, transparent 24%),
-                linear-gradient(145deg, #0f1720 0%, #12263c 48%, #0f1720 100%);
+                radial-gradient(circle at 12% 10%, rgba(21, 128, 61, 0.04) 0 16%, transparent 38%),
+                radial-gradient(circle at 88% 8%, rgba(21, 128, 61, 0.03) 0 14%, transparent 30%),
+                linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -24,41 +24,41 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            background: rgba(10, 17, 28, 0.52);
+            background: rgba(255, 255, 255, 0.96);
             border-radius: 8px;
             margin-bottom: 25px;
             box-shadow: 0 24px 48px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(22, 101, 52, 0.12);
             backdrop-filter: blur(18px) saturate(150%);
         }
 
         .logo {
-            color: white;
+            color: #14532d;
             text-decoration: none;
             font-weight: 700;
             font-size: 1.5em;
         }
 
         .back-link {
-            color: white;
+            color: #14532d;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
         }
         
         .container { 
             max-width: 900px; 
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.12); 
+            background: rgba(255, 255, 255, 0.96); 
             padding: 30px; 
             border-radius: 12px; 
             box-shadow: 0 24px 48px rgba(0,0,0,0.2); 
             flex: 1;
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(22, 101, 52, 0.12);
             backdrop-filter: blur(18px) saturate(150%);
         }
         
         h2 { 
-            color: #f4f7fb;
+            color: #14532d;
             border-bottom: 3px solid #27ae60; 
             padding-bottom: 15px; 
             margin-bottom: 25px;
@@ -66,17 +66,33 @@
         }
         
         .order-card { 
-            border: 1px solid rgba(255, 255, 255, 0.14); 
+            border: 1px solid rgba(22, 101, 52, 0.12); 
             border-radius: 8px; 
             margin-bottom: 20px; 
             padding: 20px; 
             transition: all 0.3s;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(249, 250, 251, 0.94);
         }
         
         .order-card:hover { 
-            border-color: rgba(125, 211, 252, 0.5);
+            border-color: rgba(22, 101, 52, 0.24);
             box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+        }
+
+        .payment-note {
+            margin-top: 10px;
+            color: #14532d;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .payment-chip {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(22, 101, 52, 0.12);
+            border: 1px solid rgba(22, 101, 52, 0.2);
         }
         
         .order-header { 
@@ -84,14 +100,14 @@
             justify-content: space-between; 
             flex-wrap: wrap;
             gap: 15px;
-            font-weight: 600; 
+            font-weight: 500; 
             color: #1e3c72;
             margin-bottom: 15px; 
         }
         
         .order-status { 
-            color: #08111d;
-            background: linear-gradient(135deg, rgba(125, 211, 252, 0.95), rgba(255, 255, 255, 0.72));
+            color: #14532d;
+            background: linear-gradient(135deg, rgba(22, 101, 52, 0.92), rgba(255, 255, 255, 0.96));
             padding: 6px 12px;
             border-radius: 20px;
             font-weight: 700; 
@@ -112,35 +128,35 @@
         }
         
         th { 
-            color: #f4f7fb;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.08);
+            color: #14532d;
+            font-weight: 500;
+            background: rgba(249, 250, 251, 0.94);
             font-size: 0.95em;
         }
 
         td {
-            color: #c2cfde;
+            color: #475569;
         }
-        
-        .total-row { 
-            text-align: right; 
+                radial-gradient(circle at 14% 12%, rgba(214, 180, 108, 0.22) 0 12%, transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(245, 214, 164, 0.26) 0 10%, transparent 24%),
+                linear-gradient(180deg, #fffaf2 0%, #f4eadb 100%);
             font-size: 1.2em; 
             font-weight: bold; 
-            color: #e8f8ff;
+            color: #14532d;
             margin-top: 15px;
             padding-top: 15px;
-            border-top: 2px solid rgba(255, 255, 255, 0.12);
+            border-top: 2px solid rgba(255, 255, 255, 0.96);
         }
         
         .btn-home { 
             display: inline-block; 
             margin-top: 25px; 
             padding: 12px 30px; 
-            background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9));
-            color: #08111d; 
+            background: linear-gradient(135deg, rgba(22, 101, 52, 0.92), rgba(34, 197, 94, 0.92));
+            color: #ffffff; 
             text-decoration: none; 
             border-radius: 6px;
-            font-weight: 600;
+            font-weight: 500;
             transition: 0.3s;
         }
 
@@ -151,17 +167,22 @@
         .empty-state {
             text-align: center;
             padding: 40px;
-            color: #c2cfde;
+            color: #475569;
         }
 
-        footer {
-            background: rgba(10, 17, 28, 0.72);
-            color: #c2cfde;
+        .container { flex: 1; }
+
+        footer.site-footer {
+            margin-top: auto;
+            background: transparent;
+            color: #6b7280;
             text-align: center;
-            padding: 20px;
-            margin-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            font-size: 12px;
+            padding: 12px 16px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0;
+            border-top: none;
+            box-shadow: none;
         }
 
         /* Tablet Responsive (max-width: 768px) */
@@ -221,7 +242,7 @@
                 font-size: 0.95em;
             }
 
-            footer {
+            footer.site-footer {
                 font-size: 11px;
             }
         }
@@ -322,7 +343,7 @@
 
             td::before {
                 content: attr(data-label);
-                font-weight: 600;
+                font-weight: 500;
                 color: #1e3c72;
                 min-width: 70px;
             }
@@ -350,7 +371,7 @@
                 font-size: 0.9em;
             }
 
-            footer {
+            footer.site-footer {
                 font-size: 10px;
                 padding: 12px 8px;
             }
@@ -360,7 +381,7 @@
 <body>
 
 <div class="container">
-    <h2>📦 My Order History</h2>
+    <h2>My Order History</h2>
 
     {% if orders %}
         {% for order in orders %}
@@ -380,14 +401,17 @@
                 {% for item in order.orderitem_set.all %}
                 <tr>
                     <td>{{ item.product.name }}</td>
-                    <td>₹{{ item.price }}</td>
+                    <td>Rs. {{ item.price }}</td>
                     <td>{{ item.quantity }}</td>
                 </tr>
                 {% endfor %}
             </table>
 
             <div class="total-row">
-                Total Paid: ₹{{ order.total_price }}
+                Total Paid: Rs. {{ order.total_price }}
+            </div>
+            <div class="payment-note">
+                Payment: <span class="payment-chip">{{ order.payment_method|default:"Card Payment" }}</span>
             </div>
         </div>
         {% endfor %}
@@ -396,6 +420,7 @@
     {% endif %}
 
     <a href="{% url 'product_list' %}" class="btn-home">Back to Shop</a>
+    <footer class="site-footer">Global Mart</footer>
 </div>
 
 </body>

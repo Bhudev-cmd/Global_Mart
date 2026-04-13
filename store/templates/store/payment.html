@@ -8,103 +8,72 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
-            font-family: 'Segoe UI', sans-serif; 
+            font-family: 'Outfit', sans-serif; 
             background:
-                radial-gradient(circle at 14% 12%, rgba(56, 189, 248, 0.24) 0 12%, transparent 28%),
-                radial-gradient(circle at 82% 14%, rgba(125, 211, 252, 0.2) 0 10%, transparent 24%),
-                linear-gradient(145deg, #0f1720 0%, #12263c 48%, #0f1720 100%);
+                radial-gradient(circle at 14% 12%, rgba(214, 180, 108, 0.22) 0 12%, transparent 28%),
+                radial-gradient(circle at 82% 14%, rgba(245, 214, 164, 0.26) 0 10%, transparent 24%),
+                linear-gradient(180deg, #fffaf2 0%, #f4eadb 100%);
             display: flex; 
-            justify-content: center; 
-            align-items: center; 
+            flex-direction: column;
             min-height: 100vh; 
             padding: 20px;
         }
+
+        .center-shell {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         
         .payment-card { 
-            background: rgba(255, 255, 255, 0.12); 
+            background: rgba(255, 255, 255, 0.96); 
             padding: 40px; 
             border-radius: 15px; 
             box-shadow: 0 24px 48px rgba(0,0,0,0.2);
             width: 100%;
             max-width: 450px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(22, 101, 52, 0.12);
             backdrop-filter: blur(18px) saturate(150%);
         }
         
         h1 {
             text-align: center;
             font-size: 1.8em;
-            color: #f4f7fb;
+            color: #14532d;
             margin-bottom: 25px;
         }
         
         .total-box { 
-            background: rgba(255, 255, 255, 0.08); 
+            background: rgba(249, 250, 251, 0.94); 
             padding: 20px; 
             border-radius: 8px; 
             text-align: center; 
             margin-bottom: 25px;
-            border: 2px solid rgba(125, 211, 252, 0.4);
+            border: 2px solid rgba(22, 101, 52, 0.25);
         }
         
         .total-box p { 
             margin: 0 0 8px 0;
-            color: #c2cfde; 
+            color: #475569; 
             font-size: 0.95em;
         }
         
         .total-box h2 { 
             margin: 0; 
-            color: #e8f8ff;
+            color: #14532d;
             font-size: 2em;
-        }
-        
-        .form-group { 
-            margin-bottom: 18px; 
-        }
-        
-        label { 
-            display: block; 
-            margin-bottom: 6px; 
-            color: #f4f7fb;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-        
-        input { 
-            width: 100%; 
-            padding: 12px; 
-            border: 2px solid rgba(255, 255, 255, 0.14); 
-            border-radius: 6px; 
-            box-sizing: border-box; 
-            font-size: 1em;
-            letter-spacing: 1px; 
-            outline: none; 
-            transition: 0.3s;
-            font-family: inherit;
-            background: rgba(255, 255, 255, 0.08);
-            color: #f4f7fb;
-        }
-        
-        input:focus { 
-            border-color: rgba(125, 211, 252, 0.5); 
-            box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.12);
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 12px;
         }
         
         .btn-pay { 
             width: 100%; 
-            background: linear-gradient(135deg, rgba(125, 211, 252, 0.9), rgba(56, 189, 248, 0.9));
-            color: #08111d; 
+            background: linear-gradient(135deg, rgba(22, 101, 52, 0.92), rgba(34, 197, 94, 0.92));
+            color: #ffffff; 
             padding: 14px; 
             border: none; 
             border-radius: 6px; 
-            font-weight: 600; 
+            font-weight: 500; 
             cursor: pointer; 
             font-size: 1em; 
             transition: all 0.3s; 
@@ -115,6 +84,139 @@
         .btn-pay:hover { 
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+        }
+
+        .gateway-note {
+            margin-top: 12px;
+            text-align: center;
+            color: #475569;
+            font-size: 0.84em;
+        }
+
+        .payment-error {
+            margin: 0 0 14px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(248, 113, 113, 0.45);
+            background: rgba(248, 113, 113, 0.14);
+            color: #991b1b;
+            font-size: 0.86rem;
+            text-align: center;
+        }
+
+        .mock-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 1000;
+        }
+
+        .mock-overlay.open {
+            display: flex;
+        }
+
+        .mock-modal {
+            width: min(420px, 100%);
+            background: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.28);
+        }
+
+        .mock-head {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #ffffff;
+            padding: 14px 16px;
+        }
+
+        .mock-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .mock-sub {
+            margin-top: 4px;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 0.8rem;
+        }
+
+        .mock-body {
+            padding: 14px 16px 16px;
+        }
+
+        .mock-amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .mock-methods {
+            display: grid;
+            gap: 8px;
+        }
+
+        .mock-method {
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            color: #334155;
+            transition: 0.2s ease;
+            background: #f8fafc;
+        }
+
+        .mock-method.active {
+            border-color: #166534;
+            background: rgba(22, 101, 52, 0.1);
+            color: #14532d;
+            font-weight: 600;
+        }
+
+        .mock-actions {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .mock-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .mock-btn.cancel {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .mock-btn.pay {
+            background: #166534;
+            color: #ffffff;
+        }
+
+        footer.site-footer {
+            margin-top: auto;
+            background: transparent;
+            color: #6b7280;
+            text-align: center;
+            padding: 12px 16px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0;
+            border-top: none;
+            box-shadow: none;
+            
         }
 
         /* Tablet Responsive (max-width: 768px) */
@@ -136,19 +238,6 @@
 
             .total-box h2 {
                 font-size: 1.6em;
-            }
-
-            .form-group {
-                margin-bottom: 14px;
-            }
-
-            label {
-                font-size: 0.9em;
-            }
-
-            input {
-                padding: 10px;
-                font-size: 0.95em;
             }
 
             .btn-pay {
@@ -187,25 +276,6 @@
                 font-size: 1.4em;
             }
 
-            .form-group {
-                margin-bottom: 12px;
-            }
-
-            label {
-                font-size: 0.85em;
-                margin-bottom: 4px;
-            }
-
-            input {
-                padding: 10px;
-                font-size: 16px;
-                border-radius: 4px;
-            }
-
-            .form-row {
-                gap: 10px;
-            }
-
             .btn-pay {
                 padding: 12px;
                 font-size: 0.9em;
@@ -215,76 +285,157 @@
     </style>
 </head>
 <body>
-    <div class="payment-card">
-        <h1>Secure Checkout</h1>
-        <div class="total-box">
-            <p>Amount to Pay</p>
-            <h2>₹{{ total_price }}</h2>
+    <main class="center-shell">
+        <div class="payment-card">
+            <h1>Secure Checkout</h1>
+            <div class="total-box">
+                <p>Amount to Pay</p>
+                <h2>Rs. {{ total_price }}</h2>
+            </div>
+            {% if payment_error %}
+                <p class="payment-error">{{ payment_error }}</p>
+            {% endif %}
+            <form method="POST" id="razorpay-form">
+                {% csrf_token %}
+                <input type="hidden" name="gateway" value="razorpay">
+                <input type="hidden" name="payment_ref" id="payment_ref">
+                <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+                <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+                <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+                <button type="button" class="btn-pay" id="razorpay-btn">Pay with Razorpay</button>
+            </form>
+            {% if razorpay_mode != 'live' %}
+                <p class="gateway-note">Mock mode enabled for project demo. No real payment will be charged.</p>
+            {% endif %}
         </div>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label>Card Number</label>
-                <input type="text" id="card_number" placeholder="0000 0000 0000 0000" required maxlength="19">
+    </main>
+
+    <footer class="site-footer">Global Mart</footer>
+
+    <div class="mock-overlay" id="mock-overlay" aria-hidden="true">
+        <div class="mock-modal" role="dialog" aria-modal="true" aria-labelledby="mock-title">
+            <div class="mock-head">
+                <div class="mock-title" id="mock-title">Razorpay Checkout</div>
+                <div class="mock-sub">Project demo mode interface</div>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Expiry Date</label>
-                    <input type="text" id="expiry_date" placeholder="MM/YY" required maxlength="5">
+            <div class="mock-body">
+                <div class="mock-amount" id="mock-amount">Rs. {{ total_price }}</div>
+                <div class="mock-methods">
+                    <button type="button" class="mock-method active" data-method="UPI">UPI</button>
+                    <button type="button" class="mock-method" data-method="Card">Card</button>
+                    <button type="button" class="mock-method" data-method="Netbanking">Netbanking</button>
+                    <button type="button" class="mock-method" data-method="Wallet">Wallet</button>
                 </div>
-                <div class="form-group">
-                    <label>CVV</label>
-                    <input type="password" placeholder="***" required maxlength="3">
+                <div class="mock-actions">
+                    <button type="button" class="mock-btn cancel" id="mock-cancel-btn">Cancel</button>
+                    <button type="button" class="mock-btn pay" id="mock-pay-btn">Pay Securely</button>
                 </div>
             </div>
-            <button type="submit" class="btn-pay">Pay Now</button>
-        </form>
+        </div>
     </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <script>
-        // --- 1. CARD NUMBER LOGIC ---
-        const cardInput = document.getElementById('card_number');
-        cardInput.addEventListener('input', (e) => {
-            // Remove everything except numbers
-            let value = e.target.value.replace(/\D/g, '');
-            // Group into 4s and join with a space
-            let formatted = value.match(/.{1,4}/g);
-            e.target.value = formatted ? formatted.join(' ') : value;
+        // --- Razorpay Checkout Logic ---
+        const razorpayBtn = document.getElementById('razorpay-btn');
+        const paymentRef = document.getElementById('payment_ref');
+        const razorpayForm = document.getElementById('razorpay-form');
+        const razorpayMode = '{{ razorpay_mode|default:"mock" }}';
+        const createOrderUrl = '{% url "create_razorpay_order" %}';
+        const razorpayPaymentIdInput = document.getElementById('razorpay_payment_id');
+        const razorpayOrderIdInput = document.getElementById('razorpay_order_id');
+        const razorpaySignatureInput = document.getElementById('razorpay_signature');
+        const csrfToken = razorpayForm.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        const mockOverlay = document.getElementById('mock-overlay');
+        const mockMethods = Array.from(document.querySelectorAll('.mock-method'));
+        const mockCancelBtn = document.getElementById('mock-cancel-btn');
+        const mockPayBtn = document.getElementById('mock-pay-btn');
+        let selectedMockMethod = 'UPI';
+
+        function openMockCheckout() {
+            mockOverlay.classList.add('open');
+            mockOverlay.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeMockCheckout() {
+            mockOverlay.classList.remove('open');
+            mockOverlay.setAttribute('aria-hidden', 'true');
+        }
+
+        mockMethods.forEach((methodBtn) => {
+            methodBtn.addEventListener('click', () => {
+                selectedMockMethod = methodBtn.dataset.method || 'UPI';
+                mockMethods.forEach((btn) => btn.classList.remove('active'));
+                methodBtn.classList.add('active');
+            });
         });
 
-        // --- 2. EXPIRY DATE LOGIC ---
-        const expiryInput = document.getElementById('expiry_date');
-        expiryInput.addEventListener('input', (e) => {
-            let value = e.target.value.replace(/\D/g, ''); // Numbers only
-            
-            if (value.length >= 1) {
-                // If first digit is 2-9, it's a single digit month, auto-prefix with 0
-                if (parseInt(value[0]) > 1 && value.length === 1) {
-                    value = '0' + value;
-                }
-            }
-
-            if (value.length >= 2) {
-                let month = parseInt(value.substring(0, 2));
-                // Cap month at 12 and floor at 01
-                if (month > 12) {
-                    value = '12' + value.substring(2);
-                } else if (month === 0) {
-                    value = '01' + value.substring(2);
-                }
-                
-                // Always add the slash if we have 2 or more digits
-                e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            } else {
-                e.target.value = value;
+        mockCancelBtn.addEventListener('click', closeMockCheckout);
+        mockOverlay.addEventListener('click', (event) => {
+            if (event.target === mockOverlay) {
+                closeMockCheckout();
             }
         });
 
-        // Specific fix for Backspacing over the slash
-        expiryInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && expiryInput.value.length === 3) {
-                // If at "MM/", delete the second digit of the month too
-                expiryInput.value = expiryInput.value.substring(0, 2);
+        mockPayBtn.addEventListener('click', () => {
+            paymentRef.value = `pay_rzp_${Date.now()}_${selectedMockMethod.toLowerCase()}`;
+            closeMockCheckout();
+            razorpayForm.submit();
+        });
+
+        razorpayBtn.addEventListener('click', async () => {
+            if (razorpayMode !== 'live') {
+                openMockCheckout();
+                return;
+            }
+
+            razorpayBtn.disabled = true;
+            razorpayBtn.textContent = 'Opening Razorpay...';
+
+            try {
+                const response = await fetch(createOrderUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken
+                    },
+                    body: JSON.stringify({})
+                });
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || 'Unable to start Razorpay checkout.');
+                }
+
+                const options = {
+                    key: data.key,
+                    amount: data.amount,
+                    currency: data.currency,
+                    name: 'Global Mart',
+                    description: 'Order Payment',
+                    order_id: data.order_id,
+                    prefill: data.prefill || {},
+                    handler: function (rzpResponse) {
+                        razorpayPaymentIdInput.value = rzpResponse.razorpay_payment_id || '';
+                        razorpayOrderIdInput.value = rzpResponse.razorpay_order_id || '';
+                        razorpaySignatureInput.value = rzpResponse.razorpay_signature || '';
+                        paymentRef.value = rzpResponse.razorpay_payment_id || '';
+                        razorpayForm.submit();
+                    },
+                    modal: {
+                        ondismiss: function () {
+                            razorpayBtn.disabled = false;
+                            razorpayBtn.textContent = 'Pay with Razorpay';
+                        }
+                    }
+                };
+
+                const razorpayInstance = new Razorpay(options);
+                razorpayInstance.open();
+            } catch (error) {
+                window.alert(error.message || 'Unable to start Razorpay checkout.');
+                razorpayBtn.disabled = false;
+                razorpayBtn.textContent = 'Pay with Razorpay';
             }
         });
     </script>

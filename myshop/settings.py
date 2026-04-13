@@ -163,6 +163,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'Background img']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -175,4 +176,13 @@ if not DEBUG:
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+RAZORPAY_MODE = os.environ.get('RAZORPAY_MODE', 'mock').strip().lower()
+if RAZORPAY_MODE not in {'mock', 'live'}:
+    RAZORPAY_MODE = 'mock'
+
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '').strip()
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '').strip()
+RAZORPAY_WEBHOOK_SECRET = os.environ.get('RAZORPAY_WEBHOOK_SECRET', '').strip()
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

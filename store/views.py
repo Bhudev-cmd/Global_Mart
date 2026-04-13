@@ -2,8 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from django import forms
 from django.contrib.auth.models import User
+from decimal import Decimal
+import base64
+import hashlib
+import hmac
+import json
+import time
+import urllib.error
+import urllib.request
 from .models import Category, Product, Cart, CartItem, Order, OrderItem, UserAddress, Wishlist, WishlistItem
 
 # ==========================================
@@ -128,6 +139,82 @@ def decrease_qty(request, item_id):
 
 # --- Payment and Checkout Views ---
 
+def _current_cart_total(user):
+    cart = get_object_or_404(Cart, user=user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    total_price = sum((item.subtotal() for item in cart_items), Decimal('0.00'))
+    return cart, cart_items, total_price
+
+
+def _create_razorpay_order(amount_paise, receipt):
+    payload = json.dumps({
+        'amount': amount_paise,
+        'currency': 'INR',
+        'receipt': receipt,
+        'payment_capture': 1,
+    }).encode('utf-8')
+
+    auth_pair = f"{settings.RAZORPAY_KEY_ID}:{settings.RAZORPAY_KEY_SECRET}".encode('utf-8')
+    auth_header = base64.b64encode(auth_pair).decode('utf-8')
+
+    request = urllib.request.Request(
+        'https://api.razorpay.com/v1/orders',
+        data=payload,
+        method='POST',
+        headers={
+            'Authorization': f'Basic {auth_header}',
+            'Content-Type': 'application/json',
+        },
+    )
+
+    with urllib.request.urlopen(request, timeout=20) as response:
+        return json.loads(response.read().decode('utf-8'))
+
+
+@login_required(login_url='login')
+@require_POST
+def create_razorpay_order(request):
+    if settings.RAZORPAY_MODE != 'live':
+        return JsonResponse({'error': 'Razorpay is in mock mode.'}, status=400)
+
+    if not settings.RAZORPAY_KEY_ID or not settings.RAZORPAY_KEY_SECRET:
+        return JsonResponse({'error': 'Razorpay keys are missing in environment.'}, status=500)
+
+    try:
+        request.user.address
+    except UserAddress.DoesNotExist:
+        return JsonResponse({'error': 'Please add your delivery address first.'}, status=400)
+
+    _, cart_items, total_price = _current_cart_total(request.user)
+    if not cart_items.exists():
+        return JsonResponse({'error': 'Cart is empty.'}, status=400)
+
+    amount_paise = int(total_price * 100)
+    receipt = f'gm_{request.user.id}_{int(time.time())}'
+
+    try:
+        razorpay_order = _create_razorpay_order(amount_paise, receipt)
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode('utf-8', errors='ignore')
+        return JsonResponse({'error': body or 'Unable to create Razorpay order.'}, status=502)
+    except Exception:
+        return JsonResponse({'error': 'Unable to create Razorpay order.'}, status=502)
+
+    request.session['razorpay_order_id'] = razorpay_order.get('id', '')
+    request.session['razorpay_amount_paise'] = amount_paise
+
+    return JsonResponse({
+        'key': settings.RAZORPAY_KEY_ID,
+        'order_id': razorpay_order.get('id'),
+        'amount': amount_paise,
+        'currency': 'INR',
+        'prefill': {
+            'name': request.user.get_full_name() or request.user.username,
+            'email': request.user.email,
+            'contact': getattr(getattr(request.user, 'address', None), 'phone', ''),
+        },
+    })
+
 @login_required(login_url='login')
 def payment_view(request):
     """Payment view with address validation"""
@@ -138,17 +225,73 @@ def payment_view(request):
         # Redirect to add address
         return redirect('add_address')
     
-    cart = get_object_or_404(Cart, user=request.user)
-    cart_items = CartItem.objects.filter(cart=cart)
+    cart, cart_items, total_price = _current_cart_total(request.user)
     
     if not cart_items.exists():
         return redirect('product_list')
         
-    total_price = sum(item.subtotal() for item in cart_items)
-
     if request.method == 'POST':
+        gateway = request.POST.get('gateway', 'razorpay')
+        payment_ref = request.POST.get('payment_ref', '').strip()
+        payment_method = 'Razorpay'
+
+        if gateway != 'razorpay':
+            return render(request, 'store/payment.html', {
+                'total_price': total_price,
+                'razorpay_mode': settings.RAZORPAY_MODE,
+                'payment_error': 'Only Razorpay is available at checkout.'
+            })
+
+        if settings.RAZORPAY_MODE == 'live':
+            razorpay_payment_id = request.POST.get('razorpay_payment_id', '').strip()
+            razorpay_order_id = request.POST.get('razorpay_order_id', '').strip()
+            razorpay_signature = request.POST.get('razorpay_signature', '').strip()
+
+            expected_order_id = request.session.get('razorpay_order_id', '')
+
+            if not (razorpay_payment_id and razorpay_order_id and razorpay_signature):
+                return render(request, 'store/payment.html', {
+                    'total_price': total_price,
+                    'razorpay_mode': settings.RAZORPAY_MODE,
+                    'payment_error': 'Razorpay payment response is incomplete. Please try again.'
+                })
+
+            if not expected_order_id or razorpay_order_id != expected_order_id:
+                return render(request, 'store/payment.html', {
+                    'total_price': total_price,
+                    'razorpay_mode': settings.RAZORPAY_MODE,
+                    'payment_error': 'Payment order mismatch. Please retry payment.'
+                })
+
+            data = f'{razorpay_order_id}|{razorpay_payment_id}'.encode('utf-8')
+            generated_signature = hmac.new(
+                settings.RAZORPAY_KEY_SECRET.encode('utf-8'),
+                data,
+                hashlib.sha256
+            ).hexdigest()
+
+            if not hmac.compare_digest(generated_signature, razorpay_signature):
+                return render(request, 'store/payment.html', {
+                    'total_price': total_price,
+                    'razorpay_mode': settings.RAZORPAY_MODE,
+                    'payment_error': 'Razorpay verification failed. Please contact support.'
+                })
+
+            payment_ref = razorpay_payment_id
+        else:
+            if not payment_ref:
+                return render(request, 'store/payment.html', {
+                    'total_price': total_price,
+                    'razorpay_mode': settings.RAZORPAY_MODE,
+                    'payment_error': 'Razorpay simulation failed. Please try again.'
+                })
+
         # 1. Create the permanent Order record
-        order = Order.objects.create(user=request.user, total_price=total_price)
+        order = Order.objects.create(
+            user=request.user,
+            total_price=total_price,
+            payment_method=payment_method
+        )
 
         # 2. Move items from Cart to OrderItems
         for item in cart_items:
@@ -161,13 +304,20 @@ def payment_view(request):
 
         # 3. Empty the cart
         cart_items.delete()
+        request.session.pop('razorpay_order_id', None)
+        request.session.pop('razorpay_amount_paise', None)
+        request.session['last_payment_method'] = payment_method
         return redirect('order_success')
 
-    return render(request, 'store/payment.html', {'total_price': total_price})
+    return render(request, 'store/payment.html', {
+        'total_price': total_price,
+        'razorpay_mode': settings.RAZORPAY_MODE,
+    })
 
 @login_required(login_url='login')
 def order_success(request):
-    return render(request, 'order_success.html')
+    payment_method = request.session.pop('last_payment_method', None)
+    return render(request, 'order_success.html', {'payment_method': payment_method})
 
 # --- Profile and History Views ---
 

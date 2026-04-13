@@ -26,4 +26,5 @@ urlpatterns = [
     
     # Payment
     path('payment/', views.payment_view, name='payment'),
+    path('payment/create-order/', views.create_razorpay_order, name='create_razorpay_order'),
 ]

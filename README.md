@@ -247,11 +247,68 @@ Supported environment variables:
 - `ALLOWED_HOSTS`
 - `CSRF_TRUSTED_ORIGINS`
 - `DATABASE_URL`
+- `RAZORPAY_MODE` (`mock` or `live`)
+- `RAZORPAY_KEY_ID`
+- `RAZORPAY_KEY_SECRET`
+- `RAZORPAY_WEBHOOK_SECRET`
 
 Defaults:
 
 - If `DATABASE_URL` is not set, SQLite is used (`db.sqlite3`).
 - `DEBUG` defaults to `True` for local development.
+- `RAZORPAY_MODE` defaults to `mock` when not set.
+
+## Razorpay Setup (Demo Now, Real Later)
+
+This project supports two Razorpay modes using environment variables:
+
+- `mock` mode: safe for college/project demo, no real money is charged.
+- `live` mode: real Razorpay checkout and signature verification.
+
+### 1. Add Razorpay Variables in `.env`
+
+```env
+RAZORPAY_MODE=mock
+RAZORPAY_KEY_ID=
+RAZORPAY_KEY_SECRET=
+RAZORPAY_WEBHOOK_SECRET=
+```
+
+Use `mock` for academic demo submissions.
+
+### 2. How Mock Mode Works
+
+- Checkout page still shows Razorpay option.
+- Clicking Razorpay runs a simulated success flow.
+- Order is placed and stored with payment method `Razorpay`.
+- No real API call is made to Razorpay.
+
+### 3. Switch to Real Razorpay Later
+
+When you are ready for real payments:
+
+1. Set `RAZORPAY_MODE=live`.
+2. Add actual Razorpay credentials in `.env`.
+3. Restart the Django server.
+4. Test with Razorpay Test keys first, then replace with Live keys.
+
+In `live` mode:
+
+- Backend creates Razorpay Order from server side.
+- Frontend opens official Razorpay Checkout.
+- Backend verifies `razorpay_signature` before confirming order.
+
+### 4. Important Security Notes
+
+- Never commit `.env` to Git.
+- Keep `RAZORPAY_KEY_SECRET` private.
+- Always test on HTTPS before production go-live.
+- Use Razorpay Test Mode for integration testing first.
+
+### 5. Payment Endpoints
+
+- `/payment/` : payment page and payment confirmation handler
+- `/payment/create-order/` : server endpoint to create Razorpay order in live mode
 
 ## Deployment
 
