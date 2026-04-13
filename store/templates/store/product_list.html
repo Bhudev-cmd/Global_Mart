@@ -876,9 +876,10 @@
         let searchDebounceTimer = null;
         let activeRequestId = 0;
         let isLoadingMore = false;
+        let prefetchedPageNumber = '';
+        let prefetchedPageHtml = '';
 
-        async function fetchLiveResults() {
-            const requestId = ++activeRequestId;
+        function buildProductsUrl(pageNumber = '') {
             const url = new URL(window.location.href);
             const trimmed = liveSearchInput.value.trim();
 
@@ -887,10 +888,48 @@
             } else {
                 url.searchParams.delete('search');
             }
-            url.searchParams.delete('page');
+
+            if (pageNumber) {
+                url.searchParams.set('page', pageNumber);
+            } else {
+                url.searchParams.delete('page');
+            }
+
+            return url;
+        }
+
+        async function prefetchNextPage() {
+            const nextPage = productGrid.dataset.nextPage;
+            if (!nextPage || prefetchedPageNumber === nextPage) {
+                return;
+            }
+
+            try {
+                const response = await fetch(buildProductsUrl(nextPage).toString(), {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                prefetchedPageHtml = await response.text();
+                prefetchedPageNumber = nextPage;
+            } catch (error) {
+                console.error('Prefetch failed:', error);
+            }
+        }
+
+        async function fetchLiveResults() {
+            const requestId = ++activeRequestId;
+            const url = buildProductsUrl();
 
             productGrid.style.opacity = '0.55';
             scrollLoader.textContent = '';
+            prefetchedPageNumber = '';
+            prefetchedPageHtml = '';
 
             try {
                 const response = await fetch(url.toString(), {
@@ -918,6 +957,7 @@
                 productGrid.dataset.nextPage = nextGrid.dataset.nextPage || '';
                 const nextUrl = `${window.location.pathname}${url.search}`;
                 window.history.replaceState({}, '', nextUrl);
+                prefetchNextPage();
             } catch (error) {
                 console.error('Live search failed:', error);
             } finally {
@@ -934,29 +974,25 @@
             isLoadingMore = true;
             scrollLoader.textContent = 'Loading more products...';
 
-            const url = new URL(window.location.href);
-            const trimmed = liveSearchInput.value.trim();
-
-            if (trimmed) {
-                url.searchParams.set('search', trimmed);
-            } else {
-                url.searchParams.delete('search');
-            }
-
-            url.searchParams.set('page', nextPage);
-
             try {
-                const response = await fetch(url.toString(), {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
+                let html = '';
+                if (prefetchedPageNumber === nextPage && prefetchedPageHtml) {
+                    html = prefetchedPageHtml;
+                    prefetchedPageNumber = '';
+                    prefetchedPageHtml = '';
+                } else {
+                    const response = await fetch(buildProductsUrl(nextPage).toString(), {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        return;
                     }
-                });
 
-                if (!response.ok) {
-                    return;
+                    html = await response.text();
                 }
-
-                const html = await response.text();
                 const parsed = new DOMParser().parseFromString(html, 'text/html');
                 const nextGrid = parsed.getElementById('product-grid');
                 if (!nextGrid) {
@@ -968,6 +1004,7 @@
                 productGrid.dataset.nextPage = nextGrid.dataset.nextPage || '';
 
                 scrollLoader.textContent = productGrid.dataset.nextPage ? '' : 'You have reached the end.';
+                prefetchNextPage();
             } catch (error) {
                 console.error('Lazy loading failed:', error);
             } finally {
@@ -988,6 +1025,7 @@
         });
 
         observer.observe(scrollSentinel);
+        prefetchNextPage();
 
         liveSearchInput.addEventListener('input', () => {
             if (searchDebounceTimer) {
