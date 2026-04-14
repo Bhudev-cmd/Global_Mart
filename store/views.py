@@ -62,7 +62,7 @@ def product_list(request):
     category_id = request.GET.get('category')
     page_number = request.GET.get('page', 1)
     
-    products = Product.objects.all()
+    products = Product.objects.all().order_by('id')
     categories = Category.objects.all()
     selected_category = None
     
